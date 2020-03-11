@@ -5,6 +5,7 @@
  */
 package gui;
 
+import DB_Connection.database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -157,21 +158,8 @@ public class Gui_signup extends javax.swing.JFrame {
     String email = txt_email.getText();
     String password = txt_password.getText();
     
-    	DB_Connection.DB_Connection obj_DB_Connection=new DB_Connection.DB_Connection();
-	Connection connection=obj_DB_Connection.get_connection();
-	PreparedStatement ps=null;
-	try {
-	    String query="INSERT INTO users (name, email, password)" +
-            "VALUES ('"+ name +"', '"+ email +"', '" + password + "');";
-	    ps=connection.prepareStatement(query);
-	    int rs=ps.executeUpdate();
-            System.out.println(rs);
-	   // while(rs.next()){
-	   //     System.out.println("name- "+rs.getString("name"));
-	   // }
-	} catch (Exception e) {
-	    System.out.println(e);
-	}
+       int answer =  database.query_update("INSERT INTO users (name, email, password)" +
+            "VALUES ('"+ name +"', '"+ email +"', '" + password + "')");
         
         
         

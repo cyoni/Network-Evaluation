@@ -178,9 +178,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="First Name"/>
       </Properties>
-      <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="First Name"/>
-      </AccessibilityProperties>
     </Component>
   </SubComponents>
 </Form>
