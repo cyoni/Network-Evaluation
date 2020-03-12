@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -155,8 +156,12 @@ public class Gui_login extends javax.swing.JFrame {
         try {
             if(rs.next()){ 
                 String passInDB = rs.getString("password");
-                if(password.equals(passInDB)) // Checks that the entered password is the same as the password in the database
-                    System.out.println("login succ");
+                if(password.equals(passInDB)) { // Checks that the entered password is the same as the password in the database
+                    JOptionPane.showMessageDialog(this, "login succeeded");
+                    this.dispose();
+                    Gui_network g = new Gui_network();
+                    g.setVisible(true);
+                }
                 else
                     System.out.println("wrong password");
 
@@ -174,6 +179,7 @@ public class Gui_login extends javax.swing.JFrame {
 
     private void signup_txtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signup_txtMouseClicked
         // TODO add your handling code here:
+        this.dispose();
         Gui_signup g = new Gui_signup();
         g.setVisible(true);
         

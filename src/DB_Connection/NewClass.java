@@ -24,7 +24,7 @@ public class NewClass {
         
         Connection conn=DriverManager.getConnection("jdbc:ucanaccess://C:/tmp/test/zzz.accdb"); // need to change it to your path
         Statement s = conn.createStatement();
-        ResultSet rs = s.executeQuery("SELECT [person_id] [ FROM [T_Owners]");
+        ResultSet rs = s.executeQuery("SELECT [person_id] FROM [T_Owners]");
         while (rs.next()) {
             System.out.println(rs.getString(1));
         }
