@@ -183,8 +183,7 @@ public class Gui_login extends javax.swing.JFrame {
     }
     
     String sql = "SELECT name, password FROM users where email='"+email+"'";
-    ResultSet rs = database.query(sql);
-    
+    ResultSet rs = database.query(sql); // up
         try {
             if(rs.next()){ 
                 String name = rs.getString("name");
