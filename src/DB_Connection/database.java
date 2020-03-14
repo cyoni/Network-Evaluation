@@ -48,18 +48,18 @@ public class database {
      * @return 
      */
     
-    public static int query_update(String q) throws SQLException{
+    public static int query_update(String q){
             	
         Connection connection = get_connection();
         int rs = -1;
 	PreparedStatement ps=null;
-	//try {
+	try {
 	    String query=q  +";";
 	    ps = connection.prepareStatement(query);
             rs = ps.executeUpdate();
-	//} 
-//        catch (Exception e) {
-//	    System.out.println(e);}
+	} 
+        catch (Exception e) {
+	    System.out.println(e);}
         return rs;
     }
          
@@ -76,5 +76,8 @@ public class database {
     catch(Exception e){}
       return connection;
     }
+
+
+  
     
 }

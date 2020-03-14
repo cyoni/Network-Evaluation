@@ -6,15 +6,27 @@
 package gui;
 
 
+import DB_Connection.database;
+import database.seriable;
+import database.user;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.sql.ResultSet;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import utils.User_Dialog;
 
 /**
  *
  * @author Yoni
  */
 public class Gui_network extends javax.swing.JFrame {
+    
+    private JMenuItem m2;
+    private user User;
+    
  private JMenuBar menuBar = new JMenuBar(); // Window menu bar
     /**
      * Creates new form NewJFrame
@@ -22,6 +34,8 @@ public class Gui_network extends javax.swing.JFrame {
     public Gui_network() {
         
         initComponents();
+        setLocationRelativeTo(null);
+        
         JMenuBar mb; 
        
         
@@ -36,7 +50,7 @@ public class Gui_network extends javax.swing.JFrame {
 
                  
         JMenuItem m1 = new JMenuItem("Load a network file"); 
-        JMenuItem m2 = new JMenuItem("Add/revoke permission"); 
+        m2 = new JMenuItem("Add/revoke permission"); 
         JMenuItem m3 = new JMenuItem("Exit"); 
         
 
@@ -72,9 +86,51 @@ public class Gui_network extends javax.swing.JFrame {
         
          // add menubar to frame 
         setJMenuBar(mb); 
+        
+        startMouseListener();
+    }
+
+    Gui_network(user User) {
+        this();
+        this.User = User;
+        validateUser();
+
+    }
+
+    public void validateUser() {
+
+
+          try{
+                String key = User.getKey();
+               // User_Dialog.showAlert(key);
+                ResultSet rs = database.query("SELECT email FROM login_instance WHERE private_key='"+ key +"';");
+                
+                String result = "";
+                while(rs.next()){
+                    result = rs.getString("email");
+                    
+                }
+                
+                 if (result.equals(User.getEmail()))
+                {
+                  //  User_Dialog.showAlert("OK");
+                }
+                else  User_Dialog.showAlert("not ok");
+         
+        }
+        catch(Exception e){System.out.println(e);}
     }
 
     
+    private void startMouseListener() {
+        
+	    m2.addActionListener((ActionEvent e) -> {// add/change permissions
+            Gui_manageUsers g = new Gui_manageUsers();// open gui_manageUsers window
+            g.setVisible(true);   
+            });
+        
+
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -102,6 +158,7 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel3.setText("My Network");
@@ -168,7 +225,7 @@ public class Gui_network extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(22, 22, 22)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
@@ -305,4 +362,5 @@ public class Gui_network extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
     // End of variables declaration//GEN-END:variables
+
 }

@@ -5,18 +5,33 @@
  */
 package gui;
 
+import DB_Connection.database;
+import database.user;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import utils.User_Dialog;
+
 /**
  *
  * @author Yoni
  */
 public class Gui_manageUsers extends javax.swing.JFrame {
-
+    private user User;
+ 
     /**
      * Creates new form Gui_manageUsers
      */
     public Gui_manageUsers() {
         initComponents();
-    }
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(Gui_login.DISPOSE_ON_CLOSE);
+   }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,7 +45,7 @@ public class Gui_manageUsers extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        list = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -38,20 +53,24 @@ public class Gui_manageUsers extends javax.swing.JFrame {
 
         jButton5.setText("New User");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel3.setText("Manage Users");
 
         jLabel1.setText("Grant/Revoke permissions:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jButton1.setText("Grant Permission");
 
         jButton2.setText("Revoke Permission");
 
         jButton4.setText("New User");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Remove User");
 
@@ -81,7 +100,7 @@ public class Gui_manageUsers extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(list, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -92,7 +111,7 @@ public class Gui_manageUsers extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
                 .addGap(30, 30, 30)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(list, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -104,6 +123,18 @@ public class Gui_manageUsers extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    String email =  User_Dialog.getInputDialog("Enter the email of the user:");
+    if (email.isEmpty()) return;
+    
+         //   database.query_update("INSERT INTO permissions (owner, usr_email) VALUES ('"+ User.getEmail() +"', '"+ email +"') IF NOT EXISTS"
+           //         + " (SELECT usr_email from permissions where owner='"+ User.getEmail() +"');");
+        
+        
+    
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,8 +177,34 @@ public class Gui_manageUsers extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JComboBox<String> list;
     // End of variables declaration//GEN-END:variables
+
+    void setUser(user User) {
+        this.User = User;
+        loadUserList();
+    }
+
+    private void loadUserList() {
+        ResultSet rs = database.query("SELECT usr_email FROM permissions where owner='"+ User.getEmail() +"';");
+        
+        try {
+            while (rs.next()){
+                String email = rs.getString("usr_email");
+                list.addItem(email);
+                User_Dialog.showAlert("adding " + email);
+            }
+                            User_Dialog.showAlert("done");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Gui_manageUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }
+
+    
+
 }
