@@ -60,6 +60,7 @@ public class database {
 	} 
         catch (Exception e) {
 	    System.out.println(e);}
+        System.out.println("sql ans: " + rs);
         return rs;
     }
          

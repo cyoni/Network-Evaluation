@@ -6,6 +6,7 @@
 package gui;
 
 import DB_Connection.database;
+import algorithms.login;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +22,8 @@ public class Gui_signup extends javax.swing.JFrame {
      */
     public Gui_signup() {
         initComponents();
+        setLocationRelativeTo(null);
+
     }
 
     /**
@@ -33,7 +36,6 @@ public class Gui_signup extends javax.swing.JFrame {
     private void initComponents() {
 
         txt_email = new javax.swing.JTextField();
-        txt_password = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -42,11 +44,14 @@ public class Gui_signup extends javax.swing.JFrame {
         txt_network_name = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        login_label = new javax.swing.JLabel();
         txt_first_name = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        txt_password = new javax.swing.JPasswordField();
+        isOwner = new javax.swing.JCheckBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Please enter your information bellow.");
 
@@ -68,27 +73,38 @@ public class Gui_signup extends javax.swing.JFrame {
 
         jLabel6.setText("Do you have an account?");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel7.setText("Login now");
+        login_label.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        login_label.setForeground(new java.awt.Color(0, 0, 255));
+        login_label.setText("Login now");
+        login_label.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        login_label.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                login_labelMouseClicked(evt);
+            }
+        });
 
         jLabel8.setText("First Name");
+
+        isOwner.setSelected(true);
+        isOwner.setText("I'm an owner");
+        isOwner.setActionCommand("I'm an owner");
+        isOwner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isOwnerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7))
+                        .addComponent(login_label))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(jLabel3))
@@ -100,7 +116,7 @@ public class Gui_signup extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
                                 .addComponent(txt_first_name, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,11 +124,17 @@ public class Gui_signup extends javax.swing.JFrame {
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel2))
                                 .addGap(71, 71, 71)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_network_name, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(90, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txt_email, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                                    .addComponent(txt_network_name, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                                    .addComponent(txt_password))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(isOwner)))
+                .addContainerGap(9, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,33 +143,32 @@ public class Gui_signup extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(29, 29, 29)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8)
+                        .addComponent(txt_first_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_network_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel5)
+                            .addComponent(isOwner))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)))
-                    .addComponent(txt_first_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(login_label))
                 .addContainerGap())
         );
-
-        jLabel8.getAccessibleContext().setAccessibleName("First Name");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -156,14 +177,41 @@ public class Gui_signup extends javax.swing.JFrame {
     String network_name = txt_network_name.getText();
     String name = txt_first_name.getText();
     String email = txt_email.getText();
-    String password = txt_password.getText();
+    String password = txt_password.toString();
+    int owner = isOwner.isSelected() ? 1:0;
     
-       int answer =  database.query_update("INSERT INTO users (name, email, password)" +
-            "VALUES ('"+ name +"', '"+ email +"', '" + password + "')");
+       database.query_update("INSERT INTO users (name, email, password, isOwner)" +
+            "VALUES ('"+ name +"', '"+ email +"', '" + password + "', '"+ owner +"')");
         
+       if (isOwner.isSelected()){
+         database.query_update("INSERT INTO owners (name, network_name)" +
+            "VALUES ('"+ email +"', '"+ network_name +"')");
+       }
+       
+       login.setNewInstance(name, email);    
+       this.dispose();
+       Gui_network g = new Gui_network();
+       g.setVisible(true);
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void isOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isOwnerActionPerformed
+
+            if (isOwner.isSelected()){
+                txt_network_name.setEnabled(true);
+            }
+            else txt_network_name.setEnabled(false);
+
+            
+    }//GEN-LAST:event_isOwnerActionPerformed
+
+    private void login_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_login_labelMouseClicked
+        this.dispose();
+        Gui_login g = new Gui_login();
+        g.setVisible(true);
+
+        }//GEN-LAST:event_login_labelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -202,8 +250,11 @@ public class Gui_signup extends javax.swing.JFrame {
             }
         });
     }
+    
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox isOwner;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -211,11 +262,11 @@ public class Gui_signup extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel login_label;
     private javax.swing.JTextField txt_email;
     private javax.swing.JTextField txt_first_name;
     private javax.swing.JTextField txt_network_name;
-    private javax.swing.JTextField txt_password;
+    private javax.swing.JPasswordField txt_password;
     // End of variables declaration//GEN-END:variables
 }

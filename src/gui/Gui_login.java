@@ -7,6 +7,7 @@ package gui;
 
 import DB_Connection.database;
 import algorithms.KeyGenerator;
+import algorithms.login;
 import database.seriable;
 import database.user;
 import java.io.ByteArrayOutputStream;
@@ -192,16 +193,7 @@ public class Gui_login extends javax.swing.JFrame {
                 String name = rs.getString("name");
                 String passInDB = rs.getString("password");
                 if(password.equals(passInDB)) { // Checks that the entered password is the same as the password in the database
-                    String key = KeyGenerator.getKey(32); // private key - so the system will remember the user and he wont have to enter his password.
-                    user User = new user(name, email, key);          
-                   
-                        sql = "INSERT INTO login_instance (private_key, email)\n" +
-                        "VALUES('"+ key +"', '"+ email +"')\n" +
-                        "ON DUPLICATE KEY UPDATE private_key = VALUES(private_key)";
-        
-                        database.query_update(sql); // Excucute the operation
-                        seriable.write_object("user.txt", User);
-                    
+                    login.setNewInstance(name, email);    
                     this.dispose();
                     Gui_network g = new Gui_network();
                     g.setVisible(true);

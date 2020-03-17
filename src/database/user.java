@@ -12,6 +12,7 @@ import java.io.Serializable;
  * @author Yoni
  */
 public class user implements Serializable{
+    
     private final String name, email;
     private String private_key;
     
