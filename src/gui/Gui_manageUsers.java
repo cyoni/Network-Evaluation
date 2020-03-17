@@ -54,6 +54,7 @@ public class Gui_manageUsers extends javax.swing.JFrame {
         jButton5.setText("New User");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel3.setText("Manage Users");
@@ -134,8 +135,6 @@ public class Gui_manageUsers extends javax.swing.JFrame {
     
     if (!ans) addUser();
         else{
-
-
             for (int i=0; i< users_list.getItemCount(); i++){
                 if (users_list.getItemAt(i).equals(email)){
                     User_Dialog.showAlert(email + " already exists!");
@@ -160,8 +159,12 @@ public class Gui_manageUsers extends javax.swing.JFrame {
         String status = arr[1];
         int changeTo = -1;
         users_list.setEditable(true);
-        if (status.equals("authorized")) {changeTo=-1; users_list.setSelectedItem(email + " (unauthorized)"); }      
-        else if (status.equals("unauthorized")) {changeTo=1; users_list.setSelectedItem(email + " (authorized)"); }      
+        int index = users_list.getSelectedIndex();
+        users_list.removeItemAt(index);
+        String w = "";
+        if (status.equals("authorized")) {changeTo=-1; w = email+" (unauthorized)"; users_list.addItem(w); }      
+        else if (status.equals("unauthorized")) {changeTo=1; w=email + " (authorized)"; users_list.addItem(w);  }      
+        users_list.setSelectedItem(w);
         users_list.setEditable(false);
           database.query_update("UPDATE permissions SET permission="+ changeTo +" WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"';");
         
@@ -171,11 +174,9 @@ public class Gui_manageUsers extends javax.swing.JFrame {
         String str = users_list.getSelectedItem().toString();
         String[] arr = getStatusFromList(str);
         String email = arr[0];
-        
       database.query_update("DELETE from permissions WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"' "
               + "AND permission=1;");
       users_list.removeItem(str);
-
     }//GEN-LAST:event_jButton6ActionPerformed
 
     
