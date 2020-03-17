@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.ResultSet;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -98,6 +100,7 @@ public class Gui_network extends javax.swing.JFrame {
         this();
         this.User = User;
         validateUser();
+        LoadSharedNetworks();
 
     }
 
@@ -165,7 +168,7 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        network_list = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -230,12 +233,8 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel15.setText("NetEval");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        network_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(network_list);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -395,8 +394,25 @@ public class Gui_network extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<String> network_list;
     // End of variables declaration//GEN-END:variables
+
+    private void LoadSharedNetworks() {    
+        
+        DefaultListModel List = new DefaultListModel();
+ 
+        ResultSet rs = database.query("SELECT email, network_name FROM owners WHERE email IN"
+                + " (SELECT owner FROM permissions WHERE usr_email='"+ User.getEmail() +"');");
+        try{
+            while(rs.next()){
+                String network_name = rs.getString("network_name");
+                List.addElement(network_name);
+             }
+        }
+        catch(Exception x){System.out.println(x);}
+
+        }
+    
 
 }

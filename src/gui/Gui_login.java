@@ -276,18 +276,13 @@ public class Gui_login extends javax.swing.JFrame {
             boolean exists = file.exists();
             if (exists){
                     user User = (user)seriable.read_object("user.txt");
-                    if (User != null){ // corrupted file.
-
-
+                    if (User != null){ 
                         this.dispose();
-
                         Gui_network g = new Gui_network(User);
                         g.setVisible(true);
-
                            return;
                 }
-            }
-                            
+            }                 
         }
         catch(Exception e){System.out.println(e);}
         

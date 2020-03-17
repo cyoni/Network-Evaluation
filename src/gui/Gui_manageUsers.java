@@ -172,7 +172,8 @@ public class Gui_manageUsers extends javax.swing.JFrame {
         String[] arr = getStatusFromList(str);
         String email = arr[0];
         
-      database.query_update("DELETE from permissions WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"';");
+      database.query_update("DELETE from permissions WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"' "
+              + "AND permission=1;");
       users_list.removeItem(str);
 
     }//GEN-LAST:event_jButton6ActionPerformed

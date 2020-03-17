@@ -7,6 +7,8 @@ package gui;
 
 import DB_Connection.database;
 import algorithms.login;
+import database.seriable;
+import database.user;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -177,20 +179,20 @@ public class Gui_signup extends javax.swing.JFrame {
     String network_name = txt_network_name.getText();
     String name = txt_first_name.getText();
     String email = txt_email.getText();
-    String password = txt_password.toString();
+    String password = txt_password.getText();
     int owner = isOwner.isSelected() ? 1:0;
     
        database.query_update("INSERT INTO users (name, email, password, isOwner)" +
             "VALUES ('"+ name +"', '"+ email +"', '" + password + "', '"+ owner +"')");
         
        if (isOwner.isSelected()){
-         database.query_update("INSERT INTO owners (name, network_name)" +
+         database.query_update("INSERT INTO owners (email, network_name)" +
             "VALUES ('"+ email +"', '"+ network_name +"')");
        }
        
-       login.setNewInstance(name, email);    
+       user u = login.setNewInstance(name, email);    
        this.dispose();
-       Gui_network g = new Gui_network();
+       Gui_network g = new Gui_network(u);
        g.setVisible(true);
         
         
