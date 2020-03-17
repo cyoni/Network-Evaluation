@@ -45,7 +45,7 @@ public class Gui_manageUsers extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        list = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -53,13 +53,14 @@ public class Gui_manageUsers extends javax.swing.JFrame {
 
         jButton5.setText("New User");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel3.setText("Manage Users");
 
         jLabel1.setText("Grant/Revoke permissions:");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButton1.setText("Grant Permission");
 
@@ -100,7 +101,7 @@ public class Gui_manageUsers extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(list, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -111,7 +112,7 @@ public class Gui_manageUsers extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
                 .addGap(30, 30, 30)
-                .addComponent(list, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -125,7 +126,10 @@ public class Gui_manageUsers extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-    String email =  User_Dialog.getInputDialog("Enter the email of the user:");
+
+        User_Dialog.showAlert("you email is: " + User.getEmail());
+        
+        String email =  User_Dialog.getInputDialog("Enter the email of the user:");
     if (email.isEmpty()) return;
     
          //   database.query_update("INSERT INTO permissions (owner, usr_email) VALUES ('"+ User.getEmail() +"', '"+ email +"') IF NOT EXISTS"
@@ -177,9 +181,9 @@ public class Gui_manageUsers extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JComboBox<String> list;
     // End of variables declaration//GEN-END:variables
 
     void setUser(user User) {
@@ -193,7 +197,7 @@ public class Gui_manageUsers extends javax.swing.JFrame {
         try {
             while (rs.next()){
                 String email = rs.getString("usr_email");
-                list.addItem(email);
+               // list.addItem(email);
                 User_Dialog.showAlert("adding " + email);
             }
                             User_Dialog.showAlert("done");
