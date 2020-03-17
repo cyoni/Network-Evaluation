@@ -398,7 +398,7 @@ public class Gui_network extends javax.swing.JFrame {
     private javax.swing.JList<String> network_list;
     // End of variables declaration//GEN-END:variables
 
-    private void LoadSharedNetworks() {     // does not work TOFIX
+    private void LoadSharedNetworks() {     // does not work TOFIX  
         
         DefaultListModel List = new DefaultListModel();
  
