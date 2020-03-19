@@ -14,7 +14,7 @@ import java.sql.ResultSet;
  *
  * @author Yoni
  */
-public class database extends Thread{
+public class database extends Thread {
     
     
     public void run(){
@@ -52,6 +52,10 @@ public class database extends Thread{
      */
     
     public static int query_update(String q){
+        
+        
+        
+        
             	
         Connection connection = get_connection();
         int rs = -1;
