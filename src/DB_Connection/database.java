@@ -9,14 +9,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  *
  * @author Yoni
  */
-public class database {
+public class database extends Thread{
     
+    
+    public void run(){
+        
+    }
 
     /**
      * This method runs queries. The use of this method is only to read from the DB.
