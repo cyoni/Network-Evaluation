@@ -6,6 +6,7 @@
 package gui;
 
 import DB_Connection.database;
+import algorithms.emailValidation;
 import database.user;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -131,7 +132,7 @@ public class Gui_manageUsers extends javax.swing.JFrame {
         String email =  User_Dialog.getInputDialog("Enter the email of the user:");
     if (email==null) return;
     email = email.trim();
-    boolean ans = isValid(email);
+    boolean ans = emailValidation.isValid(email);
     
     if (!ans) addUser();
         else{
@@ -179,27 +180,6 @@ public class Gui_manageUsers extends javax.swing.JFrame {
       users_list.removeItem(str);
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    
-    /**
-     * This method verifies whether the syntax of the email address is correct.
-     * @param email
-     * @return 
-     */
-     public static boolean isValid(String email) 
-    { 
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 
-                            "[a-zA-Z0-9_+&*-]+)*@" + 
-                            "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 
-                            "A-Z]{2,7}$"; 
-                              
-        Pattern pat = Pattern.compile(emailRegex); 
-        if (email == null) 
-            return false; 
-        return pat.matcher(email).matches(); 
-    } 
-    
-    
-    
     
     /**
      * @param args the command line arguments

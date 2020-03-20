@@ -6,6 +6,7 @@
 package gui;
 
 import DB_Connection.database;
+import algorithms.emailValidation;
 import algorithms.login;
 import database.seriable;
 import database.user;
@@ -89,7 +90,6 @@ public class Gui_signup extends javax.swing.JFrame {
 
         isOwner.setSelected(true);
         isOwner.setText("I'm an owner");
-        isOwner.setActionCommand("I'm an owner");
         isOwner.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 isOwnerActionPerformed(evt);
@@ -145,7 +145,7 @@ public class Gui_signup extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(29, 29, 29)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addGroup(layout.createSequentialGroup()
@@ -182,6 +182,16 @@ public class Gui_signup extends javax.swing.JFrame {
     String password = txt_password.getText();
     int owner = isOwner.isSelected() ? 1:0;
     
+    name = name.trim();
+    network_name = network_name.trim();
+    email = email.trim();
+    password = password.trim();
+    
+    if (name.isEmpty()){ txt_first_name.requestFocus();}
+    else if (!emailValidation.isValid(email)){txt_email.requestFocus();}
+    else if (password.isEmpty()) {txt_password.requestFocus();}
+    else if (isOwner.isSelected() && network_name.isEmpty()) {txt_network_name.requestFocus();}
+        else{
        database.query_update("INSERT INTO users (name, email, password, isOwner)" +
             "VALUES ('"+ name +"', '"+ email +"', '" + password + "', '"+ owner +"')");
         
@@ -195,7 +205,7 @@ public class Gui_signup extends javax.swing.JFrame {
        Gui_network g = new Gui_network(u);
        g.setVisible(true);
         
-        
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void isOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isOwnerActionPerformed
