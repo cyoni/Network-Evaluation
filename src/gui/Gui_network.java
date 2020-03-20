@@ -298,6 +298,12 @@ public class Gui_network extends javax.swing.JFrame {
         network_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(network_list);
 
+        num_members.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                num_membersActionPerformed(evt);
+            }
+        });
+
         num_active.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 num_activeActionPerformed(evt);
