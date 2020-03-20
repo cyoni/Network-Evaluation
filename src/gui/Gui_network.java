@@ -292,6 +292,12 @@ public class Gui_network extends javax.swing.JFrame {
         network_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(network_list);
 
+        num_members.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                num_membersActionPerformed(evt);
+            }
+        });
+
         num_active.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 num_activeActionPerformed(evt);
@@ -571,6 +577,13 @@ public class Gui_network extends javax.swing.JFrame {
     private void num_activeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_num_activeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_num_activeActionPerformed
+
+    private void num_membersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_num_membersActionPerformed
+        database da = new database();
+        Thread xxx = da.getIt();
+        xxx.start();
+
+    }//GEN-LAST:event_num_membersActionPerformed
 
     /**
      * @param args the command line arguments

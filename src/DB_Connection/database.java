@@ -16,6 +16,9 @@ import java.sql.ResultSet;
  */
 public class database extends Thread {
     
+    public Thread getIt(){
+        return this;
+    }
     
     public void run(){
         

@@ -389,6 +389,9 @@
       </SubComponents>
     </Container>
     <Component class="javax.swing.JTextField" name="num_members">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="num_membersActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="num_likes">
     </Component>
