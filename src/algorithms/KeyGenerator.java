@@ -5,6 +5,8 @@
  */
 package algorithms;
 
+import java.util.Base64;
+
 /**
  *
  * @author Yoni
@@ -39,5 +41,12 @@ public class KeyGenerator {
   
         return sb.toString(); 
     } 
+  
+  
+    public static String encodeString(String str){
+    String encodedString = Base64.getEncoder().withoutPadding().encodeToString(str.getBytes());
+    String encodedStringx2 = Base64.getEncoder().encodeToString(encodedString.getBytes());
+        return encodedStringx2;
+    }
  
 } 

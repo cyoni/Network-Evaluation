@@ -6,6 +6,7 @@
 package gui;
 
 import DB_Connection.database;
+import algorithms.KeyGenerator;
 import algorithms.emailValidation;
 import algorithms.login;
 import database.seriable;
@@ -180,7 +181,7 @@ public class Gui_signup extends javax.swing.JFrame {
     String network_name = txt_network_name.getText();
     String name = txt_first_name.getText();
     String email = txt_email.getText();
-    String password = txt_password.getText();
+    String password = KeyGenerator.encodeString(txt_password.getText());
     int owner = isOwner.isSelected() ? 1:0;
     
     name = name.trim();

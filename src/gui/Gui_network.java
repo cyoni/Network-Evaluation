@@ -17,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.sql.ResultSet;
+import java.util.Base64;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
@@ -660,6 +661,11 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel3.setText("Hi");
 
         jLabel_username.setText("Username");
+        jLabel_username.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel_usernameMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -729,6 +735,12 @@ public class Gui_network extends javax.swing.JFrame {
     private void num_activeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_num_activeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_num_activeActionPerformed
+
+    private void jLabel_usernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_usernameMouseClicked
+
+
+        
+    }//GEN-LAST:event_jLabel_usernameMouseClicked
 
     /**
      * @param args the command line arguments

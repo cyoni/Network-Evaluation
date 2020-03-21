@@ -95,7 +95,7 @@ public class Gui_login extends javax.swing.JFrame {
             }
         });
 
-        txt_password.setText("1234567");
+        txt_password.setText("123456");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -175,7 +175,7 @@ public class Gui_login extends javax.swing.JFrame {
     
     email = email.trim();
     password = password.trim();
-    
+   
     
     if (email.isEmpty()){
         txt_email.requestFocus();
@@ -185,6 +185,8 @@ public class Gui_login extends javax.swing.JFrame {
             txt_password.requestFocus();
         return;
     }
+    
+    password = KeyGenerator.encodeString(password);
     
     String sql = "SELECT name, password FROM users where email='"+email+"'";
     ResultSet rs = database.query(sql); // 
