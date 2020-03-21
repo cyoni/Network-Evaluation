@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package gui;
+import javax.swing.JFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -17,11 +18,12 @@ import org.jfree.data.category.DefaultCategoryDataset;
  *
  * @author Yoni
  */
-public class Gui_graph_chart extends ApplicationFrame {
+public class Gui_graph_chart extends JFrame {
     
     
    public Gui_graph_chart( String applicationTitle , String chartTitle ) {
       super(applicationTitle);
+      
       JFreeChart lineChart = ChartFactory.createLineChart(
          chartTitle,
          "" , "Value in $",
@@ -32,7 +34,10 @@ public class Gui_graph_chart extends ApplicationFrame {
       ChartPanel chartPanel = new ChartPanel( lineChart );
       chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
       setContentPane( chartPanel );
+
    }
+
+ 
 
    private DefaultCategoryDataset createDataset( ) {
       DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
@@ -52,17 +57,19 @@ public class Gui_graph_chart extends ApplicationFrame {
       
       return dataset;
    }
-   
+    /*
    public static void main( String[ ] args ) {
-      Gui_graph_chart chart = new Gui_graph_chart(
+     Gui_graph_chart chart = new Gui_graph_chart(
          "Chart Graph" ,
          "Graph Chart of the Network");
 
       chart.pack( );
       RefineryUtilities.centerFrameOnScreen( chart );
       chart.setVisible( true );
-   }
 
+
+   }
+*/
     
     
 }

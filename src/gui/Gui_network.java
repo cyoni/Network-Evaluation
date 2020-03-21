@@ -25,6 +25,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import network.NetworkData;
+import org.jfree.ui.RefineryUtilities;
 import utils.User_Dialog;
 
 /**
@@ -33,7 +34,7 @@ import utils.User_Dialog;
  */
 public class Gui_network extends javax.swing.JFrame {
     
-    private JMenuItem m1, m2, m9;
+    private JMenuItem m1, m2, m9, m3, m7;
     NetworkData net;
     private user User;
     
@@ -64,11 +65,11 @@ public class Gui_network extends javax.swing.JFrame {
         m1 = new JMenuItem("Load a network file"); 
         m2 = new JMenuItem("Add/revoke permission"); 
         m9 = new JMenuItem("Log Out"); 
-        JMenuItem m3 = new JMenuItem("Exit"); 
+        m3 = new JMenuItem("Exit"); 
         
 
         JMenuItem m6 = new JMenuItem("Graph Visualization");
-        JMenuItem m7 = new JMenuItem("Graph Chart");
+        m7 = new JMenuItem("Graph Chart");
         
         JMenuItem m4 = new JMenuItem("How to use this software");
         JMenuItem m5 = new JMenuItem("About");
@@ -80,8 +81,10 @@ public class Gui_network extends javax.swing.JFrame {
         // add menu items to menu 
         x.add(m1); 
         x.add(m2);
-        x.add(m9); 
-        x.add(m3); 
+        
+        x.addSeparator();
+        x.add(m9); // logout
+        x.add(m3); //exit
         
         
         
@@ -139,6 +142,24 @@ public class Gui_network extends javax.swing.JFrame {
             g.setUser(User);
             g.setVisible(true);   
             });
+            
+            m3.addActionListener((ActionEvent e) -> {// exit
+             System.exit(0);
+            });
+            
+            
+            m7.addActionListener((ActionEvent e) -> {// open chart graph window
+
+                        Gui_graph_chart chart = new Gui_graph_chart(
+               "Chart Graph" ,
+               "Graph Chart of the Network");
+
+            chart.pack( );
+            RefineryUtilities.centerFrameOnScreen( chart );
+            chart.setVisible( true );    
+                
+            });      
+            
             
             m9.addActionListener((ActionEvent e) -> {// user log out
             this.dispose();
@@ -424,16 +445,17 @@ public class Gui_network extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                        .addGap(40, 40, 40)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(num_members1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel5)
-                        .addComponent(num_members2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(num_members2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -592,7 +614,7 @@ public class Gui_network extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
