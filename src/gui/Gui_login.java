@@ -54,15 +54,16 @@ public class Gui_login extends javax.swing.JFrame {
 
         jButton1 = new javax.swing.JButton();
         txt_email = new javax.swing.JTextField();
-        txt_password = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        signup_txt = new javax.swing.JLabel();
+        txt_password = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jButton1.setText("Connect");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -70,6 +71,8 @@ public class Gui_login extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        txt_email.setText("yoni@gmail.com");
 
         jLabel1.setText("Please enter your email and password bellow.");
 
@@ -80,11 +83,19 @@ public class Gui_login extends javax.swing.JFrame {
 
         jLabel4.setText("Email:");
 
-        jLabel5.setText("Are you an owner and don't have an account? ");
+        jLabel5.setText("Are you new?");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel6.setText("Signup now");
+        signup_txt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        signup_txt.setForeground(new java.awt.Color(0, 0, 255));
+        signup_txt.setText("Signup now");
+        signup_txt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        signup_txt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                signup_txtMouseClicked(evt);
+            }
+        });
+
+        txt_password.setText("1234567");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,7 +109,7 @@ public class Gui_login extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
+                .addComponent(signup_txt)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(23, Short.MAX_VALUE)
@@ -112,8 +123,8 @@ public class Gui_login extends javax.swing.JFrame {
                                 .addComponent(jLabel2)
                                 .addGap(31, 31, 31)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txt_email)
-                            .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_email, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                            .addComponent(txt_password))
                         .addGap(81, 81, 81))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -135,20 +146,20 @@ public class Gui_login extends javax.swing.JFrame {
                 .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addGap(23, 23, 23))
+                    .addComponent(signup_txt))
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(132, 132, 132)
                     .addComponent(jLabel4)
-                    .addContainerGap(154, Short.MAX_VALUE)))
+                    .addContainerGap(108, Short.MAX_VALUE)))
         );
 
         pack();
@@ -207,7 +218,6 @@ public class Gui_login extends javax.swing.JFrame {
         this.dispose();
         Gui_signup g = new Gui_signup();
         g.setVisible(true);
-
     }//GEN-LAST:event_signup_txtMouseClicked
 
     /**
@@ -255,9 +265,9 @@ public class Gui_login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel signup_txt;
     private javax.swing.JTextField txt_email;
-    private javax.swing.JTextField txt_password;
+    private javax.swing.JPasswordField txt_password;
     // End of variables declaration//GEN-END:variables
 
     
