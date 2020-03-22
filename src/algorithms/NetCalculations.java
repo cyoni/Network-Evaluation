@@ -78,6 +78,22 @@ public class NetCalculations {
              return 0;
    }
     
+     public int CalNumOfEmployees () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT Count(*) AS [employees] FROM [T_Employees]");
+         if(rs.next())
+            return rs.getInt("employees");
+         else
+             return 0;
+   }
+     
+     public double CalSumOfSalaries () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT sum(salary) AS [salaries] FROM [T_Employees]");
+         if(rs.next())
+            return rs.getDouble("salaries");
+         else
+             return 0;
+   }
+    
     /**
     * This method calculate the number of shares in the network
     * @return
@@ -128,6 +144,24 @@ public class NetCalculations {
                 + "FROM( SELECT Count(view_id) AS [countOfDay], view_date FROM [T_Views] GROUP BY view_date);");
          if(rs.next())
             return rs.getDouble("avg_views");
+         else
+             return 0;
+   }
+    
+     public double CalAvgLikes () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT Avg (countOfDay) AS [avg_likes] "
+                + "FROM( SELECT Count(like_id) AS [countOfDay], like_date FROM [T_Likes] GROUP BY like_date);");
+         if(rs.next())
+            return rs.getDouble("avg_likes");
+         else
+             return 0;
+   }
+     
+      public double CalAvgShares () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT Avg (countOfDay) AS [avg_shares] "
+                + "FROM( SELECT Count(share_id) AS [countOfDay], share_date FROM [T_Shares] GROUP BY share_date);");
+         if(rs.next())
+            return rs.getDouble("avg_shares");
          else
              return 0;
    } 

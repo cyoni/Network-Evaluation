@@ -27,10 +27,16 @@ public class NetworkData {
     private int numShares;
     private int numViews;
     private int activeMembers;
+    private int advertisers;
     
     private double avgTime;
-    private double avgView;
+    private double avgViews;
+    private double avgShares;
+    private double avgLikes;
 
+        
+private int numEmployees;
+private double SumSalaries;
 
     
     public NetworkData (NetCalculations c) {
@@ -42,9 +48,18 @@ public class NetworkData {
          numShares= c.CalNumOfShares();
          numPages = c.CalNumOfPages();
          activeMembers = c.CalActiveMembers();
-         avgTime = c.CalAvgTime();
-         avgView = c.CalAvgViews();
+         advertisers = c.CalNumOfAdvertisers();
          numGroups = c.CalNumOfGroups();
+
+
+         avgTime = c.CalAvgTime();
+         avgViews = c.CalAvgViews();
+         avgShares = c.CalAvgShares();
+         avgLikes= c.CalAvgLikes();
+         numGroups = c.CalNumOfGroups();
+         
+         numEmployees = c.CalNumOfEmployees();
+         SumSalaries = c.CalSumOfSalaries();
                  
         } catch (SQLException ex) {
             Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,9 +102,31 @@ public class NetworkData {
         return numGroups;
     }
 
-    public double getAvgView() {
-        return avgView;
+    public double getAvgViews() {
+        return avgViews;
     }
+
+    public double getAvgShares() {
+        return avgShares;
+    }
+
+    public double getAvgLikes() {
+        return avgLikes;
+    }
+
+    public int getAdvertisers() {
+        return advertisers;
+    }
+
+    public int getNumEmployees() {
+        return numEmployees;
+    }
+
+    public double getSumSalaries() {
+        return SumSalaries;
+    }
+    
+    
 
     
 

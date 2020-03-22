@@ -221,9 +221,15 @@ public class Gui_network extends javax.swing.JFrame {
         num_active.setText(String.valueOf(net.getActiveMembers()));
         num_pages.setText(String.valueOf(net.getNumPages()));
         num_groups.setText(String.valueOf(net.getNumGroups()));
-        avg_time.setText(String.valueOf(net.getAvgTime()));
+        num_advertisers.setText(String.valueOf(net.getAdvertisers()));
         
-        avg_likes.setText(String.valueOf(net.getAvgView())); // need to change
+        
+        avg_time.setText(String.valueOf(net.getAvgTime()));
+        avg_likes.setText(String.valueOf(net.getAvgLikes()));
+        avg_shares.setText(String.valueOf(net.getAvgShares())); 
+        
+        
+
         
     }
     
