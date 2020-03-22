@@ -20,13 +20,17 @@ public class NetworkData {
     private NetCalculations cal;
 
     private int numMembers;
+    private int numGroups;
     private int numPages;
     private int numPosts;
     private int numLikes;
     private int numShares;
     private int numViews;
     private int activeMembers;
+    
     private double avgTime;
+    private double avgView;
+
 
     
     public NetworkData (NetCalculations c) {
@@ -39,6 +43,8 @@ public class NetworkData {
          numPages = c.CalNumOfPages();
          activeMembers = c.CalActiveMembers();
          avgTime = c.CalAvgTime();
+         avgView = c.CalAvgViews();
+         numGroups = c.CalNumOfGroups();
                  
         } catch (SQLException ex) {
             Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,6 +81,14 @@ public class NetworkData {
 
     public double getAvgTime() {
         return avgTime;
+    }
+
+    public int getNumGroups() {
+        return numGroups;
+    }
+
+    public double getAvgView() {
+        return avgView;
     }
 
     

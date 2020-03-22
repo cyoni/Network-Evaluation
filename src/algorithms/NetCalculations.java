@@ -47,6 +47,24 @@ public class NetCalculations {
              return 0;
    }
    
+  
+   
+   public int CalNumOfGroups () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT Count(*) AS [Groups] FROM [T_Groups]");
+         if(rs.next())
+            return rs.getInt("Groups");
+         else
+             return 0;
+   }
+   
+   public int CalNumOfAdvertisers () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT Count(*) AS [Advertisers] FROM [T_Advertisers]");
+         if(rs.next())
+            return rs.getInt("Advertisers");
+         else
+             return 0;
+   }
+   
    /**
     * This method calculate the number of likes in the network
     * @return
@@ -94,7 +112,6 @@ public class NetCalculations {
          else
              return 0;
    } 
-   // SELECT Avg (time_spent) AS avg_time FROM T_Members;
    
    public double CalAvgTime () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Avg (time_spent) AS [avg_time] FROM [T_Members];");
@@ -103,4 +120,17 @@ public class NetCalculations {
          else
              return 0;
    } 
+   
+ 
+
+    public double CalAvgViews () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT Avg (countOfDay) AS [avg_views] "
+                + "FROM( SELECT Count(view_id) AS [countOfDay], view_date FROM [T_Views] GROUP BY view_date);");
+         if(rs.next())
+            return rs.getDouble("avg_views");
+         else
+             return 0;
+   } 
+
+   
 }

@@ -122,7 +122,7 @@
                           </Group>
                           <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="num_pages1" max="32767" attributes="0"/>
+                              <Component id="num_pages" max="32767" attributes="0"/>
                               <Component id="num_members" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -142,8 +142,8 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="num_shares" pref="84" max="32767" attributes="0"/>
                               <Component id="num_active" alignment="0" max="32767" attributes="0"/>
-                              <Component id="total_groups" alignment="0" max="32767" attributes="0"/>
-                              <Component id="total_groups8" max="32767" attributes="0"/>
+                              <Component id="num_groups" alignment="0" max="32767" attributes="0"/>
+                              <Component id="num_advertisers" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -162,7 +162,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="num_pages1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="num_pages" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -182,12 +182,12 @@
                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel25" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="total_groups" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="num_groups" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="total_groups8" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="num_advertisers" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -203,7 +203,7 @@
             <Property name="text" type="java.lang.String" value="Total Pages:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="num_pages1">
+        <Component class="javax.swing.JTextField" name="num_pages">
         </Component>
         <Component class="javax.swing.JTextField" name="num_likes">
         </Component>
@@ -238,7 +238,7 @@
             <Property name="text" type="java.lang.String" value="Total Shares:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="total_groups">
+        <Component class="javax.swing.JTextField" name="num_groups">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel25">
           <Properties>
@@ -270,7 +270,7 @@
             <Property name="text" type="java.lang.String" value="Total Advertisers:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="total_groups8">
+        <Component class="javax.swing.JTextField" name="num_advertisers">
         </Component>
       </SubComponents>
     </Container>
@@ -292,22 +292,22 @@
                       <Group type="102" attributes="0">
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="num_members2" min="-2" pref="81" max="-2" attributes="0"/>
+                          <Component id="avg_shares" min="-2" pref="81" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="num_members6" min="-2" pref="81" max="-2" attributes="0"/>
+                          <Component id="avg_posts" min="-2" pref="81" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="num_members1" min="-2" pref="81" max="-2" attributes="0"/>
+                          <Component id="avg_likes" min="-2" pref="81" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="num_members7" min="-2" pref="81" max="-2" attributes="0"/>
+                          <Component id="avg_friends" min="-2" pref="81" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -328,26 +328,26 @@
                           <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="num_members1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="avg_likes" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="num_members2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="avg_shares" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="num_members6" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="avg_posts" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="num_members7" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="avg_friends" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -368,7 +368,7 @@
             <Property name="text" type="java.lang.String" value="Avg shares /day:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="num_members2">
+        <Component class="javax.swing.JTextField" name="avg_shares">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -378,7 +378,7 @@
             <Property name="text" type="java.lang.String" value="Avg likes /day:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="num_members1">
+        <Component class="javax.swing.JTextField" name="avg_likes">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
@@ -388,7 +388,7 @@
             <Property name="text" type="java.lang.String" value="Avg posts /day:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="num_members6">
+        <Component class="javax.swing.JTextField" name="avg_posts">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel26">
           <Properties>
@@ -398,7 +398,7 @@
             <Property name="text" type="java.lang.String" value="Avg # of friends:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="num_members7">
+        <Component class="javax.swing.JTextField" name="avg_friends">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel27">
           <Properties>
@@ -554,9 +554,6 @@
           </Border>
         </Property>
       </Properties>
-      <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Staff"/>
-      </AccessibilityProperties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -649,9 +646,6 @@
           </Border>
         </Property>
       </Properties>
-      <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Shared networks with me"/>
-      </AccessibilityProperties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -711,10 +705,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
-                          <Component id="jLabel32" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jLabel32" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel31" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
