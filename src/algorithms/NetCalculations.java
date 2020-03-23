@@ -165,6 +165,17 @@ public class NetCalculations {
          else
              return 0;
    } 
+  
+
+public double CalAvgPosts () throws SQLException {
+        ResultSet rs = statment.executeQuery(" SELECT  Avg (countOfDay) AS [avg_posts] FROM "
+                + "(SELECT  Count(T_Posts.post_id) AS [countOfDay], T_Components.creation_date FROM [T_Posts]"
+                + " INNER JOIN T_Components ON T_Posts.post_id = T_Components.compoment_id GROUP BY creation_date ) ; ");
+         if(rs.next())
+            return rs.getDouble("avg_posts");
+         else
+             return 0;
+   } 
 
    
 }

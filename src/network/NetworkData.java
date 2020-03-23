@@ -33,6 +33,7 @@ public class NetworkData {
     private double avgViews;
     private double avgShares;
     private double avgLikes;
+    private double avgPosts;
 
         
 private int numEmployees;
@@ -57,6 +58,7 @@ private double SumSalaries;
          avgShares = c.CalAvgShares();
          avgLikes= c.CalAvgLikes();
          numGroups = c.CalNumOfGroups();
+         avgPosts = c.CalAvgPosts();
          
          numEmployees = c.CalNumOfEmployees();
          SumSalaries = c.CalSumOfSalaries();
@@ -124,6 +126,10 @@ private double SumSalaries;
 
     public double getSumSalaries() {
         return SumSalaries;
+    }
+
+    public double getAvgPosts() {
+        return avgPosts;
     }
     
     

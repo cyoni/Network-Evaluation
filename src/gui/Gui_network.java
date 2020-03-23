@@ -226,7 +226,11 @@ public class Gui_network extends javax.swing.JFrame {
         
         avg_time.setText(String.valueOf(net.getAvgTime()));
         avg_likes.setText(String.valueOf(net.getAvgLikes()));
-        avg_shares.setText(String.valueOf(net.getAvgShares())); 
+        avg_shares.setText(String.valueOf(net.getAvgShares()));
+        avg_posts.setText(String.valueOf(net.getAvgPosts()));
+        sum_salaries.setText(String.valueOf(net.getSumSalaries()));
+        num_employees.setText(String.valueOf(net.getNumEmployees()));
+        
         
         
 
@@ -281,12 +285,12 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel33 = new javax.swing.JLabel();
         total_groups16 = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
-        total_groups9 = new javax.swing.JTextField();
-        total_groups10 = new javax.swing.JTextField();
+        num_employees = new javax.swing.JTextField();
+        sum_salaries = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
-        total_groups14 = new javax.swing.JTextField();
+        net_expenses = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         network_list = new javax.swing.JList<>();
@@ -577,16 +581,16 @@ public class Gui_network extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(total_groups9, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(num_employees, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel22)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(total_groups10, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(sum_salaries, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel24)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(total_groups14, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(net_expenses, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -595,15 +599,15 @@ public class Gui_network extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
-                    .addComponent(total_groups9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(num_employees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel22)
-                    .addComponent(total_groups10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sum_salaries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
-                    .addComponent(total_groups14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(net_expenses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -725,7 +729,7 @@ public class Gui_network extends javax.swing.JFrame {
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(30, 30, 30))
         );
@@ -828,24 +832,24 @@ public class Gui_network extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField net_expenses;
     private javax.swing.JList<String> network_list;
     private javax.swing.JTextField num_active;
     private javax.swing.JTextField num_advertisers;
+    private javax.swing.JTextField num_employees;
     private javax.swing.JTextField num_groups;
     private javax.swing.JTextField num_likes;
     private javax.swing.JTextField num_members;
     private javax.swing.JTextField num_members9;
     private javax.swing.JTextField num_pages;
     private javax.swing.JTextField num_shares;
-    private javax.swing.JTextField total_groups10;
+    private javax.swing.JTextField sum_salaries;
     private javax.swing.JTextField total_groups11;
     private javax.swing.JTextField total_groups12;
-    private javax.swing.JTextField total_groups14;
     private javax.swing.JTextField total_groups15;
     private javax.swing.JTextField total_groups16;
     private javax.swing.JTextField total_groups5;
     private javax.swing.JTextField total_groups7;
-    private javax.swing.JTextField total_groups9;
     // End of variables declaration//GEN-END:variables
 
     private void LoadSharedNetworks() {     // does not work TOFIX  
