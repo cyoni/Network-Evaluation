@@ -47,6 +47,24 @@ public class NetCalculations {
              return 0;
    }
    
+  
+   
+   public int CalNumOfGroups () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT Count(*) AS [Groups] FROM [T_Groups]");
+         if(rs.next())
+            return rs.getInt("Groups");
+         else
+             return 0;
+   }
+   
+   public int CalNumOfAdvertisers () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT Count(*) AS [Advertisers] FROM [T_Advertisers]");
+         if(rs.next())
+            return rs.getInt("Advertisers");
+         else
+             return 0;
+   }
+   
    /**
     * This method calculate the number of likes in the network
     * @return
@@ -56,6 +74,22 @@ public class NetCalculations {
         ResultSet rs = statment.executeQuery("SELECT Count(*) AS [Likes] FROM [T_Likes]");
          if(rs.next())
             return rs.getInt("Likes");
+         else
+             return 0;
+   }
+    
+     public int CalNumOfEmployees () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT Count(*) AS [employees] FROM [T_Employees]");
+         if(rs.next())
+            return rs.getInt("employees");
+         else
+             return 0;
+   }
+     
+     public double CalSumOfSalaries () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT sum(salary) AS [salaries] FROM [T_Employees]");
+         if(rs.next())
+            return rs.getDouble("salaries");
          else
              return 0;
    }
@@ -94,7 +128,6 @@ public class NetCalculations {
          else
              return 0;
    } 
-   // SELECT Avg (time_spent) AS avg_time FROM T_Members;
    
    public double CalAvgTime () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Avg (time_spent) AS [avg_time] FROM [T_Members];");
@@ -103,4 +136,46 @@ public class NetCalculations {
          else
              return 0;
    } 
+   
+ 
+
+    public double CalAvgViews () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT Avg (countOfDay) AS [avg_views] "
+                + "FROM( SELECT Count(view_id) AS [countOfDay], view_date FROM [T_Views] GROUP BY view_date);");
+         if(rs.next())
+            return rs.getDouble("avg_views");
+         else
+             return 0;
+   }
+    
+     public double CalAvgLikes () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT Avg (countOfDay) AS [avg_likes] "
+                + "FROM( SELECT Count(like_id) AS [countOfDay], like_date FROM [T_Likes] GROUP BY like_date);");
+         if(rs.next())
+            return rs.getDouble("avg_likes");
+         else
+             return 0;
+   }
+     
+      public double CalAvgShares () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT Avg (countOfDay) AS [avg_shares] "
+                + "FROM( SELECT Count(share_id) AS [countOfDay], share_date FROM [T_Shares] GROUP BY share_date);");
+         if(rs.next())
+            return rs.getDouble("avg_shares");
+         else
+             return 0;
+   } 
+  
+
+public double CalAvgPosts () throws SQLException {
+        ResultSet rs = statment.executeQuery(" SELECT  Avg (countOfDay) AS [avg_posts] FROM "
+                + "(SELECT  Count(T_Posts.post_id) AS [countOfDay], T_Components.creation_date FROM [T_Posts]"
+                + " INNER JOIN T_Components ON T_Posts.post_id = T_Components.compoment_id GROUP BY creation_date ) ; ");
+         if(rs.next())
+            return rs.getDouble("avg_posts");
+         else
+             return 0;
+   } 
+
+   
 }
