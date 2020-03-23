@@ -142,9 +142,23 @@ public class Gui_manageUsers extends javax.swing.JFrame {
                     return;
                 }
             }
+            boolean ok = false;
+                ResultSet result = database.query("SELECT name FROM users WHERE email='"+email+"'");
+                
+            try {
+                while (result.next()){ok=true;}
+            } catch (SQLException ex) {
+                Logger.getLogger(Gui_manageUsers.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (!ok){
+                User_Dialog.showAlert("This email address was not found!");
+            } else if (email.equals(User.getEmail())) {User_Dialog.showAlert("You can't add youself!");}
+            else{
+                
                 database.query_update("INSERT INTO permissions (owner, usr_email)\n" +
             "    VALUES ('"+ User.getEmail() +"', '"+ email +"');");
                 users_list.addItem(email + " (unauthorized)");
+            }
         }
     }
     

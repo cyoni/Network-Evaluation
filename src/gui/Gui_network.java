@@ -39,7 +39,7 @@ import utils.User_Dialog;
  */
 public class Gui_network extends javax.swing.JFrame {
     
-    private JMenuItem m1, m2, m9, m3, m7, m8;
+    private JMenuItem m1, m2, m9, m3, m7, m8, m6;
     NetworkData net;
     private user User;
     
@@ -54,9 +54,6 @@ public class Gui_network extends javax.swing.JFrame {
         setVisible(true);
         JMenuBar mb; 
         
-        
-       
-        
        // create a menubar 
         mb = new JMenuBar(); 
   
@@ -68,12 +65,12 @@ public class Gui_network extends javax.swing.JFrame {
 
                  
         m1 = new JMenuItem("Load a network file"); 
-        m2 = new JMenuItem("Add/revoke permission"); 
+        m2 = new JMenuItem("Grant/revoke permission"); 
         m9 = new JMenuItem("Log Out"); 
         m3 = new JMenuItem("Exit"); 
         
 
-        JMenuItem m6 = new JMenuItem("Graph Visualization");
+        m6 = new JMenuItem("Graph Visualization");
         m7 = new JMenuItem("Graph Chart");
         
         JMenuItem m4 = new JMenuItem("How to use this software");
@@ -150,6 +147,12 @@ public class Gui_network extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            });
+                    
+            
+            m6.addActionListener((ActionEvent e) -> {// add/change permissions
+            Gui_visualization g = new Gui_visualization();
+            g.setVisible(true);   
             });
                     
 	    m2.addActionListener((ActionEvent e) -> {// add/change permissions
