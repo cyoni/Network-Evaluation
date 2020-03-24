@@ -214,27 +214,51 @@ public class Gui_network extends javax.swing.JFrame {
     
     private void setField () {
         
-        num_members.setText(String.valueOf(net.getNumMembers()));
-        num_likes.setText(String.valueOf(net.getNumPages()));
-        num_likes.setText(String.valueOf(net.getNumLikes()));
-        num_shares.setText(String.valueOf(net.getNumShares()));
-        num_active.setText(String.valueOf(net.getActiveMembers()));
-        num_pages.setText(String.valueOf(net.getNumPages()));
-        num_groups.setText(String.valueOf(net.getNumGroups()));
-        num_advertisers.setText(String.valueOf(net.getAdvertisers()));
-        
-        
-        avg_time.setText(String.valueOf(net.getAvgTime()));
-        avg_likes.setText(String.valueOf(net.getAvgLikes()));
-        avg_shares.setText(String.valueOf(net.getAvgShares()));
-        avg_posts.setText(String.valueOf(net.getAvgPosts()));
-        sum_salaries.setText(String.valueOf(net.getSumSalaries()));
-        num_employees.setText(String.valueOf(net.getNumEmployees()));
-        
-        
-        
+	Thread th = new Thread(new Runnable() { 
+            public void run() {
+            
+            //Basic
+            num_members.setText(String.valueOf(net.getNumMembers()));
+            num_pages.setText(String.valueOf(net.getNumPages()));
+            num_likes.setText(String.valueOf(net.getNumLikes()));
+            num_shares.setText(String.valueOf(net.getNumShares()));
+            num_active.setText(String.valueOf(net.getActiveMembers()));
+            num_groups.setText(String.valueOf(net.getNumGroups()));
+            num_advertisers.setText(String.valueOf(net.getAdvertisers()));
+            num_ads.setText(String.valueOf(net.getNumAds()));
 
-        
+            //Avg
+            avg_shares.setText(String.valueOf(net.getAvgShares()));
+            avg_likes.setText(String.valueOf(net.getAvgLikes()));
+            avg_posts.setText(String.valueOf(net.getAvgPosts()));
+            avg_friends.setText(String.valueOf(net.getAvgFriends()));
+            avg_time.setText(String.valueOf(net.getAvgTime()));
+            System.out.println("avg"+avg_time);
+            System.err.println("avg"+avg_time);
+            
+            //Staff
+            num_employees.setText(String.valueOf(net.getNumEmployees()));
+            sum_salaries.setText(String.valueOf(net.getSumSalaries()));
+            net_expenses.setText(String.valueOf(net.getTotalExpenses()));
+            
+            //Traffic
+            total_traffic.setText(String.valueOf(net.getTotalTraffic()));
+            avg_traffic.setText(String.valueOf(net.getAvgTraffic()));
+            
+            //Ads
+            active_ads.setText(String.valueOf(net.getActiveAds()));
+            new_ads.setText(String.valueOf(net.getNewAds()));
+            net_profit.setText(String.valueOf(net.getNetProfit()));
+            
+              
+                    
+				
+				
+			}
+		});
+		th.start();
+                                        
+                    
     }
     
     /**
@@ -262,6 +286,8 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel23 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         num_advertisers = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        num_ads = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         avg_shares = new javax.swing.JTextField();
@@ -275,15 +301,15 @@ public class Gui_network extends javax.swing.JFrame {
         avg_time = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
-        total_groups11 = new javax.swing.JTextField();
+        active_ads = new javax.swing.JTextField();
         total_groups12 = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        total_groups5 = new javax.swing.JTextField();
+        jLabel29 = new javax.swing.JLabel();
+        new_ads = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
-        total_groups7 = new javax.swing.JTextField();
+        net_profit = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
-        total_groups16 = new javax.swing.JTextField();
+        avg_ads = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         num_employees = new javax.swing.JTextField();
         sum_salaries = new javax.swing.JTextField();
@@ -295,10 +321,10 @@ public class Gui_network extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         network_list = new javax.swing.JList<>();
         jPanel2 = new javax.swing.JPanel();
-        num_members9 = new javax.swing.JTextField();
+        total_traffic = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
-        total_groups15 = new javax.swing.JTextField();
+        avg_traffic = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel_username = new javax.swing.JLabel();
 
@@ -343,6 +369,9 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Total Advertisers:");
 
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel13.setText("Total advertisements:");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -352,29 +381,35 @@ public class Gui_network extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel1))
-                        .addGap(36, 36, 36)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(num_pages)
-                            .addComponent(num_members)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel1))
+                                .addGap(36, 36, 36)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(num_pages)
+                                    .addComponent(num_members)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                                .addComponent(num_likes, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel23)
+                                    .addComponent(jLabel25)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel12))
+                                .addGap(18, 18, Short.MAX_VALUE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(num_shares, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                                    .addComponent(num_active)
+                                    .addComponent(num_groups)
+                                    .addComponent(num_advertisers)
+                                    .addComponent(num_ads))))
+                        .addGap(8, 8, 8))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(num_likes, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel23)
-                            .addComponent(jLabel25)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel12))
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(num_shares, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
-                            .addComponent(num_active)
-                            .addComponent(num_groups)
-                            .addComponent(num_advertisers))))
-                .addGap(8, 8, 8))
+                        .addComponent(jLabel13)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -407,7 +442,10 @@ public class Gui_network extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(num_advertisers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(num_ads, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Average"));
@@ -489,19 +527,19 @@ public class Gui_network extends javax.swing.JFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Ads"));
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel18.setText("Advertisers Expenses:");
+        jLabel18.setText("Active advertisements:");
 
         jLabel28.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel28.setText("Advertisers Profit:");
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel17.setText("New advertisers /week:");
+        jLabel29.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel29.setText("New advertisers /week:");
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel20.setText("Network Ads Profit");
 
         jLabel33.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel33.setText("Advertisers /month:");
+        jLabel33.setText("advertisements /month:");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -516,13 +554,13 @@ public class Gui_network extends javax.swing.JFrame {
                         .addComponent(total_groups12, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel17)
+                        .addComponent(jLabel29)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(total_groups5, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(new_ads, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel18)
                         .addGap(18, 18, 18)
-                        .addComponent(total_groups11, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(active_ads, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -530,8 +568,8 @@ public class Gui_network extends javax.swing.JFrame {
                             .addComponent(jLabel33))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(total_groups16)
-                            .addComponent(total_groups7, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))))
+                            .addComponent(avg_ads)
+                            .addComponent(net_profit, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -540,23 +578,23 @@ public class Gui_network extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(total_groups11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(active_ads, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel28)
                     .addComponent(total_groups12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(total_groups5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel29)
+                    .addComponent(new_ads, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
-                    .addComponent(total_groups7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(net_profit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
-                    .addComponent(total_groups16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(avg_ads, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -629,17 +667,17 @@ public class Gui_network extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Traffic"));
 
         jLabel31.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel31.setText("Traffic diversity /d:");
+        jLabel31.setText("Total Traffic");
 
         jLabel32.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel32.setText("Traffic diversity /m:");
+        jLabel32.setText("Traffic diversity /d:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -652,8 +690,8 @@ public class Gui_network extends javax.swing.JFrame {
                     .addComponent(jLabel31))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(num_members9)
-                    .addComponent(total_groups15, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))
+                    .addComponent(total_traffic)
+                    .addComponent(avg_traffic, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -662,11 +700,11 @@ public class Gui_network extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel31)
-                    .addComponent(num_members9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(total_traffic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel32)
-                    .addComponent(total_groups15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(avg_traffic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -718,7 +756,7 @@ public class Gui_network extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -730,7 +768,7 @@ public class Gui_network extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(30, 30, 30))
         );
 
@@ -795,15 +833,18 @@ public class Gui_network extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField active_ads;
+    private javax.swing.JTextField avg_ads;
     private javax.swing.JTextField avg_friends;
     private javax.swing.JTextField avg_likes;
     private javax.swing.JTextField avg_posts;
     private javax.swing.JTextField avg_shares;
     private javax.swing.JTextField avg_time;
+    private javax.swing.JTextField avg_traffic;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
@@ -815,6 +856,7 @@ public class Gui_network extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
@@ -833,23 +875,21 @@ public class Gui_network extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField net_expenses;
+    private javax.swing.JTextField net_profit;
     private javax.swing.JList<String> network_list;
+    private javax.swing.JTextField new_ads;
     private javax.swing.JTextField num_active;
+    private javax.swing.JTextField num_ads;
     private javax.swing.JTextField num_advertisers;
     private javax.swing.JTextField num_employees;
     private javax.swing.JTextField num_groups;
     private javax.swing.JTextField num_likes;
     private javax.swing.JTextField num_members;
-    private javax.swing.JTextField num_members9;
     private javax.swing.JTextField num_pages;
     private javax.swing.JTextField num_shares;
     private javax.swing.JTextField sum_salaries;
-    private javax.swing.JTextField total_groups11;
     private javax.swing.JTextField total_groups12;
-    private javax.swing.JTextField total_groups15;
-    private javax.swing.JTextField total_groups16;
-    private javax.swing.JTextField total_groups5;
-    private javax.swing.JTextField total_groups7;
+    private javax.swing.JTextField total_traffic;
     // End of variables declaration//GEN-END:variables
 
     private void LoadSharedNetworks() {     // does not work TOFIX  
