@@ -14,7 +14,7 @@ import database.user;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import utils.User_Dialog;
+import dialogs.User_Dialog;
 
 /**
  *
@@ -212,7 +212,7 @@ public class Gui_signup extends javax.swing.JFrame {
             "VALUES ('"+ email +"', '"+ network_name +"')");
        }
        
-       user u = login.setNewInstance(name, email);    
+       user u = login.setNewInstance(new user(name, email, "-1"));    
        this.dispose();
        Gui_network g = new Gui_network(u);
        g.setVisible(true);

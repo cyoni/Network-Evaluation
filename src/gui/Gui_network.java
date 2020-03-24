@@ -6,6 +6,7 @@
 package gui;
 
 
+import graph_chart.Gui_graph_chart;
 import DB_Connection.database;
 import algorithms.NetCalculations;
 import algorithms.evaluation;
@@ -31,7 +32,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import network.NetworkData;
 import org.jfree.ui.RefineryUtilities;
-import utils.User_Dialog;
+import dialogs.User_Dialog;
 
 /**
  *
@@ -168,9 +169,7 @@ public class Gui_network extends javax.swing.JFrame {
             
             m7.addActionListener((ActionEvent e) -> {// open chart graph window
 
-                        Gui_graph_chart chart = new Gui_graph_chart(
-               "Chart Graph" ,
-               "Graph Chart of the Network");
+                Gui_graph_chart chart = new Gui_graph_chart(User);
 
             chart.pack( );
             RefineryUtilities.centerFrameOnScreen( chart );
