@@ -83,6 +83,7 @@ public class database extends Thread {
     try{
     Class.forName("com.mysql.cj.jdbc.Driver");
     connection=DriverManager.getConnection("jdbc:mysql://sql9.freemysqlhosting.net:3306/sql9327280","sql9327280","tUEjZTaZHh");
+   //connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/eval","root","1234");
     }
     catch(Exception e){}
       return connection;

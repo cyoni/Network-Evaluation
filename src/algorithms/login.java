@@ -15,9 +15,11 @@ import database.user;
  */
 public class login {
 
-    public static user setNewInstance(String name, String email) {
+    public static user setNewInstance(user User) {
+    String name = User.getName();
+    String email = User.getEmail();
     String key = KeyGenerator.getKey(32); // private key - so the system will remember the user and he wont have to enter his password.
-    user User = new user(name, email, key);          
+    User = new user(name, email, key);          
     String sql = "INSERT INTO login_instance (private_key, email)\n" +
                  "VALUES('"+ key +"', '"+ email +"')\n" +
                  "ON DUPLICATE KEY UPDATE private_key = VALUES(private_key)";
@@ -25,6 +27,12 @@ public class login {
     database.query_update(sql); // Excucute the operation
     seriable.write_object("user.txt", User);
        return User;
+    }
+    
+    
+    public void Login(){
+        
+        
     }
     
     

@@ -6,8 +6,10 @@
 package gui;
 
 
+import graph_chart.Gui_graph_chart;
 import DB_Connection.database;
 import algorithms.NetCalculations;
+import algorithms.evaluation;
 import database.seriable;
 import database.user;
 import java.awt.Color;
@@ -16,8 +18,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
@@ -35,7 +40,7 @@ import utils.User_Dialog;
  */
 public class Gui_network extends javax.swing.JFrame {
     
-    private JMenuItem m1, m2, m9, m3, m7;
+    private JMenuItem m1, m2, m9, m3, m7, m8, m6;
     NetworkData net;
     private user User;
     
@@ -50,9 +55,6 @@ public class Gui_network extends javax.swing.JFrame {
         setVisible(true);
         JMenuBar mb; 
         
-        
-       
-        
        // create a menubar 
         mb = new JMenuBar(); 
   
@@ -64,18 +66,18 @@ public class Gui_network extends javax.swing.JFrame {
 
                  
         m1 = new JMenuItem("Load a network file"); 
-        m2 = new JMenuItem("Add/revoke permission"); 
+        m2 = new JMenuItem("Grant/revoke permission"); 
         m9 = new JMenuItem("Log Out"); 
         m3 = new JMenuItem("Exit"); 
         
 
-        JMenuItem m6 = new JMenuItem("Graph Visualization");
+        m6 = new JMenuItem("Graph Visualization");
         m7 = new JMenuItem("Graph Chart");
         
         JMenuItem m4 = new JMenuItem("How to use this software");
         JMenuItem m5 = new JMenuItem("About");
         
-        JMenuItem m8 = new JMenuItem("Evaluate Network");
+        m8 = new JMenuItem("Evaluate Network");
 
 
     
@@ -138,6 +140,22 @@ public class Gui_network extends javax.swing.JFrame {
 
     
     private void startMouseListener() {
+        
+            m8.addActionListener((ActionEvent e) -> {try {
+                // evalutate network
+                evaluation g = new evaluation();
+                g.evaluate(this);
+                } catch (IOException ex) {
+                    Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+                    
+            
+            m6.addActionListener((ActionEvent e) -> {// add/change permissions
+            Gui_visualization g = new Gui_visualization();
+            g.setVisible(true);   
+            });
+                    
 	    m2.addActionListener((ActionEvent e) -> {// add/change permissions
             Gui_manageUsers g = new Gui_manageUsers();// open gui_manageUsers window
             g.setUser(User);
@@ -151,9 +169,7 @@ public class Gui_network extends javax.swing.JFrame {
             
             m7.addActionListener((ActionEvent e) -> {// open chart graph window
 
-                        Gui_graph_chart chart = new Gui_graph_chart(
-               "Chart Graph" ,
-               "Graph Chart of the Network");
+                Gui_graph_chart chart = new Gui_graph_chart(User);
 
             chart.pack( );
             RefineryUtilities.centerFrameOnScreen( chart );
@@ -329,6 +345,7 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel_username = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel15.setText("Welcome to NetEval");

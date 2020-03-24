@@ -198,11 +198,10 @@ public class Gui_login extends javax.swing.JFrame {
                 String name = rs.getString("name");
                 String passInDB = rs.getString("password");
                 if(password.equals(passInDB)) { // Checks that the entered password is the same as the password in the database
-                    login.setNewInstance(name, email);    
+                    user User = login.setNewInstance(new user(name, email, "-1")); // get a new private key
                     this.dispose();
-                    Gui_network g = new Gui_network();
+                    Gui_network g = new Gui_network(User);
                     g.setVisible(true);
-                    
                 }
                 else
                     User_Dialog.showAlert("The password is wrong.");
