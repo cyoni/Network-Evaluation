@@ -5,10 +5,7 @@
  */
 package graph_chart;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import utils.User_Dialog;
 
 /**
@@ -28,7 +25,6 @@ public class Dialog_choose_month_year extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         model_years = new DefaultComboBoxModel();
         model_months = new DefaultComboBoxModel();
-        if (g.data_structure.isEmpty()) jButton1.setEnabled(false);
     }
         /**
      * This method is called from within the constructor to initialize the form.
@@ -132,9 +128,9 @@ public class Dialog_choose_month_year extends javax.swing.JFrame {
         
         for (int i=0; i< g.data_structure.size(); i++){
             if (g.data_structure.get(i).getYear() == Integer.parseInt(str_year) &&
-                    g.data_structure.get(i).getMonth() == Integer.parseInt(str_month)){
-                g.latestData = g.data_structure.get(i);
-                g.initializeGraph();
+                g.data_structure.get(i).getMonth() == Integer.parseInt(str_month)){
+                graph_chart_data targetData = g.data_structure.get(i); // get the required item from the data structure
+                g.initializeGraph(targetData); // set it and refresh the graph
                 this.dispose();
                 break;
             }
@@ -218,7 +214,7 @@ public class Dialog_choose_month_year extends javax.swing.JFrame {
 
     void setData(Gui_graph_chart g) {
          this.g = g;
-         g.data_structure = this.g.data_structure;
+         if (g.data_structure.isEmpty()) jButton1.setEnabled(false);
          setYears();
     }
 

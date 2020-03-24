@@ -37,7 +37,6 @@ import utils.User_Dialog;
  */
 public class Gui_graph_chart extends JFrame {
     protected List<graph_chart_data> data_structure;
-    protected graph_chart_data latestData;
     protected user User;
     protected JMenuItem m1, m2, m9, m3, m7, m8, m6;
 
@@ -50,8 +49,9 @@ public class Gui_graph_chart extends JFrame {
    // to work on the menu
     protected void build(){
       data_structure = new ArrayList<>();
+      setMenu();
       getData();
-      initializeGraph();
+     
     }
     
     
@@ -90,8 +90,7 @@ public class Gui_graph_chart extends JFrame {
             });
     }
     
-   protected void initializeGraph(){
- 
+   protected void initializeGraph(graph_chart_data latestData){
      String title = "Network Value";
      String months[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
      if (latestData != null)
@@ -101,13 +100,13 @@ public class Gui_graph_chart extends JFrame {
      JFreeChart lineChart = ChartFactory.createLineChart(
          title,
          "" , "Value in $",
-         createDataset(),
+         createDataset(latestData),
          PlotOrientation.VERTICAL,
          true,true,false);
          
-      ChartPanel chartPanel = new ChartPanel( lineChart );
-      chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
-      setContentPane( chartPanel );
+      ChartPanel chartPanel = new ChartPanel(lineChart);
+      chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
+      setContentPane(chartPanel);
       Rectangle r = getBounds();
       setSize(r.width+1 , r.height); // refresh window
    }
@@ -127,26 +126,25 @@ public class Gui_graph_chart extends JFrame {
                graph_chart_data gcd = new graph_chart_data(year, month, data); // don't worry my friend it's not what you're thinking about 
                list.add(gcd);
            }
-           
              data_structure = list; // save data 
-
            if (!data_structure.isEmpty()){
-                latestData = data_structure.get(0); // set latest data
-                setMenu();
-           }
-           
+               initializeGraph(data_structure.get(0));  // set latest data
+            }
        } catch (SQLException ex) {
            Logger.getLogger(Gui_graph_chart.class.getName()).log(Level.SEVERE, null, ex);
        }
  }
-
-   protected DefaultCategoryDataset createDataset() {
+/**
+ *  This method builds the graph.
+ * @return 
+ */
+   private DefaultCategoryDataset createDataset(graph_chart_data latestData) {
       DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
       // [email, year, month , (day, val; dat, val)]
               if (latestData != null)
                 for (int i=0; i< latestData.getData().size(); i++){
                      graph_chart_data.day_value tmp = latestData.getData().get(i); // get the last element (latest data)
-                    dataset.addValue(tmp.getValue(), "value" , tmp.getDay()+"");      
+                     dataset.addValue(tmp.getValue(), "value" , tmp.getDay()+"");      
                   }
       return dataset;
    }    
