@@ -32,7 +32,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import network.NetworkData;
 import org.jfree.ui.RefineryUtilities;
-import dialogs.User_Dialog;
+import utils.User_Dialog;
 
 /**
  *

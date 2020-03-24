@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package data_structure;
+package graph_chart;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * This class provides a data structure for the graph chart.
@@ -13,21 +15,21 @@ import java.util.Vector;
  */
 
 public class graph_chart_data {
-    protected int year;
-    protected int month;
-    protected Vector<day_value> data;
+    private int year;
+    private int month;
+    private List<day_value> data;
     
     public graph_chart_data(int year, int month, String str){
         this.year = year;
         this.month = month;
-        this.data = new Vector();
+        this.data = new ArrayList<>();
         processData(str);
     }
     
     
     public int getYear(){return year;}
     public int getMonth(){return month;}
-    public Vector<day_value> getData(){return this.data;}
+    public List<day_value> getData(){return this.data;}
     
     private void processData(String str){
         String splitText[] = str.split(";");

@@ -13,13 +13,14 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import DB_Connection.database;
 import algorithms.evaluation;
-import data_structure.graph_chart_data;
 import database.user;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -27,17 +28,17 @@ import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import dialogs.User_Dialog;
+import utils.User_Dialog;
 
 /**
  * This class presents the value of the network by dates.
  * @author Yoni
  */
 public class Gui_graph_chart extends JFrame {
-    private Vector<graph_chart_data> data_structure;
-    private graph_chart_data latestData;
-    private user User;
-    private JMenuItem m1, m2, m9, m3, m7, m8, m6;
+    protected List<graph_chart_data> data_structure;
+    protected graph_chart_data latestData;
+    protected user User;
+    protected JMenuItem m1, m2, m9, m3, m7, m8, m6;
 
 
     public Gui_graph_chart(user User) {
@@ -46,11 +47,13 @@ public class Gui_graph_chart extends JFrame {
       build();
    }
    // to work on the menu
-    private void build(){
-      data_structure = new Vector<>();
+    protected void build(){
+      data_structure = new ArrayList<>();
       initializeGraph();
     }
-    private void setMenu(){
+    
+    
+    protected void setMenu(){
         JMenuBar mb; 
         // create a menubar 
         mb = new JMenuBar(); 
@@ -74,16 +77,18 @@ public class Gui_graph_chart extends JFrame {
         startMouseListener();
     }
        
-    private void startMouseListener() {
+    protected void startMouseListener() {
             m1.addActionListener((ActionEvent e) -> { // open month/year dialog
-                build();
+                Dialog_choose_month_year d = new Dialog_choose_month_year();
+                d.setVisible(true);
+                d.setData(this);
             });
             m2.addActionListener((ActionEvent e) -> { // exit
                 this.dispose();
             });
     }
     
-   private void initializeGraph(){
+   protected void initializeGraph(){
                  
      getData();
      String title = "Network Value";
@@ -104,8 +109,8 @@ public class Gui_graph_chart extends JFrame {
       setContentPane( chartPanel );
    }
 
- private void getData(){
-       Vector<graph_chart_data> list = new Vector<>();
+ protected void getData(){
+       List<graph_chart_data> list = new ArrayList<>();
        // fetch data
        ResultSet rs = database.query("SELECT email, year, month, data FROM network_value WHERE email='"+ User.getEmail() +"' "
                + "ORDER BY year DESC, month DESC");
@@ -132,7 +137,7 @@ public class Gui_graph_chart extends JFrame {
        }
  }
 
-   private DefaultCategoryDataset createDataset() {
+   protected DefaultCategoryDataset createDataset() {
       DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
       // [email, year, month , (day, val; dat, val)]
               if (latestData != null)

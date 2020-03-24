@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.JComboBox;
-import dialogs.User_Dialog;
+import utils.User_Dialog;
 
 /**
  *
