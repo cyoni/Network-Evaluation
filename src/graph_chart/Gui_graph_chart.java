@@ -14,6 +14,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import DB_Connection.database;
 import algorithms.evaluation;
 import database.user;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -49,6 +50,7 @@ public class Gui_graph_chart extends JFrame {
    // to work on the menu
     protected void build(){
       data_structure = new ArrayList<>();
+      getData();
       initializeGraph();
     }
     
@@ -89,12 +91,11 @@ public class Gui_graph_chart extends JFrame {
     }
     
    protected void initializeGraph(){
-                 
-     getData();
+ 
      String title = "Network Value";
      String months[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
      if (latestData != null)
-        title+= " of " + months[latestData.getMonth()-1];
+        title+= " of " + months[latestData.getMonth()-1] +", " + latestData.getYear();
      else title = " (no data.....yet)";
      
      JFreeChart lineChart = ChartFactory.createLineChart(
@@ -107,6 +108,8 @@ public class Gui_graph_chart extends JFrame {
       ChartPanel chartPanel = new ChartPanel( lineChart );
       chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
       setContentPane( chartPanel );
+      Rectangle r = getBounds();
+      setSize(r.width+1 , r.height); // refresh window
    }
 
  protected void getData(){
