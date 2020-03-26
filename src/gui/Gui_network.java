@@ -6,6 +6,7 @@
 package gui;
 
 
+import graph_visualization.Gui_visualization;
 import graph_chart.Gui_graph_chart;
 import DB_Connection.database;
 import algorithms.NetCalculations;

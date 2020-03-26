@@ -3,7 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package graph_visualization;
+
+import graph.DGraph;
+import graph.Edge;
+import graph.Graph;
+import graph.Node;
+import graph.Node_metadata;
+import graph.edge_metadata;
+import java.util.ArrayList;
+import java.util.List;
+import utils.Point2D;
+import utils.StdDraw;
 
 /**
  *
@@ -51,6 +62,11 @@ public class Gui_visualization extends javax.swing.JFrame {
         jButton1.setText("Refresh");
 
         jButton2.setText("Evaluate Network");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Save picture");
 
@@ -140,6 +156,46 @@ public class Gui_visualization extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+         StdDraw.setXscale(0, 100);
+         StdDraw.setYscale(0, 100);
+         
+         
+        Graph g = new DGraph();
+        Node x = new Node_metadata(0, new  Point2D(10, 10));
+        Node x2 = new Node_metadata(1, new Point2D(50, 10));
+        Node x3 = new Node_metadata(2, new Point2D(30, 50));
+       // Node x4 = new Node_metadata(3, new Point2D(40, 10));    
+        
+        
+        g.addNode(x);
+        g.addNode(x2);
+        g.addNode(x3);
+       // g.addNode(x4);
+        
+        g.connect(0, 1, 50);
+        g.connect(1, 2, 50);
+        g.connect(0, 2, 50);
+
+
+   
+            List<Edge> currentEdge = new ArrayList<>();
+             currentEdge = g.getEdges();
+            
+             
+             
+                for (int j=0; j<currentEdge.size(); j++){
+                    int src = currentEdge.get(j).getSrc();
+                    int dest = currentEdge.get(j).getDest();
+                    
+                    StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
+                }
+        
+    
+
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

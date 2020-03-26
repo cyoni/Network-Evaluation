@@ -38,6 +38,7 @@ package utils;
  *
  ******************************************************************************/
 
+import graph_visualization.Gui_visualization;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FileDialog;
@@ -491,7 +492,7 @@ import javax.swing.KeyStroke;
  *  @author Kevin Wayne
  */
 public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
-
+        private static Gui_visualization g;
 	/**
 	 *  The color black.
 	 */
@@ -641,6 +642,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 	// set of key codes currently pressed down
 	private static TreeSet<Integer> keysDown = new TreeSet<Integer>();
+
+    public static void setGui(Gui_visualization gg) {
+            gg = g;
+    }
 
 	// singleton pattern: client can't instantiate
 	private StdDraw() { }
