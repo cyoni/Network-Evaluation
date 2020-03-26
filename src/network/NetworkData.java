@@ -19,49 +19,83 @@ public class NetworkData {
     
     private NetCalculations cal;
 
+    // Basic 
     private int numMembers;
-    private int numGroups;
     private int numPages;
-    private int numPosts;
     private int numLikes;
     private int numShares;
-    private int numViews;
     private int activeMembers;
+    private int numGroups;
     private int advertisers;
-    
-    private double avgTime;
-    private double avgViews;
+    private int numAds;
+
+    //Avg
     private double avgShares;
     private double avgLikes;
     private double avgPosts;
+    private double avgFriends;
+    private double avgTime;
 
-        
-private int numEmployees;
-private double SumSalaries;
+    //Staff
+    private int numEmployees;
+    private double SumSalaries;
+    private double totalExpenses; 
+    
+    //Traffic 
+    private double totalTraffic;
+    private double avgTraffic;
+    
+    //Ads
+    private int activeAds;
+    private double newAds;
+    private double netProfit;
+
+
+
+    // need to add
+    private int numPosts;
+    private int numViews;
+    private double avgViews;
+
 
     
     public NetworkData (NetCalculations c) {
         cal = c;
         
         try {
+            
+         //Basic
          numMembers= c.CalNumOfMembers();
+         numPages = c.CalNumOfPages();
          numLikes= c.CalNumOfLikes();
          numShares= c.CalNumOfShares();
-         numPages = c.CalNumOfPages();
          activeMembers = c.CalActiveMembers();
-         advertisers = c.CalNumOfAdvertisers();
          numGroups = c.CalNumOfGroups();
-
-
-         avgTime = c.CalAvgTime();
-         avgViews = c.CalAvgViews();
+         advertisers = c.CalNumOfAdvertisers();
+         numAds = c.CalNumOfAds();
+         //Avg
          avgShares = c.CalAvgShares();
          avgLikes= c.CalAvgLikes();
-         numGroups = c.CalNumOfGroups();
          avgPosts = c.CalAvgPosts();
-         
+         avgFriends = c.CalAvgFriends();
+         avgTime = c.CalAvgTime();
+         //Staff
          numEmployees = c.CalNumOfEmployees();
          SumSalaries = c.CalSumOfSalaries();
+         totalExpenses= c.CalTotalExpenses();
+         //Traffic 
+         totalTraffic= c.CalTotalTraffic();
+         avgTraffic = c.CalAvgTraffic();
+    
+         //Ads
+         activeAds= c.CalActiveAds();
+         newAds= c.CalNewAds();
+         netProfit= c.CalSumOfAdsProfit();
+         
+         // need to add
+         avgViews = c.CalAvgViews();
+         
+        
                  
         } catch (SQLException ex) {
             Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,6 +165,39 @@ private double SumSalaries;
     public double getAvgPosts() {
         return avgPosts;
     }
+
+    public int getNumAds() {
+        return numAds;
+    }
+
+    public double getAvgFriends() {
+        return avgFriends;
+    }
+
+    public double getTotalExpenses() {
+        return totalExpenses;
+    }
+
+    public double getTotalTraffic() {
+        return totalTraffic;
+    }
+
+    public double getAvgTraffic() {
+        return avgTraffic;
+    }
+
+    public double getNewAds() {
+        return newAds;
+    }
+
+    public int getActiveAds() {
+        return activeAds;
+    }
+
+    public double getNetProfit() {
+        return netProfit;
+    }
+    
     
     
 
