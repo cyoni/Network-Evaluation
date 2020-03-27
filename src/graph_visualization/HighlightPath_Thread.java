@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import graph.Node;
 import java.awt.Color;
+import utils.Point2D;
 import utils.StdDraw;
 /**
  *
@@ -41,8 +42,25 @@ public class HighlightPath_Thread extends Thread{
         
     }
     
+    
+    	/**
+	 * This function returns a point somewhere between a line
+	 * @return vector
+	 **/
+	public static Point2D getPointOnLine(Point2D p1, Point2D p2, int percent) {
+		double x1 = p1.x(), y1 = p1.y();
+		double x2 = p2.x(), y2 = p2.y();
+			
+		double v[] = {x2-x1, y2-y1};
+		double length = Math.sqrt(v[0]*v[0]+v[1]*v[1]);
+		double u[] = {1/length*v[0], 1/length*v[1]}; // normalized vector
+		double distance = Math.sqrt(Math.pow((x2-x1), 2) + Math.pow(y2-y1, 2));
+		double x = x1 + u[0] * distance*((double)percent/100); 
+		double y = y1 + u[1] * distance*((double)percent/100);
+		return new Point2D(x,y);
+	}
+        
     public void run(){
-
         try {
             while(!q.isEmpty()){
             sleep(1000);
@@ -51,13 +69,23 @@ public class HighlightPath_Thread extends Thread{
                  if (src == -1)  src = q.poll().getKey();
                  dest = q.poll().getKey();
                  
+             Point2D p1 = new Point2D(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y());
+             Point2D p2 = new Point2D(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
              
-             
-            StdDraw.setPenRadius(0.01);
+            System.out.println("Painting " + src +"->" + dest);
+            int percent = 0;
+            while (percent != 100){
+                sleep(10);
+                
+                Point2D tmp = getPointOnLine(p1, p2, ++percent);
+                
+             StdDraw.setPenRadius(0.01);
             StdDraw.setPenColor(Color.yellow);
-                System.out.println("Paiting " + src +"->" + dest);
-            StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), 
-                    g.getNode(dest).getLocation().y());
+            
+            StdDraw.point(tmp.x(), tmp.y());
+                
+                
+            }
             
             src = dest;
             
