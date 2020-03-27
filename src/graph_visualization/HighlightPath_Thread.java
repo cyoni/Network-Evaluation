@@ -73,7 +73,7 @@ public class HighlightPath_Thread extends Thread{
              Point2D p2 = new Point2D(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
              
             System.out.println("Painting " + src +"->" + dest);
-            int percent = 0;
+            int percent = -1;
             while (percent != 100){
                 sleep(10);
                 
