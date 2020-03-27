@@ -5,30 +5,35 @@
  */
 package graph_visualization;
 
+import algorithms.Graph_Algo;
+import algorithms.graph_algorithms;
 import graph.DGraph;
 import graph.Edge;
 import graph.Graph;
 import graph.Node;
 import graph.Node_metadata;
 import graph.edge_metadata;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import utils.Point2D;
 import utils.StdDraw;
+import utils.User_Dialog;
 
 /**
  *
  * @author Yoni
  */
 public class Gui_visualization extends javax.swing.JFrame {
-
+Graph g;
     /**
      * Creates new form Gui_visualization
      */
     public Gui_visualization() {
         initComponents();
          setLocationRelativeTo(null);
-
+          g = new DGraph();
     }
 
     /**
@@ -59,9 +64,15 @@ public class Gui_visualization extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jButton1.setText("Refresh");
+        jButton1.setText("Highlight Path");
+        jButton1.setToolTipText("");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Evaluate Network");
+        jButton2.setText("Draw/Erase");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -158,27 +169,50 @@ public class Gui_visualization extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+         StdDraw.setCanvasSize(700, 500);
          StdDraw.setXscale(0, 100);
          StdDraw.setYscale(0, 100);
          
          
-        Graph g = new DGraph();
-        Node x = new Node_metadata(0, new  Point2D(10, 10));
-        Node x2 = new Node_metadata(1, new Point2D(50, 10));
-        Node x3 = new Node_metadata(2, new Point2D(30, 50));
-       // Node x4 = new Node_metadata(3, new Point2D(40, 10));    
         
+        Node x = new Node_metadata(0, new  Point2D(10, 20));
+        Node x2 = new Node_metadata(1, new Point2D(30, 20));
+        Node x3 = new Node_metadata(2, new Point2D(40, 20));
+        Node x4 = new Node_metadata(3, new Point2D(50, 20));    
+        Node x5 = new Node_metadata(4, new Point2D(60, 50));    
+        Node x6 = new Node_metadata(5, new Point2D(50, 40));    
+        Node x7 = new Node_metadata(6, new Point2D(40, 30));    
+        Node x8 = new Node_metadata(7, new Point2D(40, 80));    
+        Node x9 = new Node_metadata(8, new Point2D(70, 76));    
+        Node x10 = new Node_metadata(9, new Point2D(75, 10));    
+
         
         g.addNode(x);
         g.addNode(x2);
         g.addNode(x3);
-       // g.addNode(x4);
+        g.addNode(x4);
+        g.addNode(x5);
+        g.addNode(x6);
+        g.addNode(x7);
+        g.addNode(x8);
+        g.addNode(x9);
+        g.addNode(x10);
+ 
         
         g.connect(0, 1, 50);
         g.connect(1, 2, 50);
-        g.connect(0, 2, 50);
-
-
+        g.connect(2, 3, 50);
+        g.connect(3, 4, 50);
+        g.connect(4, 5, 50);
+        g.connect(5, 1, 50);
+        g.connect(6, 5, 50);
+        g.connect(6, 7, 50);
+        g.connect(7, 8, 50);
+        g.connect(9, 3, 50);
+        
+        
+        
+        StdDraw.clear();
    
             List<Edge> currentEdge = new ArrayList<>();
              currentEdge = g.getEdges();
@@ -189,13 +223,35 @@ public class Gui_visualization extends javax.swing.JFrame {
                     int src = currentEdge.get(j).getSrc();
                     int dest = currentEdge.get(j).getDest();
                     
+                    StdDraw.setPenRadius(0.005);
+                    StdDraw.setPenColor(Color.yellow);
+                    StdDraw.point(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y());
+                    StdDraw.point(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
+                    StdDraw.setPenColor(Color.black);
+                    StdDraw.setPenRadius(0.007);
                     StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
+                    
+                    StdDraw.setPenColor(StdDraw.ORANGE);
+                   
+                    StdDraw.text(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y()+2, g.getNode(src).getKey()+"");
+                    StdDraw.text(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y()+2, g.getNode(dest).getKey()+"");
                 }
         
     
 
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        String x = User_Dialog.getInputDialog("Choose first node.");
+        String y = User_Dialog.getInputDialog("Choose end node.");
+        int src = Integer.parseInt(x);
+        int dest = Integer.parseInt(y);
+        
+        highlightGraph(src, dest);
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -249,4 +305,17 @@ public class Gui_visualization extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+
+    private void highlightGraph(int src, int dest) {
+           
+
+        
+        
+        HighlightPath_Thread highlightThread = new HighlightPath_Thread(g,  src, dest);
+        highlightThread.action();
+                  
+        
+
+
+    }
 }
