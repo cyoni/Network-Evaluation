@@ -21,7 +21,7 @@ public class FW implements Serializable{
 	private int infinity = Integer.MAX_VALUE;
 	private double mat[][];
 	private Graph g;
-    private  ArrayList<Node>[][] paths;
+        private  ArrayList<Node>[][] paths;
 
 	
 	public FW(Graph g) {
@@ -59,14 +59,12 @@ public class FW implements Serializable{
 
 		// update the mat with FW
 		startFW();
-		
-		printMat();
-
-		
+		printMat();	
 	}
 	
-
-
+        public ArrayList<Node>[][] getPaths(){
+            return paths;
+        }
 
 	private void printMat() {
 		for (int i = 0; i < mat.length; i++) {

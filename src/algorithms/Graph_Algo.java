@@ -9,6 +9,7 @@ import graph.Graph;
 import graph.Node;
 import graph.Edge;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -101,11 +102,45 @@ public class Graph_Algo implements graph_algorithms , Serializable{
 		
 		return q;
 	}
+        
+        /**
+         * This method returns the longest path. If there are a few longest paths with the same size it will return a list.
+         * @return list that is composed of queue.
+         */
+       	public List<Queue> longestPath() {
+            List<Queue> q = new  ArrayList<>();
+            ArrayList<Node>[][] paths = fw.getPaths();
+            int max = -1;
+            for (int i=0; i < paths.length; i++){
+                for (int j=0; j < paths.length; j++){
+                if (max < paths[i][j].size()) max = paths[i][j].size();                
+                }
+            }
+            for (int i=0; i < paths.length; i++){
+                for (int j=0; j < paths.length; j++){
+                  if (max == paths[i][j].size()) q.add(strToQueue(paths[i][j]));
+                }
+            }
+
+            return q;
+        }
+        
+        
+
 
 	@Override
 	public List<Node> TSP(List<Integer> targets) {
 		return fw.getShortestPathWithTarget(targets);
 	}
+
+    private Queue strToQueue(ArrayList<Node> list) {
+        Queue<Node> q = new LinkedList<>();
+        for (Node curr : list){
+            q.add(curr);
+        }
+        
+        return q;
+    }
 
 
 	

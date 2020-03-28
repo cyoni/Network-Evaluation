@@ -26,7 +26,11 @@ import utils.User_Dialog;
  * @author Yoni
  */
 public class Gui_visualization extends javax.swing.JFrame {
-Graph g;
+    Graph g;
+    static Color[] colors = {Color.YELLOW, Color.BLUE, Color.GREEN, Color.GRAY, Color.ORANGE, Color.PINK, Color.MAGENTA, Color.cyan};
+    static int color_index = 0;
+    
+    private Graph_Algo graphAlgo;
     /**
      * Creates new form Gui_visualization
      */
@@ -50,16 +54,10 @@ Graph g;
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -72,18 +70,27 @@ Graph g;
             }
         });
 
-        jButton2.setText("Draw/Erase");
+        jButton2.setText("Draw Graph");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Save picture");
+        jButton3.setText("Clean Graph");
+        jButton3.setToolTipText("");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Shortest Path");
-
-        jButton5.setText("Longest Path");
+        jButton4.setText("Longest Path");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Filter by Groups");
 
@@ -93,49 +100,30 @@ Graph g;
 
         jButton9.setText(".");
 
-        jButton10.setText(".");
-
-        jButton11.setText(".");
-
-        jButton12.setText(".");
-
-        jButton13.setText(".");
-
-        jButton14.setText(".");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jButton12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(742, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
@@ -144,8 +132,6 @@ Graph g;
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton7)
@@ -153,26 +139,19 @@ Graph g;
                 .addComponent(jButton8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton12)
-                .addGap(11, 11, 11)
-                .addComponent(jButton11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton14))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         StdDraw.setCanvasSize(700, 500);
-         StdDraw.setXscale(0, 100);
-         StdDraw.setYscale(0, 100);
-         
+    public static Color changeColor(){
+        color_index= (color_index+1)%colors.length;
+        return colors[color_index];
+    }
+    
+    public void constructGraph(){
+                 
          
         
         Node x = new Node_metadata(0, new  Point2D(10, 20));
@@ -210,36 +189,37 @@ Graph g;
         g.connect(7, 8, 50);
         g.connect(9, 3, 50);
         
+         graphAlgo = new Graph_Algo(g);
         
         
-        StdDraw.clear();
-   
-            List<Edge> currentEdge = new ArrayList<>();
-             currentEdge = g.getEdges();
-            
-             
-             
-                for (int j=0; j<currentEdge.size(); j++){
-                    int src = currentEdge.get(j).getSrc();
-                    int dest = currentEdge.get(j).getDest();
-                    
-                    StdDraw.setPenRadius(0.005);
-                    StdDraw.setPenColor(Color.yellow);
-                    StdDraw.point(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y());
-                    StdDraw.point(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
-                    StdDraw.setPenColor(Color.black);
-                    StdDraw.setPenRadius(0.007);
-                    StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
-                    
-                    StdDraw.setPenColor(StdDraw.ORANGE);
-                   
-                    StdDraw.text(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y()+2, g.getNode(src).getKey()+"");
-                    StdDraw.text(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y()+2, g.getNode(dest).getKey()+"");
-                }
-        
+    }
     
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+         StdDraw.setCanvasSize(700, 500);
+         StdDraw.setXscale(0, 100);
+         StdDraw.setYscale(0, 100);
 
-
+         constructGraph();
+         StdDraw.clear();
+         
+         List<Edge> currentEdge = new ArrayList<>();
+         currentEdge = g.getEdges();
+                         
+            for (int j=0; j<currentEdge.size(); j++){
+                int src = currentEdge.get(j).getSrc();
+                int dest = currentEdge.get(j).getDest();
+                    
+                StdDraw.setPenRadius(0.005);
+                StdDraw.setPenColor(Color.yellow);
+                StdDraw.point(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y());
+                StdDraw.point(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
+                StdDraw.setPenColor(Color.black);
+                StdDraw.setPenRadius(0.007);
+                StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
+                StdDraw.setPenColor(StdDraw.ORANGE);
+                StdDraw.text(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y()+2, g.getNode(src).getKey()+"");
+                StdDraw.text(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y()+2, g.getNode(dest).getKey()+"");
+                }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -249,9 +229,31 @@ Graph g;
         int src = Integer.parseInt(x);
         int dest = Integer.parseInt(y);
         
-        highlightGraph(src, dest);
+        String ask = User_Dialog.getInputDialog("Animation mode? 1=yes, 0=no");
+
+        HighlightPath_Thread highlightThread = new HighlightPath_Thread(g,  src, dest,  (ask.equals("1")));
+        highlightThread.action();
+
+    
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        StdDraw.clear();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        boolean animation = false;
+        List<Queue> q = graphAlgo.longestPath();
+        if (q.size() > 0){
+            animation = (User_Dialog.getInputDialog("Found " + q.size() +" paths. Apply animation mode? [1=yes, 0=no]")
+                     .equals("1")) ? true : false;
+        
+            HighlightPath_Thread highlightThread = new HighlightPath_Thread(g, q, animation);
+            highlightThread.action();
+        }
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -290,15 +292,9 @@ Graph g;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -306,16 +302,5 @@ Graph g;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 
-    private void highlightGraph(int src, int dest) {
-           
-
-        
-        
-        HighlightPath_Thread highlightThread = new HighlightPath_Thread(g,  src, dest);
-        highlightThread.action();
-                  
-        
-
-
-    }
+  
 }
