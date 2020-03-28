@@ -29,6 +29,7 @@ public class Gui_visualization extends javax.swing.JFrame {
     Graph g;
     static Color[] colors = {Color.YELLOW, Color.BLUE, Color.GREEN, Color.GRAY, Color.ORANGE, Color.PINK, Color.MAGENTA, Color.cyan};
     static int color_index = 0;
+    HighlightPath_Thread highlightThread;
     
     private Graph_Algo graphAlgo;
     /**
@@ -92,13 +93,18 @@ public class Gui_visualization extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setText("Filter by Groups");
+        jButton6.setText(".");
 
         jButton7.setText(".");
 
         jButton8.setText(".");
 
-        jButton9.setText(".");
+        jButton9.setText("Pause/Resume");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -113,10 +119,10 @@ public class Gui_visualization extends javax.swing.JFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -231,7 +237,7 @@ public class Gui_visualization extends javax.swing.JFrame {
         
         String ask = User_Dialog.getInputDialog("Animation mode? 1=yes, 0=no");
 
-        HighlightPath_Thread highlightThread = new HighlightPath_Thread(g,  src, dest,  (ask.equals("1")));
+        highlightThread = new HighlightPath_Thread(g,  src, dest,  (ask.equals("1")));
         highlightThread.action();
 
     
@@ -246,14 +252,21 @@ public class Gui_visualization extends javax.swing.JFrame {
         boolean animation = false;
         List<Queue> q = graphAlgo.longestPath();
         if (q.size() > 0){
-            animation = (User_Dialog.getInputDialog("Found " + q.size() +" paths. Apply animation mode? [1=yes, 0=no]")
+            animation = (User_Dialog.getInputDialog("Found " + q.size() +" path/s. Apply animation mode? [1=yes, 0=no]")
                      .equals("1")) ? true : false;
         
-            HighlightPath_Thread highlightThread = new HighlightPath_Thread(g, q, animation);
+            highlightThread = new HighlightPath_Thread(g, q, animation);
             highlightThread.action();
         }
         
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+
+    if (highlightThread == null) return;
+    else 
+        highlightThread.pauseOrResume(); 
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * @param args the command line arguments

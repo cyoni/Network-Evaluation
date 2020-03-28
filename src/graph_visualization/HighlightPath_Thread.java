@@ -26,6 +26,8 @@ public class HighlightPath_Thread extends Thread{
     private int src=-1, dest;
     private boolean animation;
     private List<Queue> list_of_queues;
+    private boolean pause = false;
+    
     public HighlightPath_Thread(Graph g, int src, int dest, boolean animation){
         this.g = g;
         this.animation = animation;
@@ -43,6 +45,7 @@ public class HighlightPath_Thread extends Thread{
     }
     
     public void action(){
+        pause = false;
         this.start();
     }
     
@@ -106,7 +109,8 @@ public class HighlightPath_Thread extends Thread{
         
         if (animation){
         int percent = -1;
-        while (percent != 100){
+        
+        while (percent != 100 && !pause){
             try {  
                 sleep(10);
             } catch (InterruptedException ex) {
@@ -119,10 +123,12 @@ public class HighlightPath_Thread extends Thread{
         else{
            StdDraw.line(p1.x(), p1.y(), p2.x(), p2.y());
         }
-
         src = dest;
     }
-    
-    
-    
+
+    // not working yet
+  public void pauseOrResume() {
+      if (pause) pause=false;
+      else pause=true;
+    }    
 }

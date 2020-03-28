@@ -34,10 +34,10 @@
                   <Component id="jButton1" alignment="1" max="32767" attributes="0"/>
                   <Component id="jButton3" alignment="1" max="32767" attributes="0"/>
                   <Component id="jButton4" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jButton6" alignment="1" pref="237" max="32767" attributes="0"/>
+                  <Component id="jButton6" alignment="1" max="32767" attributes="0"/>
                   <Component id="jButton7" alignment="1" max="32767" attributes="0"/>
                   <Component id="jButton8" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jButton9" alignment="1" max="32767" attributes="0"/>
+                  <Component id="jButton9" alignment="1" pref="237" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -107,7 +107,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton6">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Filter by Groups"/>
+        <Property name="text" type="java.lang.String" value="."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButton7">
@@ -122,8 +122,11 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton9">
       <Properties>
-        <Property name="text" type="java.lang.String" value="."/>
+        <Property name="text" type="java.lang.String" value="Pause/Resume"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton9ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

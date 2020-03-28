@@ -121,7 +121,19 @@ public class Graph_Algo implements graph_algorithms , Serializable{
                   if (max == paths[i][j].size()) q.add(strToQueue(paths[i][j]));
                 }
             }
-
+            
+            // remove duplicates:
+            for (int i=0; i<q.size(); i++){
+                boolean flag = true;
+                for (int j=0; j<q.get(i).size() && flag; j++){
+                    if ( i!=j && q.get(i).size()!=q.get(j).size()) continue;
+                    Queue<Node> _q1 = q.get(i);
+                    Queue<Node> _q2 = q.get(j);
+                    List<Node> list1 = new ArrayList<>(_q1);
+                    List<Node> list2 = new ArrayList<>(_q2);
+                    if (list1.get(0).getKey() == list2.get(list2.size()-1).getKey()) {q.remove(i); flag=false;}
+                }
+            }
             return q;
         }
         
