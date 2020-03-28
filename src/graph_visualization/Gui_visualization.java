@@ -7,6 +7,7 @@ package graph_visualization;
 
 import algorithms.Graph_Algo;
 import algorithms.graph_algorithms;
+import algorithms.line;
 import graph.DGraph;
 import graph.Edge;
 import graph.Graph;
@@ -160,9 +161,9 @@ public class Gui_visualization extends javax.swing.JFrame {
                  
          
         
-        Node x = new Node_metadata(0, new  Point2D(10, 20));
-        Node x2 = new Node_metadata(1, new Point2D(30, 20));
-        Node x3 = new Node_metadata(2, new Point2D(40, 20));
+        Node x = new Node_metadata(0, new  Point2D(10, 50));
+        Node x2 = new Node_metadata(1, new Point2D(50, 50));
+        Node x3 = new Node_metadata(2, new Point2D(10, 20));
         Node x4 = new Node_metadata(3, new Point2D(50, 20));    
         Node x5 = new Node_metadata(4, new Point2D(60, 50));    
         Node x6 = new Node_metadata(5, new Point2D(50, 40));    
@@ -176,24 +177,25 @@ public class Gui_visualization extends javax.swing.JFrame {
         g.addNode(x2);
         g.addNode(x3);
         g.addNode(x4);
-        g.addNode(x5);
+     /*   g.addNode(x5);
         g.addNode(x6);
         g.addNode(x7);
         g.addNode(x8);
         g.addNode(x9);
         g.addNode(x10);
- 
+ */
         
         g.connect(0, 1, 50);
-        g.connect(1, 2, 50);
+        g.connect(1, 3, 50);
         g.connect(2, 3, 50);
-        g.connect(3, 4, 50);
-        g.connect(4, 5, 50);
+        g.connect(2, 0, 50);
+        
+     /*   g.connect(4, 5, 50);
         g.connect(5, 1, 50);
         g.connect(6, 5, 50);
         g.connect(6, 7, 50);
         g.connect(7, 8, 50);
-        g.connect(9, 3, 50);
+        g.connect(9, 3, 50);*/
         
          graphAlgo = new Graph_Algo(g);
         
@@ -222,9 +224,15 @@ public class Gui_visualization extends javax.swing.JFrame {
                 StdDraw.setPenColor(Color.black);
                 StdDraw.setPenRadius(0.007);
                 StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
+                
+                StdDraw.setPenColor(StdDraw.BLACK);
+                Point2D text_pos = line.getPointOnLine(new Point2D(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y()),
+                     new Point2D(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y()), 50);
+                StdDraw.text(text_pos.x()-1.5, text_pos.y()+1.5, g.getEdge(src, dest).getWeight() + "");
+                
                 StdDraw.setPenColor(StdDraw.ORANGE);
-                StdDraw.text(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y()+2, g.getNode(src).getKey()+"");
-                StdDraw.text(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y()+2, g.getNode(dest).getKey()+"");
+                StdDraw.text(g.getNode(src).getLocation().x()+1, g.getNode(src).getLocation().y()+1.5, g.getNode(src).getKey()+"");
+                StdDraw.text(g.getNode(dest).getLocation().x()+1, g.getNode(dest).getLocation().y()+1.5, g.getNode(dest).getKey()+"");
                 }
     }//GEN-LAST:event_jButton2ActionPerformed
 

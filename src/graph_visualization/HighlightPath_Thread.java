@@ -6,6 +6,7 @@
 package graph_visualization;
 
 import algorithms.Graph_Algo;
+import algorithms.line;
 import graph.Graph;
 import java.util.Queue;
 import java.util.logging.Level;
@@ -23,7 +24,7 @@ import utils.StdDraw;
  */
 public class HighlightPath_Thread extends Thread{
     private Graph g;
-    private int src=-1, dest;
+    private int src, dest;
     private boolean animation;
     private List<Queue> list_of_queues;
     private boolean pause = false;
@@ -49,23 +50,7 @@ public class HighlightPath_Thread extends Thread{
         this.start();
     }
     
-    
-    	/**
-	 * This function returns a point somewhere between a line
-	 * @return vector
-	 **/
-	public static Point2D getPointOnLine(Point2D p1, Point2D p2, int percent) {
-		double x1 = p1.x(), y1 = p1.y();
-		double x2 = p2.x(), y2 = p2.y();
-			
-		double v[] = {x2-x1, y2-y1};
-		double length = Math.sqrt(v[0]*v[0]+v[1]*v[1]);
-		double u[] = {1/length*v[0], 1/length*v[1]}; // normalized vector
-		double distance = Math.sqrt(Math.pow((x2-x1), 2) + Math.pow(y2-y1, 2));
-		double x = x1 + u[0] * distance*((double)percent/100); 
-		double y = y1 + u[1] * distance*((double)percent/100);
-		return new Point2D(x,y);
-	}
+
         
         private Point2D getPoint(int x){
             return new Point2D(g.getNode(x).getLocation().x(), g.getNode(x).getLocation().y());
@@ -74,7 +59,8 @@ public class HighlightPath_Thread extends Thread{
     public void run(){
  
             Queue<Node> q = new LinkedList<>();
-            for (int _i=0; _i<list_of_queues.size(); _i++){        
+            for (int _i=0; _i<list_of_queues.size(); _i++){    
+                src = -1;
                 StdDraw.setPenRadius(0.01);
                 StdDraw.setPenColor(Gui_visualization.changeColor());
                 q = list_of_queues.get(_i);
@@ -83,6 +69,8 @@ public class HighlightPath_Thread extends Thread{
                   int d = tmp.getKey();
                   System.out.print(d + "->");
                 }
+                System.out.println();
+                        
                 while(!q.isEmpty()){
 
                     if (!animation){
@@ -116,7 +104,7 @@ public class HighlightPath_Thread extends Thread{
             } catch (InterruptedException ex) {
                 Logger.getLogger(HighlightPath_Thread.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Point2D tmp = getPointOnLine(p1, p2, ++percent);
+            Point2D tmp = line.getPointOnLine(p1, p2, ++percent);
             StdDraw.point(tmp.x(), tmp.y());
             }
         }
