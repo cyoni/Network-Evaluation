@@ -43,24 +43,29 @@ public class ConstructGraph {
     // read db and add to graph the members
     private void addMembers () {
         try {
-            ResultSet rs = statment.executeQuery("SELECT [person_id], [friends] FROM [T_Members]");
-            int key = 0;
+            // add nodes of members
+            ResultSet rs = statment.executeQuery("SELECT T_Members.person_id, T_Persons.name, T_Members.friends FROM T_Members INNER JOIN T_Persons ON T_Members.person_id = T_Persons.person_id;");
                     while ( rs.next()) {
-                        key++;
-                       String name = rs.getString("person_id");
+                       String name = rs.getString("name");
+                       int key = rs.getInt("person_id");
                        int friends = rs.getInt("friends");
                        
                         Member m = new Member(name, friends,key , randomPoint ());
                         graph.addNode(m);
-
                     }
+            ResultSet rs1 = statment.executeQuery("SELECT * FROM [T_Friends]");
+            while ( rs1.next()) {
+                int keySrc = rs1.getInt("person_id");
+                int keyDest = rs1.getInt("friend_id");
+                graph.connect(keySrc, keyDest, 1);
+                                }
+ 
 
         } catch (SQLException ex) {
             Logger.getLogger(ConstructGraph.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-
     }
+    
     
     // get random point in range of the bord
     private Point2D randomPoint () {

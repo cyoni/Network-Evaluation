@@ -218,14 +218,33 @@ public class Gui_visualization extends javax.swing.JFrame {
         StdDraw.setXscale(0, 700);
         StdDraw.setYscale(0, 500);
          
+        //  Construct graph
          ConstructGraph c = new ConstructGraph(acc, 700, 500);
          g= c.getGraph();
          StdDraw.clear();
          
-         List<Node> currentNode = new ArrayList<>();
-         Node n = g.getNode(1);
+         
+         // draw all nodes 
+         List<Node> graphtNode =  new ArrayList<> (g.getV());
+         for ( Node n: graphtNode) {
+            StdDraw.setPenRadius(0.01);
+            StdDraw.setPenColor(Color.red);
+            StdDraw.point(n.getLocation().x(), n.getLocation().y());
+            }
+         
+         
+         // draw all edges
+            List<Edge> graphEdge = new ArrayList<>();
+            graphEdge = g.getEdges();
+                for (int j=0; j<graphEdge.size(); j++){
+                int src = graphEdge.get(j).getSrc();
+                int dest = graphEdge.get(j).getDest();
+                    
+                StdDraw.setPenColor(Color.black);
+                StdDraw.setPenRadius(0.007);
+                StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
+                }
         
-        // draw 
          
 //
 //         constructGraph();
@@ -244,7 +263,7 @@ public class Gui_visualization extends javax.swing.JFrame {
 //                StdDraw.point(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
 //                StdDraw.setPenColor(Color.black);
 //                StdDraw.setPenRadius(0.007);
-//                StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
+ //               StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
 //                
 //                StdDraw.setPenColor(StdDraw.BLACK);
 //                Point2D text_pos = line.getPointOnLine(new Point2D(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y()),
