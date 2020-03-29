@@ -5,6 +5,7 @@
  */
 package algorithms;
 
+import DB_Connection.AccesConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,19 +23,15 @@ import org.apache.commons.lang3.time.DateUtils;
  */
 public class NetCalculations {
     
-   private String dbPath;
    Connection conn;
    Statement statment ;
 
    
-   public NetCalculations ( String path ) {
-       this.dbPath = path;
-       try {
-           this.conn= DriverManager.getConnection("jdbc:ucanaccess://"+dbPath);
-           this.statment = conn.createStatement();
-       } catch (SQLException ex) {
-           Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
-       }
+   public NetCalculations ( AccesConnection acc ) {
+       
+       conn= acc.getConn();
+       statment = acc.getStatment();
+       
    }
    
    /**

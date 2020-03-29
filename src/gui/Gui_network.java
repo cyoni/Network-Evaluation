@@ -6,6 +6,7 @@
 package gui;
 
 
+import DB_Connection.AccesConnection;
 import graph_visualization.Gui_visualization;
 import graph_chart.Gui_graph_chart;
 import DB_Connection.database;
@@ -42,6 +43,7 @@ import utils.User_Dialog;
 public class Gui_network extends javax.swing.JFrame {
     
     private JMenuItem m1, m2, m9, m3, m7, m8, m6;
+    AccesConnection acc;
     NetworkData net;
     private user User;
     
@@ -153,7 +155,7 @@ public class Gui_network extends javax.swing.JFrame {
                     
             
             m6.addActionListener((ActionEvent e) -> {// add/change permissions
-            Gui_visualization g = new Gui_visualization();
+            Gui_visualization g = new Gui_visualization(acc);
             g.setVisible(true);   
             });
                     
@@ -198,7 +200,8 @@ public class Gui_network extends javax.swing.JFrame {
             if (rVal == JFileChooser.APPROVE_OPTION) { // click open file 
                 
             String diraction = fileChooser.getCurrentDirectory().toString()+"\\"+fileChooser.getSelectedFile().getName();
-            NetCalculations cal = new NetCalculations(diraction);
+            acc = new AccesConnection(diraction);
+            NetCalculations cal = new NetCalculations(acc);
             net = new NetworkData (cal);
             
             // set all the number field of the network
