@@ -49,8 +49,11 @@ public class Graph_Algo implements graph_algorithms , Serializable{
 		boolean[] visited = new boolean[g.nodeSize()]; 
 		int parent[] = new int[g.nodeSize()];
 		LinkedList<Node> queue = new LinkedList<>();
-		Node[] nodesArray = nodes.toArray(size -> new Node[size]); 	//	node_data[] nodesArray = nodes.toArray(node_data[]::new);
-		Node current = nodesArray[0];
+                Node[] nodesArray =  new Node[queue.size()]; //nodes.toArray(Node[]::new);
+                int i=0;
+                for (Node tmp : queue){
+                    nodesArray[i++] = tmp;
+                }		Node current = nodesArray[0];
 		
 		// Mark the current node as visited and enqueue it 
 			visited[current.getKey()]=true; 

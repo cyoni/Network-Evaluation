@@ -31,7 +31,7 @@ public class evaluation {
         myWriter = new FileWriter("filename.txt");
         write("Started process");   
         
-        network.num_pages1.getText();
+       // network.num_pages1.getText();
         
         
         write("The process is complete");   
