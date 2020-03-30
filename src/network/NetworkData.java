@@ -47,6 +47,7 @@ public class NetworkData {
     
     //Ads
     private int activeAds;
+    private double avgAds;
     private double newAds;
     private double netProfit;
 
@@ -89,6 +90,7 @@ public class NetworkData {
     
          //Ads
          activeAds= c.CalActiveAds();
+         avgAds = c.CalAvgAds();
          newAds= c.CalNewAds();
          netProfit= c.CalSumOfAdsProfit();
          
@@ -196,6 +198,10 @@ public class NetworkData {
 
     public double getNetProfit() {
         return netProfit;
+    }
+
+    public double getAvgAds() {
+        return avgAds;
     }
     
     

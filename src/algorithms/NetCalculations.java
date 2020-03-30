@@ -5,13 +5,17 @@
  */
 package algorithms;
 
+import DB_Connection.AccesConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang3.time.DateUtils;
 
 /**
  *
@@ -19,19 +23,15 @@ import java.util.logging.Logger;
  */
 public class NetCalculations {
     
-   private String dbPath;
    Connection conn;
    Statement statment ;
 
    
-   public NetCalculations ( String path ) {
-       this.dbPath = path;
-       try {
-           this.conn= DriverManager.getConnection("jdbc:ucanaccess://"+dbPath);
-           this.statment = conn.createStatement();
-       } catch (SQLException ex) {
-           Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
-       }
+   public NetCalculations ( AccesConnection acc ) {
+       
+       conn= acc.getConn();
+       statment = acc.getStatment();
+       
    }
    
    /**
@@ -48,6 +48,11 @@ public class NetCalculations {
    }
    
   
+   /**
+    * This method calculate the number of groups in the network
+    * @return
+    * @throws SQLException 
+    */
    
    public int CalNumOfGroups () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Count(*) AS [Groups] FROM [T_Groups]");
@@ -57,6 +62,11 @@ public class NetCalculations {
              return 0;
    }
    
+   /**
+    * This method calculate the number of Advertisers in the network
+    * @return
+    * @throws SQLException 
+    */
    public int CalNumOfAdvertisers () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Count(*) AS [Advertisers] FROM [T_Advertisers]");
          if(rs.next())
@@ -65,6 +75,11 @@ public class NetCalculations {
              return 0;
    }
    
+   /**
+    * This method calculate the number of advertisements in the network
+    * @return
+    * @throws SQLException 
+    */
    public int CalNumOfAds () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Count(*) AS [ads] FROM [T_advertisements]");
          if(rs.next())
@@ -86,6 +101,11 @@ public class NetCalculations {
              return 0;
    }
     
+    /**
+    * This method calculate the number of employees in the network
+    * @return
+    * @throws SQLException 
+    */
      public int CalNumOfEmployees () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Count(*) AS [employees] FROM [T_Employees]");
          if(rs.next())
@@ -94,6 +114,11 @@ public class NetCalculations {
              return 0;
    }
      
+     /**
+    * This method calculate the sum of salaries in the network
+    * @return
+    * @throws SQLException 
+    */
      public double CalSumOfSalaries () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT sum(salary) AS [salaries] FROM [T_Employees]");
          if(rs.next())
@@ -128,7 +153,11 @@ public class NetCalculations {
              return 0;
    }
    
-   
+   /**
+    * This method calculate the number of active members in the network
+    * @return
+    * @throws SQLException 
+    */
    public int CalActiveMembers () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Count (*) AS [active_members] FROM [T_Members] WHERE ((active)=Yes);");
          if(rs.next())
@@ -137,6 +166,12 @@ public class NetCalculations {
              return 0;
    } 
    
+   /**
+    * This method calculate the number of active advertisements a in the network
+    * @return
+    * @throws SQLException 
+    */
+   
    public int CalActiveAds () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Count (*) AS [active_ads] FROM [T_Advertisements] WHERE ((active)=Yes);");
          if(rs.next())
@@ -144,7 +179,11 @@ public class NetCalculations {
          else
              return 0;
    } 
-   
+   /**
+    * This method calculate the avg of time use per day a in the network
+    * @return
+    * @throws SQLException 
+    */
    public double CalAvgTime () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Avg (time_spent) AS [avg_time] FROM [T_Members];");
          if(rs.next())
@@ -152,6 +191,12 @@ public class NetCalculations {
          else
              return 0;
    } 
+   
+    /**
+    * This method calculate the avg of friends in the network
+    * @return
+    * @throws SQLException 
+    */
    
    public double CalAvgFriends () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Avg (friends) AS [avg_friends] FROM [T_Members];");
@@ -162,7 +207,11 @@ public class NetCalculations {
    } 
    
  
-
+ /**
+    * This method calculate the avg of view  per post a in the network
+    * @return
+    * @throws SQLException 
+    */
     public double CalAvgViews () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Avg (countOfDay) AS [avg_views] "
                 + "FROM( SELECT Count(view_id) AS [countOfDay], view_date FROM [T_Views] GROUP BY view_date);");
@@ -171,6 +220,11 @@ public class NetCalculations {
          else
              return 0;
    }
+    /**
+    * This method calculate the avg of like per post a in the network
+    * @return
+    * @throws SQLException 
+    */
     
      public double CalAvgLikes () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Avg (countOfDay) AS [avg_likes] "
@@ -181,6 +235,11 @@ public class NetCalculations {
              return 0;
    }
      
+      /**
+    * This method calculate the avg of share per post a in the network
+    * @return
+    * @throws SQLException 
+    */
       public double CalAvgShares () throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Avg (countOfDay) AS [avg_shares] "
                 + "FROM( SELECT Count(share_id) AS [countOfDay], share_date FROM [T_Shares] GROUP BY share_date);");
@@ -190,6 +249,11 @@ public class NetCalculations {
              return 0;
    } 
   
+       /**
+    * This method calculate the avg of posts a in the network
+    * @return
+    * @throws SQLException 
+    */
 
 public double CalAvgPosts () throws SQLException {
         ResultSet rs = statment.executeQuery(" SELECT  Avg (countOfDay) AS [avg_posts] FROM "
@@ -201,6 +265,11 @@ public double CalAvgPosts () throws SQLException {
              return 0;
    } 
 
+ /**
+    * This method calculate the total expenses of the network
+    * @return
+    * @throws SQLException 
+    */
 public double CalTotalExpenses() throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT [total] FROM [T_Expenses];");
          if(rs.next())
@@ -209,8 +278,11 @@ public double CalTotalExpenses() throws SQLException {
              return 0;
    }
 
-// traffic for day
-public double CalAvgTraffic() throws SQLException {
+/**
+    * This method calculate the avg  traffic per day of the network
+    * @return
+    * @throws SQLException 
+    */public double CalAvgTraffic() throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Avg (traffic_diversity) AS [avg_traffic] FROM [T_Traffic];");
          if(rs.next())
             return rs.getInt("avg_traffic");
@@ -218,6 +290,11 @@ public double CalAvgTraffic() throws SQLException {
              return 0;
    }
 
+    /**
+    * This method calculate the total traffic in the network
+    * @return
+    * @throws SQLException 
+    */
 public double CalTotalTraffic() throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Sum (traffic_diversity) AS [sum_traffic] FROM [T_Traffic];");
          if(rs.next())
@@ -226,12 +303,26 @@ public double CalTotalTraffic() throws SQLException {
              return 0;
    }
 
+/**
+    * This method calculate new Ads in the network
+    * @return
+    * @throws SQLException 
+    */
 public double CalNewAds() throws SQLException {
           ResultSet rs = statment.executeQuery("SELECT Avg (ads_m) AS [avg_ads] FROM (SELECT Count(person_id) AS [ads_m], Format([join_date],\"mm\") AS [new_ads] FROM [T_Advertisers] GROUP BY Format([join_date],\"mm\"));");
          if(rs.next())
             return rs.getInt("avg_ads");
          else
              return 0;
+   }
+
+public double CalAvgAds() throws SQLException {
+    ResultSet rs = statment.executeQuery("SELECT Avg (month) AS [avg_ads] FROM [T_AdsByMonth];");
+         if(rs.next())
+            return rs.getDouble("avg_ads");
+         else
+             return 0;
+    
    }
 
 public double CalSumOfAdsProfit () throws SQLException {
@@ -241,10 +332,6 @@ public double CalSumOfAdsProfit () throws SQLException {
          else
              return 0;
    }
-
-//public double CalAvgAds() throws SQLException {
-//        
-//   }
 
    
 }

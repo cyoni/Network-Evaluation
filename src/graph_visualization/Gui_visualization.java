@@ -5,6 +5,8 @@
  */
 package graph_visualization;
 
+import DB_Connection.AccesConnection;
+import algorithms.ConstructGraph;
 import algorithms.Graph_Algo;
 import algorithms.graph_algorithms;
 import algorithms.line;
@@ -28,6 +30,7 @@ import utils.User_Dialog;
  */
 public class Gui_visualization extends javax.swing.JFrame {
     Graph g;
+    AccesConnection acc;
     static Color[] colors = {Color.YELLOW, Color.BLUE, Color.GREEN, Color.GRAY, Color.ORANGE, Color.PINK, Color.MAGENTA, Color.cyan};
     static int color_index = 0;
     HighlightPath_Thread highlightThread;
@@ -39,9 +42,14 @@ public class Gui_visualization extends javax.swing.JFrame {
     public Gui_visualization() {
         initComponents();
          setLocationRelativeTo(null);
-          g = new DGraph();
     }
 
+    public Gui_visualization(AccesConnection a) {
+        initComponents();
+        setLocationRelativeTo(null);
+        acc =a;
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -160,80 +168,112 @@ public class Gui_visualization extends javax.swing.JFrame {
     public void constructGraph(){
                  
          
-        
-        Node x = new Node_metadata(0, new  Point2D(10, 50));
-        Node x2 = new Node_metadata(1, new Point2D(50, 50));
-        Node x3 = new Node_metadata(2, new Point2D(10, 20));
-        Node x4 = new Node_metadata(3, new Point2D(50, 20));    
-        Node x5 = new Node_metadata(4, new Point2D(60, 50));    
-        Node x6 = new Node_metadata(5, new Point2D(50, 40));    
-        Node x7 = new Node_metadata(6, new Point2D(40, 30));    
-        Node x8 = new Node_metadata(7, new Point2D(40, 80));    
-        Node x9 = new Node_metadata(8, new Point2D(70, 76));    
-        Node x10 = new Node_metadata(9, new Point2D(75, 10));    
-
-        
-        g.addNode(x);
-        g.addNode(x2);
-        g.addNode(x3);
-        g.addNode(x4);
-     /*   g.addNode(x5);
-        g.addNode(x6);
-        g.addNode(x7);
-        g.addNode(x8);
-        g.addNode(x9);
-        g.addNode(x10);
- */
-        
-        g.connect(0, 1, 50);
-        g.connect(1, 3, 50);
-        g.connect(2, 3, 50);
-        g.connect(2, 0, 50);
-        
-     /*   g.connect(4, 5, 50);
-        g.connect(5, 1, 50);
-        g.connect(6, 5, 50);
-        g.connect(6, 7, 50);
-        g.connect(7, 8, 50);
-        g.connect(9, 3, 50);*/
-        
-         graphAlgo = new Graph_Algo(g);
+//        
+//        Node x = new Node_metadata(0, new  Point2D(10, 50));
+//        Node x2 = new Node_metadata(1, new Point2D(50, 50));
+//        Node x3 = new Node_metadata(2, new Point2D(10, 20));
+//        Node x4 = new Node_metadata(3, new Point2D(50, 20));    
+//        Node x5 = new Node_metadata(4, new Point2D(60, 50));    
+//        Node x6 = new Node_metadata(5, new Point2D(50, 40));    
+//        Node x7 = new Node_metadata(6, new Point2D(40, 30));    
+//        Node x8 = new Node_metadata(7, new Point2D(40, 80));    
+//        Node x9 = new Node_metadata(8, new Point2D(70, 76));    
+//        Node x10 = new Node_metadata(9, new Point2D(75, 10));    
+//
+//        
+//        g.addNode(x);
+//        g.addNode(x2);
+//        g.addNode(x3);
+//        g.addNode(x4);
+//     /*   g.addNode(x5);
+//        g.addNode(x6);
+//        g.addNode(x7);
+//        g.addNode(x8);
+//        g.addNode(x9);
+//        g.addNode(x10);
+// */
+//        
+//        g.connect(0, 1, 50);
+//        g.connect(1, 3, 50);
+//        g.connect(2, 3, 50);
+//        g.connect(2, 0, 50);
+//        
+//     /*   g.connect(4, 5, 50);
+//        g.connect(5, 1, 50);
+//        g.connect(6, 5, 50);
+//        g.connect(6, 7, 50);
+//        g.connect(7, 8, 50);
+//        g.connect(9, 3, 50);*/
+//        
+//         graphAlgo = new Graph_Algo(g);
         
         
     }
     
+    // draw graph
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         StdDraw.setCanvasSize(700, 500);
-         StdDraw.setXscale(0, 100);
-         StdDraw.setYscale(0, 100);
 
-         constructGraph();
+       
+        StdDraw.setCanvasSize(700, 500);
+        StdDraw.setXscale(0, 700);
+        StdDraw.setYscale(0, 500);
+         
+        //  Construct graph
+         ConstructGraph c = new ConstructGraph(acc, 700, 500);
+         g= c.getGraph();
          StdDraw.clear();
          
-         List<Edge> currentEdge = new ArrayList<>();
-         currentEdge = g.getEdges();
-                         
-            for (int j=0; j<currentEdge.size(); j++){
-                int src = currentEdge.get(j).getSrc();
-                int dest = currentEdge.get(j).getDest();
+         
+         // draw all nodes 
+         List<Node> graphtNode =  new ArrayList<> (g.getV());
+         for ( Node n: graphtNode) {
+            StdDraw.setPenRadius(0.03);
+            StdDraw.setPenColor(Color.red);
+            StdDraw.point(n.getLocation().x(), n.getLocation().y());
+            }
+         
+         
+         // draw all edges
+            List<Edge> graphEdge = new ArrayList<>();
+            graphEdge = g.getEdges();
+                for (int j=0; j<graphEdge.size(); j++){
+                int src = graphEdge.get(j).getSrc();
+                int dest = graphEdge.get(j).getDest();
                     
-                StdDraw.setPenRadius(0.005);
-                StdDraw.setPenColor(Color.yellow);
-                StdDraw.point(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y());
-                StdDraw.point(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
                 StdDraw.setPenColor(Color.black);
-                StdDraw.setPenRadius(0.007);
+                StdDraw.setPenRadius(0.005);
                 StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
-                
-                StdDraw.setPenColor(StdDraw.BLACK);
-                Point2D text_pos = line.getPointOnLine(new Point2D(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y()),
-                     new Point2D(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y()), 50);
-                StdDraw.text(text_pos.x()-1.5, text_pos.y()+1.5, g.getEdge(src, dest).getWeight() + "");
-                
-                StdDraw.setPenColor(StdDraw.ORANGE);
-                StdDraw.text(g.getNode(src).getLocation().x()+1, g.getNode(src).getLocation().y()+1.5, g.getNode(src).getKey()+"");
-                StdDraw.text(g.getNode(dest).getLocation().x()+1, g.getNode(dest).getLocation().y()+1.5, g.getNode(dest).getKey()+"");
                 }
+        
+         
+//
+//         constructGraph();
+//         StdDraw.clear();
+//         
+//         List<Edge> currentEdge = new ArrayList<>();
+//         currentEdge = g.getEdges();
+//                         
+//            for (int j=0; j<currentEdge.size(); j++){
+//                int src = currentEdge.get(j).getSrc();
+//                int dest = currentEdge.get(j).getDest();
+//                    
+//                StdDraw.setPenRadius(0.005);
+//                StdDraw.setPenColor(Color.yellow);
+//                StdDraw.point(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y());
+//                StdDraw.point(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
+//                StdDraw.setPenColor(Color.black);
+//                StdDraw.setPenRadius(0.007);
+ //               StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
+//                
+//                StdDraw.setPenColor(StdDraw.BLACK);
+//                Point2D text_pos = line.getPointOnLine(new Point2D(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y()),
+//                     new Point2D(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y()), 50);
+//                StdDraw.text(text_pos.x()-1.5, text_pos.y()+1.5, g.getEdge(src, dest).getWeight() + "");
+//                
+//                StdDraw.setPenColor(StdDraw.ORANGE);
+//                StdDraw.text(g.getNode(src).getLocation().x()+1, g.getNode(src).getLocation().y()+1.5, g.getNode(src).getKey()+"");
+//                StdDraw.text(g.getNode(dest).getLocation().x()+1, g.getNode(dest).getLocation().y()+1.5, g.getNode(dest).getKey()+"");
+//                }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

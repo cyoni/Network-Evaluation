@@ -39,7 +39,7 @@ public interface Edge {
 	 * Temporal data (aka color: e,g, white, gray, black) 
 	 * which can be used be algorithms 
 	 * @return
-	 */
+	 */ 
 	public int getTag();
 	/** 
 	 * Allow setting the "tag" value for temporal marking an edge - common 
