@@ -227,7 +227,7 @@ public class Gui_visualization extends javax.swing.JFrame {
          // draw all nodes 
          List<Node> graphtNode =  new ArrayList<> (g.getV());
          for ( Node n: graphtNode) {
-            StdDraw.setPenRadius(0.01);
+            StdDraw.setPenRadius(0.03);
             StdDraw.setPenColor(Color.red);
             StdDraw.point(n.getLocation().x(), n.getLocation().y());
             }
@@ -241,7 +241,7 @@ public class Gui_visualization extends javax.swing.JFrame {
                 int dest = graphEdge.get(j).getDest();
                     
                 StdDraw.setPenColor(Color.black);
-                StdDraw.setPenRadius(0.007);
+                StdDraw.setPenRadius(0.005);
                 StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
                 }
         
