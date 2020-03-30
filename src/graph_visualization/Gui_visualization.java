@@ -11,11 +11,9 @@ import algorithms.Graph_Algo;
 import algorithms.graph_algorithms;
 import algorithms.line;
 import graph.DGraph;
-import graph.Edge;
 import graph.Graph;
 import graph.Node;
-import graph.Node_metadata;
-import graph.edge_metadata;
+import graph.Edge;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +21,10 @@ import java.util.Queue;
 import utils.Point2D;
 import utils.StdDraw;
 import utils.User_Dialog;
+import graph.edge_metadata;
+import graph.node_metadata;
+import relationship.Friend;
+import relationship.Like;
 
 /**
  *
@@ -47,7 +49,7 @@ public class Gui_visualization extends javax.swing.JFrame {
     public Gui_visualization(AccesConnection a) {
         initComponents();
         setLocationRelativeTo(null);
-        acc =a;
+        acc = a;
         
     }
     /**
@@ -212,37 +214,47 @@ public class Gui_visualization extends javax.swing.JFrame {
     
     // draw graph
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-       
         StdDraw.setCanvasSize(700, 500);
         StdDraw.setXscale(0, 700);
         StdDraw.setYscale(0, 500);
          
         //  Construct graph
          ConstructGraph c = new ConstructGraph(acc, 700, 500);
-         g= c.getGraph();
+         g = c.getGraph();
          StdDraw.clear();
          
          
          // draw all nodes 
-         List<Node> graphtNode =  new ArrayList<> (g.getV());
-         for ( Node n: graphtNode) {
-            StdDraw.setPenRadius(0.03);
+         List<node_metadata> graphtNode =  new ArrayList<> (g.getV());
+         for (node_metadata n: graphtNode) {
+            StdDraw.setPenRadius(0.05);
             StdDraw.setPenColor(Color.red);
             StdDraw.point(n.getLocation().x(), n.getLocation().y());
             }
-         
-         
+
          // draw all edges
-            List<Edge> graphEdge = new ArrayList<>();
+            List<edge_metadata> graphEdge = new ArrayList<>();
             graphEdge = g.getEdges();
-                for (int j=0; j<graphEdge.size(); j++){
-                int src = graphEdge.get(j).getSrc();
-                int dest = graphEdge.get(j).getDest();
+                for (edge_metadata current_edge : graphEdge){
+                int src = current_edge.getSrc();
+                int dest = current_edge.getDest();
                     
-                StdDraw.setPenColor(Color.black);
-                StdDraw.setPenRadius(0.005);
-                StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
+                if (current_edge instanceof Friend) //set color
+                     StdDraw.setPenColor(Color.GREEN);
+                else if (current_edge instanceof Like) 
+                    StdDraw.setPenColor(Color.BLUE);
+                // .... else if...
+                
+                  // print the edges:
+                   StdDraw.setPenRadius(0.005);
+                   Point2D text_pos = line.getPointOnLine(new Point2D(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y()),
+                     new Point2D(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y()), 50);
+                     StdDraw.text(text_pos.x()-1.5, text_pos.y()+1.5, g.getEdge(src, dest).getTag()+ "");
+                     StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(),
+                            g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());  
+                StdDraw.setPenColor(StdDraw.BLACK);
+                StdDraw.text(g.getNode(src).getLocation().x()+1, g.getNode(src).getLocation().y()+1.5, g.getNode(src).getKey()+"");
+                StdDraw.text(g.getNode(dest).getLocation().x()+1, g.getNode(dest).getLocation().y()+1.5, g.getNode(dest).getKey()+"");
                 }
         
          

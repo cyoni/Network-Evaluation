@@ -5,18 +5,15 @@
  */
 package algorithms;
 
-import graph.Node;
 import java.util.List;
 import java.util.Queue;
+import graph.node_metadata;
 
 /**
  *
  * @author Yoni
  */
 public interface graph_algorithms {
-
-
-	
 
 	public void save(String file_name);
 
@@ -25,10 +22,10 @@ public interface graph_algorithms {
 	public double shortestPathDist(int src, int dest);
 
 	
-	public Queue<Node> shortestPath(int src, int dest);
+	public Queue<node_metadata> shortestPath(int src, int dest);
 
         
-	public List<Node> TSP(List<Integer> targets);
+	public List<node_metadata> TSP(List<Integer> targets);
 	
 	
 }

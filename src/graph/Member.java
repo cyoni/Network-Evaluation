@@ -11,7 +11,7 @@ import utils.Point2D;
  *
  * @author caron
  */
-public class Member extends Node_metadata {
+public class Member extends Node {
     
     private String name;
     private int friends;

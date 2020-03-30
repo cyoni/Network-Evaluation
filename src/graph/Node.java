@@ -5,46 +5,66 @@
  */
 package graph;
 
+import java.io.Serializable;
 import utils.Point2D;
 
-public interface Node {
-	/**
-	 * Return the key (id) associated with this node.
-	 * @return
-	 */
-	public int getKey();
-	/** Return the location (of applicable) of this node, if
-	 * none return null.
-	 * 
-	 * @return
-	 */
-	public Point2D getLocation();
-	/** Allows changing this node's location.
-	 * 
-	 * @param p - new new location  (position) of this node.
-	 */
-	public void setLocation(Point2D p);
+
+
+public class Node implements node_metadata, Serializable {
 
 	/**
-	 * return the remark (meta data) associated with this node.
-	 * @return
+	 * This class contains data of a node.
+	 * @author Yoni
 	 */
-	public String getInfo();
-	/**
-	 * Allows changing the remark (meta data) associated with this node.
-	 * @param s
-	 */
-	public void setInfo(String s);
-	/**
-	 * Temporal data (aka color: e,g, white, gray, black) 
-	 * which can be used be algorithms 
-	 * @return
-	 */
-	public int getTag();
-	/** 
-	 * Allow setting the "tag" value for temporal marking an node - common 
-	 * practice for marking by algorithms.
-	 * @param t - the new value of the tag
-	 */
-	public void setTag(int t);
+	
+	private static final long serialVersionUID = -5098381326948746081L;
+	private Point2D location;
+	private String info;
+	private int key;
+
+	
+	public Node(int key, Point2D location) {
+		this.location = location;
+		this.key = key;		
+	}
+	
+	@Override
+	public int getKey() {
+		return key;
+	}
+
+	@Override
+	public Point2D getLocation() {
+		return location;
+	}
+
+	@Override
+	public void setLocation(Point2D p) {
+		this.location = p;
+	}
+
+	@Override
+	public String getInfo() {
+		// TODO Auto-generated method stub
+		return info;
+	}
+
+	@Override
+	public void setInfo(String s) {
+		// TODO Auto-generated method stub
+		this.info = s;
+	}
+
+	@Override
+	public int getTag() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setTag(int t) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -21,7 +21,7 @@ public interface Graph {
 	 * @param key - the node_id
 	 * @return the node_data by the node_id, null if none.
 	 */
-	public Node getNode(int key);
+	public node_metadata getNode(int key);
 	/**
 	 * return the data of the edge (src,dest), null if none.
 	 * Note: this method should run in O(1) time.
@@ -29,28 +29,26 @@ public interface Graph {
 	 * @param dest
 	 * @return
 	 */
-	public Edge getEdge(int src, int dest);
+	public edge_metadata getEdge(int src, int dest);
 	/**
 	 * add a new node to the graph with the given node_data.
 	 * Note: this method should run in O(1) time.
 	 * @param n
 	 */
-	public void addNode(Node n);
+	public void addNode(node_metadata n);
         /**
          * Connect an edge with weight w between node src to node dest.
          * * Note: this method should run in O(1) time.
-         * @param src - the source of the edge.
-         * @param dest - the destination of the edge.
-         * @param w - positive weight representing the cost (aka time, price, etc) between src-->dest.
+         * @param edge - the edge with its values.
          */
-	public void connect(int src, int dest, double w);
+	public void connect(Edge edge);
 	/**
 	 * This method return a pointer (shallow copy) for the
 	 * collection representing all the nodes in the graph. 
 	 * Note: this method should run in O(1) time.
 	 * @return Collection<node_data>
 	 */
-	public Collection<Node> getV();
+	public Collection<node_metadata> getV();
 	/**
 	 * This method return a pointer (shallow copy) for the
 	 * collection representing all the edges getting out of 
@@ -58,7 +56,7 @@ public interface Graph {
 	 * Note: this method should run in O(1) time.
 	 * @return Collection<edge_data>
 	 */
-	public Collection<Edge> getE(int node_id);
+	public Collection<edge_metadata> getE(int node_id);
 	
 	/**
 	 * Delete the node (with the given ID) from the graph -
@@ -67,7 +65,7 @@ public interface Graph {
 	 * @return the data of the removed node (null if none). 
 	 * @param key
 	 */
-	public Node removeNode(int key);
+	public node_metadata removeNode(int key);
 	/**
 	 * Delete the edge from the graph, 
 	 * Note: this method should run in O(1) time.
@@ -75,7 +73,7 @@ public interface Graph {
 	 * @param dest
 	 * @return the data of the removed edge (null if none).
 	 */
-	public Edge removeEdge(int src, int dest);
+	public edge_metadata removeEdge(int src, int dest);
 	/** return the number of vertices (nodes) in the graph.
 	 * Note: this method should run in O(1) time. 
 	 * @return
@@ -87,16 +85,17 @@ public interface Graph {
 	 * @return
 	 */
 	public int edgeSize();
-	
-	
-/**
- * return the Mode Count - for testing changes in the graph.
- * @return
- */
+        /**
+         * returns the edges in the graph.
+         * @return 
+         */
+        public List<edge_metadata> getEdges();
+        /**
+         * return the Mode Count - for testing changes in the graph.
+         * @return
+         */
 	public int getMC();
-	
-	
-	public List<Edge> getEdges();
+		
 	
 	
 }

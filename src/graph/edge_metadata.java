@@ -4,63 +4,47 @@
  * and open the template in the editor.
  */
 package graph;
-
-
-import java.io.Serializable;
-
-public class edge_metadata implements Edge, Serializable {
-
+/**
+ * This interface represents the set of operations applicable on a 
+ * directional edge(src, dest) in a (directional) weighted graph.
+ * @author Yoni
+ *
+ */
+public interface edge_metadata {
 	/**
-	 * This class contains information about an edge.
+	 * The id of the source node of this edge.
+	 * @return
 	 */
-
-	private static final long serialVersionUID = 4269760787650059514L;
-	private double weight;
-	private int src, dest, tempData;
-	private String info;
-	
-	public edge_metadata(int x, int y, double weight) {
-		src = x;
-		dest = y;src = x;
-		this.weight = weight;
-	}
-	
-	@Override
-	public int getSrc() {
-		return src;
-	}
-
-	@Override
-	public int getDest() {
-		return dest;
-	}
-
-	@Override
-	public double getWeight() {
-		return weight;
-	}
-
-	@Override
-	public String getInfo() {
-		return info;
-	}
-
-	@Override
-	public void setInfo(String s) {
-		this.info = s;
-		
-	}
-
-	@Override
-	public int getTag() {
-		return tempData;
-	}
-
-	@Override
-	public void setTag(int t) {
-		this.tempData = t;
-	}
-
-
-
+	public int getSrc();
+	/**
+	 * The id of the destination node of this edge
+	 * @return
+	 */
+	public int getDest();
+	/**
+	 * @return the weight of this edge (positive value).
+	 */
+	public double getWeight();
+	/**
+	 * return the remark (meta data) associated with this edge.
+	 * @return
+	 */
+	public String getInfo();
+	/**
+	 * Allows changing the remark (meta data) associated with this edge.
+	 * @param s
+	 */
+	public void setInfo(String s);
+	/**
+	 * Temporal data (aka color: e,g, white, gray, black) 
+	 * which can be used be algorithms 
+	 * @return
+	 */
+	public String getTag();
+	/** 
+	 * Allow setting the "tag" value for temporal marking an edge - common 
+	 * practice for marking by algorithms.
+	 * @param t - the new value of the tag
+	 */
+	public void setTag(String t);
 }

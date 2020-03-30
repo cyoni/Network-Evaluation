@@ -4,47 +4,59 @@
  * and open the template in the editor.
  */
 package graph;
-/**
- * This interface represents the set of operations applicable on a 
- * directional edge(src, dest) in a (directional) weighted graph.
- * @author Yoni
- *
- */
-public interface Edge {
-	/**
-	 * The id of the source node of this edge.
-	 * @return
-	 */
-	public int getSrc();
-	/**
-	 * The id of the destination node of this edge
-	 * @return
-	 */
-	public int getDest();
-	/**
-	 * @return the weight of this edge (positive value).
-	 */
-	public double getWeight();
-	/**
-	 * return the remark (meta data) associated with this edge.
-	 * @return
-	 */
-	public String getInfo();
-	/**
-	 * Allows changing the remark (meta data) associated with this edge.
-	 * @param s
-	 */
-	public void setInfo(String s);
-	/**
-	 * Temporal data (aka color: e,g, white, gray, black) 
-	 * which can be used be algorithms 
-	 * @return
-	 */ 
-	public int getTag();
-	/** 
-	 * Allow setting the "tag" value for temporal marking an edge - common 
-	 * practice for marking by algorithms.
-	 * @param t - the new value of the tag
-	 */
-	public void setTag(int t);
+
+import java.io.Serializable;
+
+    /**
+    * This class represents an edge and its relevant values.
+    */
+
+public class Edge implements edge_metadata, Serializable {
+    
+	private static final long serialVersionUID = 4269760787650059514L;
+	private double weight;
+	private int src, dest;
+	private String info, tag;
+	
+	public Edge(int src, int dest, double weight) {
+            this.src = src;
+            this.dest = dest;
+            this.weight = weight;
+	}
+	
+	@Override
+	public int getSrc() {
+            return src;
+	}
+
+	@Override
+	public int getDest() {
+		return dest;
+	}
+
+	@Override
+	public double getWeight() {
+		return weight;
+	}
+
+	@Override
+	public String getInfo() {
+		return info;
+	}
+
+	@Override
+	public void setInfo(String s) {
+		this.info = s;
+		
+	}
+
+	@Override
+	public String getTag() {
+		return tag;
+	}
+
+	@Override
+	public void setTag(String t) {
+		this.tag = t;
+	}
 }

@@ -11,13 +11,13 @@ import graph.Graph;
 import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import graph.Node;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import utils.Point2D;
 import utils.StdDraw;
+import graph.node_metadata;
 /**
  *
  * @author Yoni
@@ -34,7 +34,7 @@ public class HighlightPath_Thread extends Thread{
         this.animation = animation;
         list_of_queues = new ArrayList<>();
         Graph_Algo ga = new Graph_Algo(g);
-        Queue<Node> q = ga.shortestPath(src, dest);
+        Queue<node_metadata> q = ga.shortestPath(src, dest);
         list_of_queues.add(q);
        
     }
@@ -58,14 +58,14 @@ public class HighlightPath_Thread extends Thread{
         
     public void run(){
  
-            Queue<Node> q = new LinkedList<>();
+            Queue<node_metadata> q = new LinkedList<>();
             for (int _i=0; _i<list_of_queues.size(); _i++){    
                 src = -1;
                 StdDraw.setPenRadius(0.01);
                 StdDraw.setPenColor(Gui_visualization.changeColor());
                 q = list_of_queues.get(_i);
                 System.out.println("Drawing path number " + (_i+1));
-                for ( Node tmp : q){
+                for ( node_metadata tmp : q){
                   int d = tmp.getKey();
                   System.out.print(d + "->");
                 }
@@ -85,7 +85,7 @@ public class HighlightPath_Thread extends Thread{
             System.out.println("Done.");
     }
 
-    private void draw(Queue<Node> q) {
+    private void draw(Queue<node_metadata> q) {
         if (src == -1)  src = q.poll().getKey();
         dest = q.poll().getKey();
 

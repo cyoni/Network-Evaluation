@@ -154,7 +154,7 @@ public class Gui_network extends javax.swing.JFrame {
             });
                     
             
-            m6.addActionListener((ActionEvent e) -> {// add/change permissions
+            m6.addActionListener((ActionEvent e) -> { // open graph visualization
             Gui_visualization g = new Gui_visualization(acc);
             g.setVisible(true);   
             });
@@ -205,11 +205,11 @@ public class Gui_network extends javax.swing.JFrame {
             net = new NetworkData (cal);
             
             // set all the number field of the network
-            setField ();
+            setField();
                
             }
             else { // click cancel 
-                System.out.println("You press cancel");
+                System.out.println("You pressed cancel");
             }
             });
             
@@ -270,11 +270,7 @@ public class Gui_network extends javax.swing.JFrame {
             avg_ads.setText(String.valueOf(net.getAvgAds()));
             new_ads.setText(String.valueOf(net.getNewAds()));
             net_profit.setText(String.valueOf(net.getNetProfit()));
-            
-              
-                    
-				
-				
+	
 			}
 		});
 		th.start();

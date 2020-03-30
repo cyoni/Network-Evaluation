@@ -7,6 +7,7 @@ package algorithms;
 
 import DB_Connection.AccesConnection;
 import graph.DGraph;
+import graph.Edge;
 import graph.Graph;
 import graph.Member;
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import relationship.Friend;
 import utils.Point2D;
 
 /**
@@ -22,26 +24,25 @@ import utils.Point2D;
  */
 public class ConstructGraph {
     
-    Graph graph;
-    int width;
-    int heigh;
-    AccesConnection acc;
-    Statement statment ;
+    private Graph graph;
+    private int width;
+    private int height;
+    private AccesConnection acc;
+    private Statement statment;
 
 
-    public ConstructGraph( AccesConnection a, int width, int heigh) {
-        acc =a;
+    public ConstructGraph(AccesConnection a, int width, int height) {
+        this.acc = a;
         statment = acc.getStatment();
         this.width = width;
-        this.heigh = heigh;
+        this.height = height;
         graph = new DGraph();
-        
-        addMembers ();
+        addMembers();
        
     }
     
     // read db and add to graph the members
-    private void addMembers () {
+    private void addMembers() {
         try {
             // add nodes of members
             ResultSet rs = statment.executeQuery("SELECT T_Members.person_id, T_Persons.name, T_Members.friends FROM T_Members INNER JOIN T_Persons ON T_Members.person_id = T_Persons.person_id;");
@@ -49,18 +50,16 @@ public class ConstructGraph {
                        String name = rs.getString("name");
                        int key = rs.getInt("person_id");
                        int friends = rs.getInt("friends");
-                       
-                        Member m = new Member(name, friends,key , randomPoint ());
-                        graph.addNode(m);
+                       Member m = new Member(name, friends, key, randomPoint());
+                       graph.addNode(m);
                     }
             ResultSet rs1 = statment.executeQuery("SELECT * FROM [T_Friends]");
             while ( rs1.next()) {
                 int keySrc = rs1.getInt("person_id");
                 int keyDest = rs1.getInt("friend_id");
-                graph.connect(keySrc, keyDest, 1);
+                
+                graph.connect(new Friend(keySrc, keyDest, 1)); // node -[:friend] -> node
                                 }
- 
-
         } catch (SQLException ex) {
             Logger.getLogger(ConstructGraph.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -68,9 +67,9 @@ public class ConstructGraph {
     
     
     // get random point in range of the bord
-    private Point2D randomPoint () {
+    private Point2D randomPoint() {
         int x = (int)  (Math.random() * width);
-        int y = (int)(Math.random() * heigh) ;
+        int y = (int)(Math.random() * height) ;
         
         return new Point2D(x, y);
               

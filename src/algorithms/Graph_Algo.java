@@ -6,14 +6,14 @@
 package algorithms;
 
 import graph.Graph;
-import graph.Node;
-import graph.Edge;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import graph.edge_metadata;
+import graph.node_metadata;
 
 /**
  *
@@ -45,15 +45,15 @@ public class Graph_Algo implements graph_algorithms , Serializable{
 
 	@Override
 	public boolean isConnected() {
-		Collection<Node> nodes = g.getV();
+		Collection<node_metadata> nodes = g.getV();
 		boolean[] visited = new boolean[g.nodeSize()]; 
 		int parent[] = new int[g.nodeSize()];
-		LinkedList<Node> queue = new LinkedList<>();
-                Node[] nodesArray =  new Node[queue.size()]; //nodes.toArray(Node[]::new);
+		LinkedList<node_metadata> queue = new LinkedList<>();
+                node_metadata[] nodesArray =  new node_metadata[queue.size()]; //nodes.toArray(Node[]::new);
                 int i=0;
-                for (Node tmp : queue){
+                for (node_metadata tmp : queue){
                     nodesArray[i++] = tmp;
-                }		Node current = nodesArray[0];
+                }		node_metadata current = nodesArray[0];
 		
 		// Mark the current node as visited and enqueue it 
 			visited[current.getKey()]=true; 
@@ -67,7 +67,7 @@ public class Graph_Algo implements graph_algorithms , Serializable{
 				// Get all adjacent vertices of the dequeued vertex s 
 				// If a adjacent has not been visited, then mark it 
 				// visited and enqueue it 
-				 for (Edge neighbor : g.getE(current.getKey())) { 
+				 for (edge_metadata neighbor : g.getE(current.getKey())) { 
 					 int id_of_neighbor = neighbor.getDest(); // source(current) ------> (id_of_neighbor)
 						if (visited[id_of_neighbor]==false) 
 						{ 
@@ -90,10 +90,10 @@ public class Graph_Algo implements graph_algorithms , Serializable{
 	}
 
 	@Override
-	public Queue<Node> shortestPath(int src, int dest) {
+	public Queue<node_metadata> shortestPath(int src, int dest) {
 	//	Stack<node_data> stack = new Stack<node_data>();
-		Queue<Node> q = new LinkedList<Node>();
-		List<Node> list = fw.getShortestPath(src, dest);
+		Queue<node_metadata> q = new LinkedList<node_metadata>();
+		List<node_metadata> list = fw.getShortestPath(src, dest);
 /*		
 		for(int i=list.size()-1; i>-1; i--) {
 			stack.push(list.get(i));
@@ -112,7 +112,7 @@ public class Graph_Algo implements graph_algorithms , Serializable{
          */
        	public List<Queue> longestPath() {
             List<Queue> q = new  ArrayList<>();
-            ArrayList<Node>[][] paths = fw.getPaths();
+            ArrayList<node_metadata>[][] paths = fw.getPaths();
             int max = -1;
             for (int i=0; i < paths.length; i++){
                 for (int j=0; j < paths.length; j++){
@@ -130,10 +130,10 @@ public class Graph_Algo implements graph_algorithms , Serializable{
                 boolean flag = true;
                 for (int j=0; j<q.get(i).size() && flag; j++){
                     if ( i!=j && q.get(i).size()!=q.get(j).size()) continue;
-                    Queue<Node> _q1 = q.get(i);
-                    Queue<Node> _q2 = q.get(j);
-                    List<Node> list1 = new ArrayList<>(_q1);
-                    List<Node> list2 = new ArrayList<>(_q2);
+                    Queue<node_metadata> _q1 = q.get(i);
+                    Queue<node_metadata> _q2 = q.get(j);
+                    List<node_metadata> list1 = new ArrayList<>(_q1);
+                    List<node_metadata> list2 = new ArrayList<>(_q2);
                     if (list1.get(0).getKey() == list2.get(list2.size()-1).getKey()) {q.remove(i); flag=false;}
                 }
             }
@@ -144,13 +144,13 @@ public class Graph_Algo implements graph_algorithms , Serializable{
 
 
 	@Override
-	public List<Node> TSP(List<Integer> targets) {
+	public List<node_metadata> TSP(List<Integer> targets) {
 		return fw.getShortestPathWithTarget(targets);
 	}
 
-    private Queue strToQueue(ArrayList<Node> list) {
-        Queue<Node> q = new LinkedList<>();
-        for (Node curr : list){
+    private Queue strToQueue(ArrayList<node_metadata> list) {
+        Queue<node_metadata> q = new LinkedList<>();
+        for (node_metadata curr : list){
             q.add(curr);
         }
         

@@ -12,55 +12,49 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
+/**
+ * This class represents a graph.
+ * @author Yoni
+ */
 
 public class DGraph implements Graph, Serializable {
-
-	
-	/**
-	 * This class represents a graph.
-         * @author Yoni
-	 */
+    
 	private static final long serialVersionUID = -8995919428111032917L;
 	
-	private Map<Integer, Node> g;
-	private Map<Integer, List<Edge>> e;
+	private Map<Integer, node_metadata> g;
+	private Map<Integer, List<edge_metadata>> e;
 
 	public DGraph() {
-		g = new HashMap<>();
-		e = new HashMap<>();
+            g = new HashMap<>();
+            e = new HashMap<>();
 	}
 	
 	@Override
-	public Node getNode(int key) {
-		return g.get(key); 
+	public node_metadata getNode(int key) {
+            return g.get(key); 
 	}
 
 	@Override
-	public Edge getEdge(int src, int dest) {
-		Edge edge = null;
-		List<Edge> list = e.get(src);
-		for (Edge current_edge : list) {
-			if (current_edge.getDest() == dest) edge = current_edge; 
-			
-		}
-		return edge;
+	public edge_metadata getEdge(int src, int dest) {
+	edge_metadata edge = null;
+	List<edge_metadata> list = e.get(src);
+            for (edge_metadata current_edge : list) {
+            if (current_edge.getDest() == dest) edge = current_edge; 
+            }
+	return edge;
 	}
 
 	@Override
-	public void addNode(Node n) {
-		g.put(n.getKey(), n);
+	public void addNode(node_metadata n) {
+            g.put(n.getKey(), n);
 	}
 
 	@Override
-	public void connect(int src, int dest, double w) {
-
-		edge_metadata edge_new = new edge_metadata(src, dest, w);
-		
-		List<Edge> list = e.get(src);
+	public void connect(Edge edge) {
+		List<edge_metadata> list = e.get(edge.getSrc());
 		if (list == null) list = new ArrayList<>();
-		list.add(edge_new);
-		e.put(src, list);
+		list.add(edge);
+		e.put(edge.getSrc(), list);
 
 /*	
 		list = e.get(dest);
@@ -73,25 +67,25 @@ public class DGraph implements Graph, Serializable {
 	}
 
 	@Override
-	public Collection<Node> getV() {
-		return (Collection<Node>) g.values() ;
+	public Collection<node_metadata> getV() {
+		return (Collection<node_metadata>) g.values() ;
 	}
 
 	@Override
-	public Collection<Edge> getE(int node_id) {
+	public Collection<edge_metadata> getE(int node_id) {
 		return e.get(node_id);
 	}
 
 	@Override
-	public Node removeNode(int key) {
-		List<Edge> old_node_edges = e.get(key);
+	public node_metadata removeNode(int key) {
+		List<edge_metadata> old_node_edges = e.get(key);
 		g.remove(key); // remove the node
 		e.remove(key); //  remove its edges	
-		for (Edge edge : old_node_edges) { // remove the edges that connect with him from his neighbors 
+		for (edge_metadata edge : old_node_edges) { // remove the edges that connect with him from his neighbors 
 			int dest = edge.getDest();
-			List<Edge> l = e.get(dest); 
+			List<edge_metadata> l = e.get(dest); 
 			for (int i=0; i< l.size(); i++) {
-				Edge edge_to_check = l.get(i);
+				edge_metadata edge_to_check = l.get(i);
 				if (edge_to_check.getDest() == key)   {e.get(dest).remove(edge_to_check); i--;} 
 			}
 		}
@@ -99,7 +93,7 @@ public class DGraph implements Graph, Serializable {
 	}
 
 	@Override
-	public Edge removeEdge(int src, int dest) {
+	public edge_metadata removeEdge(int src, int dest) {
 		e.remove(src);
 		e.remove(dest);
 		return null;
@@ -122,7 +116,7 @@ public class DGraph implements Graph, Serializable {
 	}
 	
         @Override
-	public List<Edge> getEdges() {
+	public List<edge_metadata> getEdges() {
 		
 //		List<Integer>[] array_graph = new ArrayList[this.g.size()];
 //    	for (int i = 0; i < array_graph.length; i++) array_graph[i] = new ArrayList<>();
@@ -145,13 +139,13 @@ public class DGraph implements Graph, Serializable {
 //               
 //		return list;
 
-List<Edge> edges = new ArrayList<>();
-for (Node n : g.values())  { // pass over the nodes
-     int NodeKey = n.getKey(); // key of the node
-     if (getE(NodeKey)!= null )
-        edges.addAll(getE(NodeKey));
-}
-	return edges;
+            List<edge_metadata> edges = new ArrayList<>();
+            for (node_metadata n : g.values())  { // pass over the nodes
+                 int NodeKey = n.getKey(); // key of the node
+                 if (getE(NodeKey) != null)
+                    edges.addAll(getE(NodeKey));
+            }
+                return edges;
         }
 
 }

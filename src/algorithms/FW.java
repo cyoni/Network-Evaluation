@@ -1,13 +1,13 @@
 package algorithms;
 
-import graph.Edge;
 import graph.Graph;
-import graph.Node;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import graph.edge_metadata;
+import graph.node_metadata;
 
 
 
@@ -21,7 +21,7 @@ public class FW implements Serializable{
 	private int infinity = Integer.MAX_VALUE;
 	private double mat[][];
 	private Graph g;
-        private  ArrayList<Node>[][] paths;
+        private  ArrayList<node_metadata>[][] paths;
 
 	
 	public FW(Graph g) {
@@ -36,7 +36,7 @@ public class FW implements Serializable{
 		paths = new ArrayList[g.nodeSize()][g.nodeSize()];
 		for (double[] row : mat)  Arrays.fill(row, infinity);
 
-		List<Edge> edges = g.getEdges();
+		List<edge_metadata> edges = g.getEdges();
 		
 		for (int i = 0; i < mat.length; i++) {
 			mat[i][i] = 0;
@@ -62,7 +62,7 @@ public class FW implements Serializable{
 		printMat();	
 	}
 	
-        public ArrayList<Node>[][] getPaths(){
+        public ArrayList<node_metadata>[][] getPaths(){
             return paths;
         }
 
@@ -101,9 +101,9 @@ public class FW implements Serializable{
 
 
 
-	public List<Node> getShortestPath(int src, int dest) {
-		ArrayList<Node> shortestPath = paths[src][dest];
-		ArrayList<Node> tmpPath = new ArrayList<>();
+	public List<node_metadata> getShortestPath(int src, int dest) {
+		ArrayList<node_metadata> shortestPath = paths[src][dest];
+		ArrayList<node_metadata> tmpPath = new ArrayList<>();
 		
 		for (int i = 0; i < shortestPath.size(); i++)  // deep copy
 			tmpPath.add(shortestPath.get(i));
@@ -124,8 +124,8 @@ public class FW implements Serializable{
 
 
 	// remove duplicates
-	private List<Node> shortestPath_without_duplicates(List<Node> shortestPath) {
-		List<Node> shortestPath_without_duplicates = new ArrayList<>();
+	private List<node_metadata> shortestPath_without_duplicates(List<node_metadata> shortestPath) {
+		List<node_metadata> shortestPath_without_duplicates = new ArrayList<>();
 		int visited[] = new int[g.nodeSize()];
 		Arrays.fill(visited, -1);
     	for (int i=0; i< shortestPath.size(); i++) {
@@ -139,16 +139,16 @@ public class FW implements Serializable{
 
 
 
-	public List<Node> getShortestPathWithTarget(List<Integer> targets) {
-		List<Node> list = new ArrayList<>();
+	public List<node_metadata> getShortestPathWithTarget(List<Integer> targets) {
+		List<node_metadata> list = new ArrayList<>();
 		if (targets.isEmpty()) {System.out.println("targets list is empty"); return null;}
-		Node arr[] = new Node[targets.size()];
+		node_metadata arr[] = new node_metadata[targets.size()];
 		for (int i = 0; i < arr.length; i++) {
 			arr[i] = g.getNode(targets.get(i));
 		}
-		Node leader_node = arr[0];  // get the first node in the list
+		node_metadata leader_node = arr[0];  // get the first node in the list
 		for (int i=1; i< arr.length; i++) {
-		List<Node> shorestPathList = getShortestPath(leader_node.getKey(), arr[i].getKey());
+		List<node_metadata> shorestPathList = getShortestPath(leader_node.getKey(), arr[i].getKey());
 		list.addAll(shorestPathList);
 			for (int j = 1; j < shorestPathList.size() ; j++) {
 			mat[shorestPathList.get(j).getKey()][shorestPathList.get(j-1).getKey()] = 0;
