@@ -15,6 +15,7 @@ public class Advertise extends Edge {
     
     public Advertise(int x, int y, double weight){
         super(x, y, weight);
+        setTag("Advertises");
     }
     
 }

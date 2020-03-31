@@ -5,10 +5,15 @@
  */
 package relationship;
 
+import graph.Edge;
+
 /**
  *
  * @author Yoni
  */
-public class Like {
-    
+public class Like extends Edge{
+        public Like(int x, int y, double weight){
+        super(x, y, weight);
+        setTag("Likes");
+    }
 }
