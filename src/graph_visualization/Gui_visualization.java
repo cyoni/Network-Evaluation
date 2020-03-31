@@ -14,6 +14,7 @@ import graph.DGraph;
 import graph.Graph;
 import graph.Node;
 import graph.Edge;
+import graph.Member;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -227,10 +228,18 @@ public class Gui_visualization extends javax.swing.JFrame {
          // draw all nodes 
          List<node_metadata> graphtNode =  new ArrayList<> (g.getV());
          for (node_metadata n: graphtNode) {
-            StdDraw.setPenRadius(0.02);
-            StdDraw.setPenColor(Color.red);
-            StdDraw.point(n.getLocation().x(), n.getLocation().y());
-            }
+             if ( n instanceof Member){
+                StdDraw.setPenRadius(0.02);
+                StdDraw.setPenColor(Color.red);
+                StdDraw.point(n.getLocation().x(), n.getLocation().y()); // draw the point
+         }
+             // else if
+             
+         // print the key of the nodes
+                StdDraw.setPenColor(StdDraw.BLACK);
+                StdDraw.text(n.getLocation().x()+1, n.getLocation().y()+1.5, n.getKey()+"");
+         
+          }
 
          // draw all edges
             List<edge_metadata> graphEdge = new ArrayList<>();
@@ -245,18 +254,15 @@ public class Gui_visualization extends javax.swing.JFrame {
                     StdDraw.setPenColor(Color.BLUE);
                 // .... else if...
                 
-                  // print the edges:
+                  // print the edges and connection
                    StdDraw.setPenRadius(0.005);
                    Point2D text_pos = line.getPointOnLine(new Point2D(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y()),
                      new Point2D(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y()), 50);
-                     StdDraw.text(text_pos.x()-1.5, text_pos.y()+1.5, g.getEdge(src, dest).getTag()+ ""); // print connection
+                     StdDraw.text(text_pos.x()-1.5, text_pos.y()+1.5, g.getEdge(src, dest).getTag()+ ""); // print text connection
                      StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(),
-                            g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());  
-                StdDraw.setPenColor(StdDraw.BLACK);
-                StdDraw.text(g.getNode(src).getLocation().x()+1, g.getNode(src).getLocation().y()+1.5, g.getNode(src).getKey()+"");
-                StdDraw.text(g.getNode(dest).getLocation().x()+1, g.getNode(dest).getLocation().y()+1.5, g.getNode(dest).getKey()+"");
+                            g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());  // draw line 
                 }
-        
+         
          
 //
 //         constructGraph();
