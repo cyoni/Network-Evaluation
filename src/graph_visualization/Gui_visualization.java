@@ -15,6 +15,7 @@ import graph.Graph;
 import graph.Node;
 import graph.Edge;
 import graph.Member;
+import graph.Post;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -233,7 +234,11 @@ public class Gui_visualization extends javax.swing.JFrame {
                 StdDraw.setPenColor(Color.red);
                 StdDraw.point(n.getLocation().x(), n.getLocation().y()); // draw the point
          }
-             // else if
+              else if ( n instanceof Post) {
+                StdDraw.setPenRadius(0.02);
+                StdDraw.setPenColor(Color.blue);
+                StdDraw.point(n.getLocation().x(), n.getLocation().y()); // draw the point
+              }
              
          // print the key of the nodes
                 StdDraw.setPenColor(StdDraw.BLACK);

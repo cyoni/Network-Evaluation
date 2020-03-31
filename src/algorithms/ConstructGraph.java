@@ -10,12 +10,14 @@ import graph.DGraph;
 import graph.Edge;
 import graph.Graph;
 import graph.Member;
+import graph.Post;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import relationship.Friend;
+import relationship.Like;
 import utils.Point2D;
 
 /**
@@ -38,6 +40,7 @@ public class ConstructGraph {
         this.height = height;
         graph = new DGraph();
         addMembers();
+        addPosts();
        
     }
     
@@ -63,6 +66,28 @@ public class ConstructGraph {
         } catch (SQLException ex) {
             Logger.getLogger(ConstructGraph.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void addPosts() {
+        try {
+            ResultSet rs = statment.executeQuery("SELECT [post_id] FROM [T_Posts];");
+            while ( rs.next()) {
+                       int key = rs.getInt("post_id");
+                       Post p = new Post(key, randomPoint());
+                       graph.addNode(p);
+                    }
+          ResultSet rs1 = statment.executeQuery("SELECT [post_id],[member_id] FROM [T_Posts] INNER JOIN T_Likes ON T_Posts.post_id = T_Likes.compoment_id;");
+           while ( rs1.next()) {
+                       int memberKey = rs1.getInt("member_id");
+                       int postKey = rs1.getInt("post_id");
+                      
+                        graph.connect(new Like(memberKey, postKey, 1)); // member -[:like] -> post
+
+                    }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConstructGraph.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
     
     
