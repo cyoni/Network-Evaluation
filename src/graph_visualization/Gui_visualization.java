@@ -215,11 +215,11 @@ public class Gui_visualization extends javax.swing.JFrame {
     // draw graph
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         StdDraw.setCanvasSize(700, 500);
-        StdDraw.setXscale(0, 700);
-        StdDraw.setYscale(0, 500);
+        StdDraw.setXscale(0, 100);
+        StdDraw.setYscale(0, 100);
          
         //  Construct graph
-         ConstructGraph c = new ConstructGraph(acc, 700, 500);
+         ConstructGraph c = new ConstructGraph(acc, 100, 100);
          g = c.getGraph();
          StdDraw.clear();
          
@@ -227,7 +227,7 @@ public class Gui_visualization extends javax.swing.JFrame {
          // draw all nodes 
          List<node_metadata> graphtNode =  new ArrayList<> (g.getV());
          for (node_metadata n: graphtNode) {
-            StdDraw.setPenRadius(0.05);
+            StdDraw.setPenRadius(0.02);
             StdDraw.setPenColor(Color.red);
             StdDraw.point(n.getLocation().x(), n.getLocation().y());
             }
@@ -249,7 +249,7 @@ public class Gui_visualization extends javax.swing.JFrame {
                    StdDraw.setPenRadius(0.005);
                    Point2D text_pos = line.getPointOnLine(new Point2D(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y()),
                      new Point2D(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y()), 50);
-                     StdDraw.text(text_pos.x()-1.5, text_pos.y()+1.5, g.getEdge(src, dest).getTag()+ "");
+                     StdDraw.text(text_pos.x()-1.5, text_pos.y()+1.5, g.getEdge(src, dest).getTag()+ ""); // print connection
                      StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(),
                             g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());  
                 StdDraw.setPenColor(StdDraw.BLACK);
