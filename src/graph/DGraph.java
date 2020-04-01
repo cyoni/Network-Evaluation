@@ -20,7 +20,6 @@ import java.util.Map.Entry;
 public class DGraph implements Graph, Serializable {
     
 	private static final long serialVersionUID = -8995919428111032917L;
-	
 	private Map<Integer, node_metadata> g;
 	private Map<Integer, List<edge_metadata>> e;
 
@@ -55,7 +54,6 @@ public class DGraph implements Graph, Serializable {
 		if (list == null) list = new ArrayList<>();
 		list.add(edge);
 		e.put(edge.getSrc(), list);
-
 /*	
 		list = e.get(dest);
 		if (list == null) list = new ArrayList<>();
@@ -117,28 +115,6 @@ public class DGraph implements Graph, Serializable {
 	
         @Override
 	public List<edge_metadata> getEdges() {
-		
-//		List<Integer>[] array_graph = new ArrayList[this.g.size()];
-//    	for (int i = 0; i < array_graph.length; i++) array_graph[i] = new ArrayList<>();
-//		List<Edge> list = new ArrayList<>();
-//		
-//		for (Entry<Integer, List<Edge>> edges : e.entrySet()) {
-//			List<Edge> list_Edges = edges.getValue();
-//			for (Edge current_edge : list_Edges) {
-//				//System.out.println(array_graph.length + "," + current_edge.getSrc() + "-" + current_edge.getDest());
-//				if (array_graph[current_edge.getDest()].contains(current_edge.getSrc()) ) continue;
-//				
-//                                
-//                                        
-//				array_graph[current_edge.getSrc()].add(current_edge.getDest());
-//				
-//				//System.out.println("added " + current_edge.getSrc() + "," +current_edge.getDest());
-//				list.add(current_edge);
-//			}
-//		}
-//               
-//		return list;
-
             List<edge_metadata> edges = new ArrayList<>();
             for (node_metadata n : g.values())  { // pass over the nodes
                  int NodeKey = n.getKey(); // key of the node

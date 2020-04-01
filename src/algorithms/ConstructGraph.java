@@ -60,8 +60,7 @@ public class ConstructGraph {
             while ( rs1.next()) {
                 int keySrc = rs1.getInt("person_id");
                 int keyDest = rs1.getInt("friend_id");
-                
-                graph.connect(new Friend(keySrc, keyDest, 1)); // node -[:friend] -> node
+                graph.connect(new Friend(keySrc, keyDest, 1)); // node -[:friends] -> node
                                 }
         } catch (SQLException ex) {
             Logger.getLogger(ConstructGraph.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,18 +70,16 @@ public class ConstructGraph {
     private void addPosts() {
         try {
             ResultSet rs = statment.executeQuery("SELECT [post_id] FROM [T_Posts];");
-            while ( rs.next()) {
+            while (rs.next()) {
                        int key = rs.getInt("post_id");
                        Post p = new Post(key, randomPoint());
                        graph.addNode(p);
                     }
           ResultSet rs1 = statment.executeQuery("SELECT [post_id],[member_id] FROM [T_Posts] INNER JOIN T_Likes ON T_Posts.post_id = T_Likes.compoment_id;");
-           while ( rs1.next()) {
+           while (rs1.next()) {
                        int memberKey = rs1.getInt("member_id");
                        int postKey = rs1.getInt("post_id");
-                      
-                        graph.connect(new Like(memberKey, postKey, 1)); // member -[:like] -> post
-
+                        graph.connect(new Like(memberKey, postKey, 1)); // member -[:likes] -> post
                     }
         } catch (SQLException ex) {
             Logger.getLogger(ConstructGraph.class.getName()).log(Level.SEVERE, null, ex);

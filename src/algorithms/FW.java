@@ -45,6 +45,7 @@ public class FW implements Serializable{
 		for (int i = 0; i < edges.size(); i++) {
 			int src = edges.get(i).getSrc();
 			int dest = edges.get(i).getDest();
+                        System.out.println(src + "," + dest);
 			mat[src][dest] = edges.get(i).getWeight();
 			mat[dest][src] = edges.get(i).getWeight();
 		}

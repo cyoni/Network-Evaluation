@@ -15,15 +15,29 @@ public class Edge implements edge_metadata, Serializable {
     
 	private static final long serialVersionUID = 4269760787650059514L;
 	private double weight;
-	private int src, dest;
+	private int src, dest, src_id, dest_id;
 	private String info, tag;
-	
-	public Edge(int src, int dest, double weight) {
-            this.src = src;
-            this.dest = dest;
+	static int index = 0; // shared variable to share src and dests.
+        
+	public Edge(int src_id, int dest_id, double weight) {
+            this.src = index++;
+            this.dest = index++;
+            this.src_id = src_id;
+            this.dest_id = dest_id;
             this.weight = weight;
 	}
 	
+        
+   	@Override
+	public int getSrcId() {
+            return src_id;
+	}
+
+	@Override
+	public int getDestId() {
+		return dest_id;
+	}     
+        
 	@Override
 	public int getSrc() {
             return src;

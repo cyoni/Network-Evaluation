@@ -52,67 +52,10 @@ public class Gui_network extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     public Gui_network() {
-        
         initComponents();
         setLocationRelativeTo(null);
         setVisible(true);
-        JMenuBar mb; 
-        
-       // create a menubar 
-        mb = new JMenuBar(); 
-  
-        // create a menu 
-         JMenu x = new JMenu("File"); 
-         JMenu x2 = new JMenu("Help"); 
-         JMenu x3 = new JMenu("Graph");
-         JMenu x4 = new JMenu("Network");
-
-                 
-        m1 = new JMenuItem("Load a network file"); 
-        m2 = new JMenuItem("Grant/revoke permission"); 
-        m9 = new JMenuItem("Log Out"); 
-        m3 = new JMenuItem("Exit"); 
-        
-
-        m6 = new JMenuItem("Graph Visualization");
-        m7 = new JMenuItem("Graph Chart");
-        
-        JMenuItem m4 = new JMenuItem("How to use this software");
-        JMenuItem m5 = new JMenuItem("About");
-        
-        m8 = new JMenuItem("Evaluate Network");
-
-
-    
-        // add menu items to menu 
-        x.add(m1); 
-        x.add(m2);
-        
-        x.addSeparator();
-        x.add(m9); // logout
-        x.add(m3); //exit
-        
-        
-        
-        x3.add(m6);
-        x3.add(m7);
-        
-        x2.add(m4);
-        x2.add(m5);
-        
-        x4.add(m8);
-        
-         // add menu to menu bar 
-        mb.add(x); 
-        mb.add(x3);
-        mb.add(x4);
-        mb.add(x2);
-
-        
-         // add menubar to frame 
-        setJMenuBar(mb); 
-        
-        startMouseListener();
+        setMenu();
     }
 
     Gui_network(user User) {
@@ -121,7 +64,53 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel_username.setText(User.getName());
         validateUser();
         LoadSharedNetworks();
+    }
+    
+    private void setMenu(){
+         JMenuBar mb; 
+        // create a menubar 
+        mb = new JMenuBar(); 
+        // create a menu 
+        JMenu x = new JMenu("File"); 
+        JMenu x2 = new JMenu("Help"); 
+        JMenu x3 = new JMenu("Graph");
+        JMenu x4 = new JMenu("Network");
+                 
+        m1 = new JMenuItem("Load a network file"); 
+        m9 = new JMenuItem("Log Out"); 
+        m3 = new JMenuItem("Exit");
+        
+        m6 = new JMenuItem("Graph Visualization");
+        m7 = new JMenuItem("Graph Chart");
+        
+        m8 = new JMenuItem("Evaluate Network");    
+        m2 = new JMenuItem("Grant/revoke permission");
+        
+        JMenuItem m4 = new JMenuItem("How to use this software");
+        JMenuItem m5 = new JMenuItem("About");
+        // add menu items to menu 
+        x.add(m1); 
+        x.addSeparator();
+        x.add(m9); // logout
+        x.add(m3); //exit
+        
+        x3.add(m6);
+        x3.add(m7);
 
+        x2.add(m4);
+        x2.add(m5);
+
+        x4.add(m8);
+        x4.add(m2);
+
+        // add menu to menu bar 
+        mb.add(x); 
+        mb.add(x3);
+        mb.add(x4);
+        mb.add(x2);
+        
+        setJMenuBar(mb);  // add menubar to frame 
+        startMouseListener();
     }
 
     public void validateUser() {
@@ -141,7 +130,6 @@ public class Gui_network extends javax.swing.JFrame {
         catch(Exception e){System.out.println(e);}
     }
 
-    
     private void startMouseListener() {
         
             m8.addActionListener((ActionEvent e) -> {try {
@@ -152,8 +140,7 @@ public class Gui_network extends javax.swing.JFrame {
                     Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
-                    
-            
+
             m6.addActionListener((ActionEvent e) -> { // open graph visualization
                 show_graph_visualization();
             });
@@ -862,14 +849,14 @@ public class Gui_network extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField active_ads;
-    private javax.swing.JTextField avg_ads;
-    private javax.swing.JTextField avg_friends;
-    private javax.swing.JTextField avg_likes;
-    private javax.swing.JTextField avg_posts;
-    private javax.swing.JTextField avg_shares;
-    private javax.swing.JTextField avg_time;
-    private javax.swing.JTextField avg_traffic;
+    public javax.swing.JTextField active_ads;
+    public javax.swing.JTextField avg_ads;
+    public javax.swing.JTextField avg_friends;
+    public javax.swing.JTextField avg_likes;
+    public javax.swing.JTextField avg_posts;
+    public javax.swing.JTextField avg_shares;
+    public javax.swing.JTextField avg_time;
+    public javax.swing.JTextField avg_traffic;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
@@ -903,21 +890,21 @@ public class Gui_network extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField net_expenses;
-    private javax.swing.JTextField net_profit;
+    public javax.swing.JTextField net_expenses;
+    public javax.swing.JTextField net_profit;
     private javax.swing.JList<String> network_list;
-    private javax.swing.JTextField new_ads;
-    private javax.swing.JTextField num_active;
-    private javax.swing.JTextField num_ads;
-    private javax.swing.JTextField num_advertisers;
-    private javax.swing.JTextField num_employees;
-    private javax.swing.JTextField num_groups;
-    private javax.swing.JTextField num_likes;
-    private javax.swing.JTextField num_members;
-    private javax.swing.JTextField num_pages;
-    private javax.swing.JTextField num_shares;
-    private javax.swing.JTextField sum_salaries;
-    private javax.swing.JTextField total_traffic;
+    public javax.swing.JTextField new_ads;
+    public javax.swing.JTextField num_active;
+    public javax.swing.JTextField num_ads;
+    public javax.swing.JTextField num_advertisers;
+    public javax.swing.JTextField num_employees;
+    public javax.swing.JTextField num_groups;
+    public javax.swing.JTextField num_likes;
+    public javax.swing.JTextField num_members;
+    public javax.swing.JTextField num_pages;
+    public javax.swing.JTextField num_shares;
+    public javax.swing.JTextField sum_salaries;
+    public javax.swing.JTextField total_traffic;
     // End of variables declaration//GEN-END:variables
 
     private void LoadSharedNetworks() {     // does not work TOFIX  

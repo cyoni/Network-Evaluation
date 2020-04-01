@@ -11,6 +11,17 @@ package graph;
  *
  */
 public interface edge_metadata {
+    
+	/**
+	 * The id of the object in the DB that represents the destination node of this edge.
+	 * @return
+	 */
+	public int getDestId();
+	/**
+	 * The id of the object in the DB that represents the source node of this edge.
+	 * @return
+	 */
+	public int getSrcId();
 	/**
 	 * The id of the source node of this edge.
 	 * @return

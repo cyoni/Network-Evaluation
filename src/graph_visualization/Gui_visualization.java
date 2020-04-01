@@ -229,74 +229,40 @@ public class Gui_visualization extends javax.swing.JFrame {
          // draw all nodes 
          List<node_metadata> graphtNode =  new ArrayList<> (g.getV());
          for (node_metadata n: graphtNode) {
-             if ( n instanceof Member){
-                StdDraw.setPenRadius(0.02);
+             if (n instanceof Member)
                 StdDraw.setPenColor(Color.red);
-                StdDraw.point(n.getLocation().x(), n.getLocation().y()); // draw the point
-         }
-              else if ( n instanceof Post) {
-                StdDraw.setPenRadius(0.02);
+              else if (n instanceof Post) 
                 StdDraw.setPenColor(Color.blue);
-                StdDraw.point(n.getLocation().x(), n.getLocation().y()); // draw the point
-              }
              
-         // print the key of the nodes
-                StdDraw.setPenColor(StdDraw.BLACK);
-                StdDraw.text(n.getLocation().x()+1, n.getLocation().y()+1.5, n.getKey()+"");
-         
+            StdDraw.setPenRadius(0.02);
+            StdDraw.point(n.getLocation().x(), n.getLocation().y()); // draw the node(point)
+            // print the key of the nodes
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.text(n.getLocation().x()+1, n.getLocation().y()+1.5, n.getKey()+""); // print the id of the point
           }
 
          // draw all edges
             List<edge_metadata> graphEdge = new ArrayList<>();
             graphEdge = g.getEdges();
                 for (edge_metadata current_edge : graphEdge){
-                int src = current_edge.getSrc();
-                int dest = current_edge.getDest();
+                int src = current_edge.getSrcId();
+                int dest = current_edge.getDestId();
                     
-                if (current_edge instanceof Friend) //set color
-                     StdDraw.setPenColor(Color.GREEN);
+                if (current_edge instanceof Friend) 
+                    StdDraw.setPenColor(Color.GREEN); // set color
                 else if (current_edge instanceof Like) 
                     StdDraw.setPenColor(Color.BLUE);
                 // .... else if...
                 
                   // print the edges and connection
                    StdDraw.setPenRadius(0.005);
-                   Point2D text_pos = line.getPointOnLine(new Point2D(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y()),
-                     new Point2D(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y()), 50);
+                   Point2D text_pos = line.getPointOnLine(new Point2D(g.getNode(current_edge.getSrc()).getLocation().x(), g.getNode(current_edge.getSrc()).getLocation().y()),
+                     new Point2D(g.getNode(current_edge.getDest()).getLocation().x(), g.getNode(current_edge.getDest()).getLocation().y()), 50);
                      StdDraw.text(text_pos.x()-1.5, text_pos.y()+1.5, g.getEdge(src, dest).getTag()+ ""); // print text connection
-                     StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(),
-                            g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());  // draw line 
+                     
+                     StdDraw.line(g.getNode(current_edge.getSrc()).getLocation().x(), g.getNode(current_edge.getSrc()).getLocation().y(),
+                            g.getNode(current_edge.getDest()).getLocation().x(), g.getNode(current_edge.getDest()).getLocation().y());  // draw line 
                 }
-         
-         
-//
-//         constructGraph();
-//         StdDraw.clear();
-//         
-//         List<Edge> currentEdge = new ArrayList<>();
-//         currentEdge = g.getEdges();
-//                         
-//            for (int j=0; j<currentEdge.size(); j++){
-//                int src = currentEdge.get(j).getSrc();
-//                int dest = currentEdge.get(j).getDest();
-//                    
-//                StdDraw.setPenRadius(0.005);
-//                StdDraw.setPenColor(Color.yellow);
-//                StdDraw.point(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y());
-//                StdDraw.point(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
-//                StdDraw.setPenColor(Color.black);
-//                StdDraw.setPenRadius(0.007);
- //               StdDraw.line(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y(), g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y());
-//                
-//                StdDraw.setPenColor(StdDraw.BLACK);
-//                Point2D text_pos = line.getPointOnLine(new Point2D(g.getNode(src).getLocation().x(), g.getNode(src).getLocation().y()),
-//                     new Point2D(g.getNode(dest).getLocation().x(), g.getNode(dest).getLocation().y()), 50);
-//                StdDraw.text(text_pos.x()-1.5, text_pos.y()+1.5, g.getEdge(src, dest).getWeight() + "");
-//                
-//                StdDraw.setPenColor(StdDraw.ORANGE);
-//                StdDraw.text(g.getNode(src).getLocation().x()+1, g.getNode(src).getLocation().y()+1.5, g.getNode(src).getKey()+"");
-//                StdDraw.text(g.getNode(dest).getLocation().x()+1, g.getNode(dest).getLocation().y()+1.5, g.getNode(dest).getKey()+"");
-//                }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
