@@ -1,2 +1,6 @@
 Started process
+>> Each advertiser is worth 1.0. Adding $2.0
+>> Added an inactive ad, $2002.0
+>> Expected earning from ad 1 is $-848.0
+>> Expected earning from ad 2 is $-5448.0
 The process is completed

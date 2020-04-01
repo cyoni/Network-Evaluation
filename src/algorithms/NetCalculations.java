@@ -6,6 +6,7 @@
 package algorithms;
 
 import DB_Connection.AccesConnection;
+import data_structure.Ad;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -335,7 +336,15 @@ public double CalSumOfAdsProfit() throws SQLException {
              return 0;
    }
 
-public ArrayList<Advertiser> getAdvertisers() throws SQLException {
+public int getAdvertisers() throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT COUNT(person_id) as x FROM [T_Advertisers]");
+         if(rs.next())
+            return rs.getInt("x");
+         else
+             return 0;
+   }
+
+public ArrayList<Advertiser> _getAdvertisers() throws SQLException {
        ArrayList<Advertiser> advertisers = new  ArrayList<Advertiser>();
        ResultSet rs = statment.executeQuery("SELECT T_Advertisers.person_id, Sum(T_Advertisements.price) AS [SumOfprice]"
                + " FROM T_Advertisers INNER JOIN T_Advertisements ON T_Advertisers.person_id = T_Advertisements.advertisers_id"
@@ -346,10 +355,36 @@ public ArrayList<Advertiser> getAdvertisers() throws SQLException {
            Advertiser advertiser = new Advertiser(advertisersID,expenses);
            advertisers.add(advertiser);
        }
-       
        return advertisers;
-
    }
 
+   public ArrayList<Ad> getAds() throws SQLException {
+       ArrayList<Ad> ads = new  ArrayList<>();
+       ResultSet rs = statment.executeQuery("SELECT * FROM T_Advertisements INNER JOIN T_Categories ON T_Advertisements.Category = T_Categories.ID");
+       while (rs.next()) {
+           boolean isActive  = rs.getBoolean("active");
+           double price = rs.getDouble("price");
+           double product_price = rs.getDouble("productPrice");
+           int category = rs.getInt("Category");
+           int interest = rs.getInt("views");
+           
+           ads.add(new Ad(isActive, price, product_price, category, interest));
+       }
+       return ads;
+   }
+
+    public int getCategories() {
+       ResultSet rs;
+       try {
+           rs = statment.executeQuery("SELECT COUNT(id) as s FROM T_Categories;");
+           while (rs.next()) {
+             return rs.getInt("s");
+            }
+           
+       } catch (SQLException ex) {
+           Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
+       }
+            return -1;
+    }
    
 }

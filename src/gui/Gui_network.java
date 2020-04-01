@@ -132,10 +132,10 @@ public class Gui_network extends javax.swing.JFrame {
 
     private void startMouseListener() {
         
-            m8.addActionListener((ActionEvent e) -> {try {
+            m8.addActionListener((ActionEvent e) -> {try { 
                 // evalutate network
                 evaluation g = new evaluation();
-                g.evaluate(this);
+                g.evaluate(this, net);
                 } catch (IOException ex) {
                     Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -218,7 +218,7 @@ public class Gui_network extends javax.swing.JFrame {
             
     }
     
-    private void setField () {
+    private void setField() {
         
 	Thread th = new Thread(new Runnable() { 
             public void run() {
@@ -259,9 +259,7 @@ public class Gui_network extends javax.swing.JFrame {
 	
 			}
 		});
-		th.start();
-                                        
-                    
+		th.start();         
     }
     
     /**
@@ -795,7 +793,7 @@ public class Gui_network extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel_usernameMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            String diraction = "C:\\myDB.accdb";
+            String diraction = "C:\\Users\\Yoni\\myDB.accdb";
             acc = new AccesConnection(diraction);
             NetCalculations cal = new NetCalculations(acc);
             net = new NetworkData(cal);

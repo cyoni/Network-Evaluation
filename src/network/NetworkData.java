@@ -6,9 +6,11 @@
 package network;
 
 import algorithms.NetCalculations;
+import data_structure.Ad;
 import gui.Gui_network;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,9 +53,9 @@ public class NetworkData {
     private double avgAds;
     private double newAds;
     private double netProfit;
-
+    private List<Ad> list_ads;
     // list of obj
-    ArrayList<Advertiser> advertisers;
+    int advertisers;
 
     // need to add
     private int numPosts;
@@ -95,6 +97,7 @@ public class NetworkData {
          avgAds = c.CalAvgAds();
          newAds= c.CalNewAds();
          netProfit= c.CalSumOfAdsProfit();
+         list_ads = c.getAds();
          
          advertisers = c.getAdvertisers();
          
@@ -208,16 +211,16 @@ public class NetworkData {
         return avgAds;
     }
 
-    public ArrayList<Advertiser> getAdvertisers() {
+    public int getAdvertisers() {
         return advertisers;
     }
+    
+    public List<Ad> getAds(){
+        return list_ads;
+    }
 
-   
-    
-    
-    
-
-    
-
-    
+    public int getCategories() {
+        return cal.getCategories();
+    }
+ 
 }
