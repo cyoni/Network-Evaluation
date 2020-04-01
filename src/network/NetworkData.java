@@ -8,6 +8,7 @@ package network;
 import algorithms.NetCalculations;
 import gui.Gui_network;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,7 +27,7 @@ public class NetworkData {
     private int numShares;
     private int activeMembers;
     private int numGroups;
-    private int advertisers;
+    private int numAdvertisers;
     private int numAds;
 
     //Avg
@@ -51,7 +52,8 @@ public class NetworkData {
     private double newAds;
     private double netProfit;
 
-
+    // list of obj
+    ArrayList<Advertiser> advertisers;
 
     // need to add
     private int numPosts;
@@ -72,7 +74,7 @@ public class NetworkData {
          numShares= c.CalNumOfShares();
          activeMembers = c.CalActiveMembers();
          numGroups = c.CalNumOfGroups();
-         advertisers = c.CalNumOfAdvertisers();
+         numAdvertisers = c.CalNumOfAdvertisers();
          numAds = c.CalNumOfAds();
          //Avg
          avgShares = c.CalAvgShares();
@@ -93,6 +95,8 @@ public class NetworkData {
          avgAds = c.CalAvgAds();
          newAds= c.CalNewAds();
          netProfit= c.CalSumOfAdsProfit();
+         
+         advertisers = c.getAdvertisers();
          
          // need to add
          avgViews = c.CalAvgViews();
@@ -152,8 +156,8 @@ public class NetworkData {
         return avgLikes;
     }
 
-    public int getAdvertisers() {
-        return advertisers;
+    public int getNumAdvertisers() {
+        return numAdvertisers;
     }
 
     public int getNumEmployees() {
@@ -203,6 +207,12 @@ public class NetworkData {
     public double getAvgAds() {
         return avgAds;
     }
+
+    public ArrayList<Advertiser> getAdvertisers() {
+        return advertisers;
+    }
+
+   
     
     
     

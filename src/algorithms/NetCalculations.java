@@ -11,10 +11,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import network.Advertiser;
 import org.apache.commons.lang3.time.DateUtils;
 
 /**
@@ -325,12 +327,28 @@ public double CalAvgAds() throws SQLException {
     
    }
 
-public double CalSumOfAdsProfit () throws SQLException {
+public double CalSumOfAdsProfit() throws SQLException {
         ResultSet rs = statment.executeQuery("SELECT Sum(price) AS [profit] FROM [T_Advertisements]");
          if(rs.next())
             return rs.getDouble("profit");
          else
              return 0;
+   }
+
+public ArrayList<Advertiser> getAdvertisers() throws SQLException {
+       ArrayList<Advertiser> advertisers = new  ArrayList<Advertiser>();
+       ResultSet rs = statment.executeQuery("SELECT T_Advertisers.person_id, Sum(T_Advertisements.price) AS [SumOfprice]"
+               + " FROM T_Advertisers INNER JOIN T_Advertisements ON T_Advertisers.person_id = T_Advertisements.advertisers_id"
+               + " GROUP BY T_Advertisers.person_id;");
+       while (rs.next()) {
+           int advertisersID = rs.getInt("person_id");
+           int expenses = rs.getInt("SumOfprice");
+           Advertiser advertiser = new Advertiser(advertisersID,expenses);
+           advertisers.add(advertiser);
+       }
+       
+       return advertisers;
+
    }
 
    
