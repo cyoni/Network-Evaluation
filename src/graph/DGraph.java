@@ -22,16 +22,25 @@ public class DGraph implements Graph, Serializable {
 	private static final long serialVersionUID = -8995919428111032917L;
 	private Map<Integer, node_metadata> g;
 	private Map<Integer, List<edge_metadata>> e;
+        private Map<Integer, Integer> id2key;
+
 
 	public DGraph() {
             g = new HashMap<>();
             e = new HashMap<>();
+            id2key = new HashMap<>();
 	}
 	
 	@Override
 	public node_metadata getNode(int key) {
             return g.get(key); 
 	}
+        
+       
+        @Override
+         public int getKeyById(int id) {
+            return id2key.get(id);
+         }
 
 	@Override
 	public edge_metadata getEdge(int src, int dest) {
@@ -46,6 +55,7 @@ public class DGraph implements Graph, Serializable {
 	@Override
 	public void addNode(node_metadata n) {
             g.put(n.getKey(), n);
+            id2key.put(n.getId(),n.getKey());
 	}
 
 	@Override
@@ -63,6 +73,8 @@ public class DGraph implements Graph, Serializable {
 		*/
 				
 	}
+       
+
 
 	@Override
 	public Collection<node_metadata> getV() {

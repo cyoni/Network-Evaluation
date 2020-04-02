@@ -16,11 +16,13 @@ public class Member extends Node {
     private String name;
     private int friends;
 
-    public Member(String name, int friends, int key, Point2D location) {
-        super(key, location);
+    public Member(String name, int friends, int key, int id, Point2D location) {
+        super(key, id, location);
         this.name = name;
         this.friends = friends;
     }
+
+   
     
     
     

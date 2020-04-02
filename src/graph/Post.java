@@ -13,8 +13,10 @@ import utils.Point2D;
  */
 public class Post extends Node {
 
-    public Post(int key, Point2D location) {
-        super(key, location);
+    public Post(int key, int id, Point2D location) {
+        super(key, id, location);
     }
+
+    
     
 }

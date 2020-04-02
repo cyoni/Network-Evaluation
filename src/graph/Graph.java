@@ -95,7 +95,23 @@ public interface Graph {
          * @return
          */
 	public int getMC();
-		
+        
+        
+         /**
+	 * return the key by the node_id,
+	 * @param id - the node_id
+	 * @return the node_data by the node_id, null if none.
+	 */
+        public int getKeyById(int id);
+
+        
+//        /**
+//         * Connect an edge by Id
+//         * * Note: this method should run in O(1) time.
+//         * @param edge - the edge with its values.
+//         */
+//        public void connectById(Edge edge);
+
 	
 	
 }
