@@ -10,6 +10,7 @@ import algorithms.ConstructGraph;
 import algorithms.Graph_Algo;
 import algorithms.graph_algorithms;
 import algorithms.line;
+import algorithms.prim;
 import graph.DGraph;
 import graph.Graph;
 import graph.Node;
@@ -35,25 +36,23 @@ import relationship.Like;
 public class Gui_visualization extends javax.swing.JFrame {
     Graph g;
     AccesConnection acc;
-    static Color[] colors = {Color.YELLOW, Color.BLUE, Color.GREEN, Color.GRAY, Color.ORANGE, Color.PINK, Color.MAGENTA, Color.cyan};
+    static Color[] colors = {Color.YELLOW};
     static int color_index = 0;
     HighlightPath_Thread highlightThread;
-    
     private Graph_Algo graphAlgo;
-    /**
-     * Creates new form Gui_visualization
-     */
+  
+    
     public Gui_visualization() {
         initComponents();
-         setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
     }
 
     public Gui_visualization(AccesConnection a) {
         initComponents();
         setLocationRelativeTo(null);
-        acc = a;
-        
+        acc = a; 
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,7 +105,12 @@ public class Gui_visualization extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setText(".");
+        jButton6.setText("Minimum Spanning Tree");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText(".");
 
@@ -171,7 +175,6 @@ public class Gui_visualization extends javax.swing.JFrame {
     
     public void constructGraph(){
                  
-         
 //        
 //        Node x = new Node_metadata(0, new  Point2D(10, 50));
 //        Node x2 = new Node_metadata(1, new Point2D(50, 50));
@@ -209,14 +212,14 @@ public class Gui_visualization extends javax.swing.JFrame {
 //        g.connect(7, 8, 50);
 //        g.connect(9, 3, 50);*/
 //        
-//         graphAlgo = new Graph_Algo(g);
+
         
         
     }
     
     // draw graph
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        StdDraw.setCanvasSize(700, 500);
+        StdDraw.setCanvasSize(1300, 800);
         StdDraw.setXscale(0, 100);
         StdDraw.setYscale(0, 100);
          
@@ -224,8 +227,6 @@ public class Gui_visualization extends javax.swing.JFrame {
          ConstructGraph c = new ConstructGraph(acc, 100, 100);
          g = c.getGraph();
          StdDraw.clear();
-         
-         
          // draw all nodes 
          List<node_metadata> graphtNode =  new ArrayList<> (g.getV());
          for (node_metadata n: graphtNode) {
@@ -241,7 +242,7 @@ public class Gui_visualization extends javax.swing.JFrame {
             StdDraw.text(n.getLocation().x()+1, n.getLocation().y()+1.5, n.getKey()+""); // print the id of the point
           }
 
-         // draw all edges
+          // draw all edges
             List<edge_metadata> graphEdge = new ArrayList<>();
             graphEdge = g.getEdges();
                 for (edge_metadata current_edge : graphEdge){
@@ -263,22 +264,26 @@ public class Gui_visualization extends javax.swing.JFrame {
                      StdDraw.line(g.getNode(current_edge.getSrc()).getLocation().x(), g.getNode(current_edge.getSrc()).getLocation().y(),
                             g.getNode(current_edge.getDest()).getLocation().x(), g.getNode(current_edge.getDest()).getLocation().y());  // draw line 
                 }
+                graphAlgo = new Graph_Algo(g);
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
         String x = User_Dialog.getInputDialog("Choose first node.");
         String y = User_Dialog.getInputDialog("Choose end node.");
+        
+        if (x == null || y == null) return; 
         int src = Integer.parseInt(x);
         int dest = Integer.parseInt(y);
         
-        String ask = User_Dialog.getInputDialog("Animation mode? 1=yes, 0=no");
-
-        highlightThread = new HighlightPath_Thread(g,  src, dest,  (ask.equals("1")));
-        highlightThread.action();
-
-    
-
+        if (graphAlgo.isConnected(src, dest)){
+        String ask = User_Dialog.getInputDialog("Animation mode? [1=yes, 0=no]");
+        if (ask != null){
+            highlightThread = new HighlightPath_Thread(g,  src, dest,  (ask.equals("1")));
+            highlightThread.action();
+            }
+        }
+        else User_Dialog.showAlert("There is no path between " + x + "," + y + ".");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -291,7 +296,6 @@ public class Gui_visualization extends javax.swing.JFrame {
         if (q.size() > 0){
             animation = (User_Dialog.getInputDialog("Found " + q.size() +" path/s. Apply animation mode? [1=yes, 0=no]")
                      .equals("1")) ? true : false;
-        
             highlightThread = new HighlightPath_Thread(g, q, animation);
             highlightThread.action();
         }
@@ -304,6 +308,11 @@ public class Gui_visualization extends javax.swing.JFrame {
     else 
         highlightThread.pauseOrResume(); 
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        Queue<Edge> f = graphAlgo.getPrim();
+        User_Dialog.showAlert(f.size() + "#");
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments

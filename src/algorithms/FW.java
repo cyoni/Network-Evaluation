@@ -10,57 +10,45 @@ import graph.edge_metadata;
 import graph.node_metadata;
 
 
-
+/**
+ * This class represents FW algorithm.
+ * @author Yoni
+ */
 public class FW implements Serializable{
-
-	/**
-	 * 
-	 */
 	
 	private static final long serialVersionUID = -731345878701854509L;
-	private int infinity = Integer.MAX_VALUE;
-	private double mat[][];
+	private final int infinity = Integer.MAX_VALUE;
+	private int mat[][];
 	private Graph g;
-        private  ArrayList<node_metadata>[][] paths;
-
+        private ArrayList<node_metadata>[][] paths;
 	
 	public FW(Graph g) {
-		this.g = g;
-		initMat();
+            this.g = g;
+            initMat();
 	}       
 	
-
 	@SuppressWarnings("unchecked")
 	private void initMat() {
-		mat = new double[g.nodeSize()][g.nodeSize()];
-		paths = new ArrayList[g.nodeSize()][g.nodeSize()];
-		for (double[] row : mat)  Arrays.fill(row, infinity);
-
-		List<edge_metadata> edges = g.getEdges();
-		
-		for (int i = 0; i < mat.length; i++) {
-			mat[i][i] = 0;
+            mat = new int[g.nodeSize()][g.nodeSize()];
+            paths = new ArrayList[g.nodeSize()][g.nodeSize()];
+            for (int[] row : mat)  Arrays.fill(row, infinity);
+            List<edge_metadata> edges = g.getEdges();
+            for (int i = 0; i < mat.length; i++) {
+                       mat[i][i] = 0;
+            }
+            for (int i = 0; i < edges.size(); i++) {
+                int src = edges.get(i).getSrc();
+                int dest = edges.get(i).getDest();
+                mat[src][dest] = (int)edges.get(i).getWeight();
+                mat[dest][src] = (int)edges.get(i).getWeight();
+            }
+            for (int i = 0; i < mat.length; i++) {
+                for (int j = 0; j < mat.length; j++) {
+                    paths[i][j] = new ArrayList<>();
+                    if (mat[i][j] != infinity) { paths[i][j].add(g.getNode(i)); paths[i][j].add(g.getNode(j));}
+                    }
 		}
-		
-		for (int i = 0; i < edges.size(); i++) {
-			int src = edges.get(i).getSrc();
-			int dest = edges.get(i).getDest();
-                        System.out.println(src + "," + dest);
-			mat[src][dest] = edges.get(i).getWeight();
-			mat[dest][src] = edges.get(i).getWeight();
-		}
-
-		for (int i = 0; i < mat.length; i++) {
-			for (int j = 0; j < mat.length; j++) {
-				paths[i][j] = new ArrayList<>();
-				if (mat[i][j] != infinity) { paths[i][j].add(g.getNode(i)); paths[i][j].add(g.getNode(j));}
-			}
-		}
-		
-
-		// update the mat with FW
-		startFW();
-		printMat();	
+            startFW(); // update the mat with FW
 	}
 	
         public ArrayList<node_metadata>[][] getPaths(){
@@ -76,31 +64,28 @@ public class FW implements Serializable{
 		}
 		System.out.println();
 	}
-
-
+        
 	private void startFW(){
 		int n = mat.length;
 		for (int k = 0; k<n; k++){
 			for (int i = 0; i<n; i++){
-				for (int j = 0; j<n; j++){
-					if (i!=j && mat[i][k] != infinity && mat[k][j] != infinity){
-						if (mat[i][j] > mat[i][k] + mat[k][j]){
-							mat[i][j] = mat[i][k] + mat[k][j];
-							paths[i][j].clear();
-							paths[i][j].addAll(paths[i][k]);
-							paths[i][j].addAll(paths[k][j]);
-						}
-					}
-				}
-			}
-		}
+                            for (int j = 0; j<n; j++){
+				if (i!=j && mat[i][k] != infinity && mat[k][j] != infinity){
+                                    if (mat[i][j] > mat[i][k] + mat[k][j]){
+                                        mat[i][j] = mat[i][k] + mat[k][j];
+                                        paths[i][j].clear();
+                                        paths[i][j].addAll(paths[i][k]);
+                                        paths[i][j].addAll(paths[k][j]);
+                            }
+                        }
+                    }
+                }
+            }
 	}
 
-	public double[][] getMat() {
+	public int[][] getMat() {
 		return mat;
 	}
-
-
 
 	public List<node_metadata> getShortestPath(int src, int dest) {
 		ArrayList<node_metadata> shortestPath = paths[src][dest];
@@ -122,23 +107,19 @@ public class FW implements Serializable{
 		return tmpPath; 
 	}
 
-
-
 	// remove duplicates
 	private List<node_metadata> shortestPath_without_duplicates(List<node_metadata> shortestPath) {
 		List<node_metadata> shortestPath_without_duplicates = new ArrayList<>();
 		int visited[] = new int[g.nodeSize()];
 		Arrays.fill(visited, -1);
-    	for (int i=0; i< shortestPath.size(); i++) {
-    		int key = shortestPath.get(i).getKey();
-    		if (visited[key] == 1) continue;
-    		visited[key] = 1;
-    		shortestPath_without_duplicates.add(shortestPath.get(i));
-    	}	
+        	for (int i=0; i< shortestPath.size(); i++) {
+                    int key = shortestPath.get(i).getKey();
+                    if (visited[key] == 1) continue;
+                    visited[key] = 1;
+                    shortestPath_without_duplicates.add(shortestPath.get(i));
+                 }	
 		return shortestPath_without_duplicates;
 	}
-
-
 
 	public List<node_metadata> getShortestPathWithTarget(List<Integer> targets) {
 		List<node_metadata> list = new ArrayList<>();
@@ -155,12 +136,9 @@ public class FW implements Serializable{
 			mat[shorestPathList.get(j).getKey()][shorestPathList.get(j-1).getKey()] = 0;
 			mat[shorestPathList.get(j-1).getKey()][shorestPathList.get(j).getKey()] = 0;
 			}
-
 			// update the mat with FW
 			startFW();
-
 		}
-
 		return shortestPath_without_duplicates(list);
 	}
 }

@@ -5,6 +5,7 @@
  */
 package algorithms;
 
+import graph.Edge;
 import graph.Graph;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,95 +15,86 @@ import java.util.List;
 import java.util.Queue;
 import graph.edge_metadata;
 import graph.node_metadata;
+import java.util.Iterator;
+import utils.User_Dialog;
 
 /**
- *
+ * This graph contains basic algorithms of graph.
  * @author Yoni
  */
 public class Graph_Algo implements graph_algorithms , Serializable{
-
-	
-	/**
-	 * 
-	 */
+    
 	private static final long serialVersionUID = 6772723883559432038L;
-	
-	
 	private Graph g;
 	private FW fw;
 	
 	public Graph_Algo(Graph graph) {
-		this.g = graph;
-		fw = new FW(g);
-		}
-
-
+            this.g = graph;
+            fw = new FW(g);
+	}
 
 	@Override
 	public void save(String file_name) {
 		//_file.saveFile(file_name);
 	}
-
+	
 	@Override
 	public boolean isConnected() {
-		Collection<node_metadata> nodes = g.getV();
-		boolean[] visited = new boolean[g.nodeSize()]; 
-		int parent[] = new int[g.nodeSize()];
-		LinkedList<node_metadata> queue = new LinkedList<>();
-                node_metadata[] nodesArray =  new node_metadata[queue.size()]; //nodes.toArray(Node[]::new);
-                int i=0;
-                for (node_metadata tmp : queue){
-                    nodesArray[i++] = tmp;
-                }		node_metadata current = nodesArray[0];
-		
-		// Mark the current node as visited and enqueue it 
-			visited[current.getKey()]=true; 
-			queue.add(nodesArray[current.getKey()]); 
-			parent[current.getKey()] = -1;
-			while (queue.size() != 0) 
-			{ 
-				// Dequeue a vertex from queue and print it 
-				current = queue.poll(); 
-				
-				// Get all adjacent vertices of the dequeued vertex s 
-				// If a adjacent has not been visited, then mark it 
-				// visited and enqueue it 
-				 for (edge_metadata neighbor : g.getE(current.getKey())) { 
-					 int id_of_neighbor = neighbor.getDest(); // source(current) ------> (id_of_neighbor)
-						if (visited[id_of_neighbor]==false) 
-						{ 
-							//dis[n] = dis[s] + 1;
-							parent[id_of_neighbor] = id_of_neighbor;
-							visited[id_of_neighbor] = true; 
-							queue.add(g.getNode(id_of_neighbor)); 
-						} 
-				 }
-			
-			} 
+            int s = 0;
+        // Mark all the vertices as not visited(By default 
+        // set as false) 
+        List<edge_metadata> adj[]; //Adjacency Lists 
+        
+        int V = g.nodeSize();
+        boolean visited[] = new boolean[V]; 
+        adj = g.getArrayOfVertciesWithEdges();
+        // Create a queue for BFS 
+        LinkedList<Integer> queue = new LinkedList<Integer>(); 
+  
+        // Mark the current node as visited and enqueue it 
+        visited[s]=true; 
+        queue.add(s); 
+  
+        while (queue.size() != 0) 
+        { 
+            // Dequeue a vertex from queue and print it 
+            s = queue.poll(); 
+            
+  
+            // Get all adjacent vertices of the dequeued vertex s 
+            // If a adjacent has not been visited, then mark it 
+            // visited and enqueue it 
+            
+            for (int i=0; i< adj.length; i++)
+            { 
+                int n = i; 
+                if (!visited[n]) 
+                { 
+                    visited[n] = true; 
+                    queue.add(n); 
+                } 
+            } 
+        } 
+                        
+                        
 			for (boolean what : visited) if (!what) return false;
 		return true;
 	}
 
 	@Override
 	public double shortestPathDist(int src, int dest) {
-		double mat[][] = fw.getMat();
-		return mat[src][dest];
+            int mat[][] = fw.getMat();
+            return mat[src][dest];
 	}
 
 	@Override
 	public Queue<node_metadata> shortestPath(int src, int dest) {
-	//	Stack<node_data> stack = new Stack<node_data>();
 		Queue<node_metadata> q = new LinkedList<node_metadata>();
 		List<node_metadata> list = fw.getShortestPath(src, dest);
-/*		
-		for(int i=list.size()-1; i>-1; i--) {
-			stack.push(list.get(i));
-		}*/
 		for (int i = 0; i < list.size(); i++) {
 			q.add(list.get(i));
 		}
 		System.out.println("size: " + q.size());
-		
 		return q;
 	}
         
@@ -110,7 +102,7 @@ public class Graph_Algo implements graph_algorithms , Serializable{
          * This method returns the longest path. If there are a few longest paths with the same size it will return a list.
          * @return list that is composed of queue.
          */
-       	public List<Queue> longestPath() {
+       	public List<Queue> longestPath() { // TOFIX !
             List<Queue> q = new  ArrayList<>();
             ArrayList<node_metadata>[][] paths = fw.getPaths();
             int max = -1;
@@ -125,6 +117,7 @@ public class Graph_Algo implements graph_algorithms , Serializable{
                 }
             }
             
+            /*
             // remove duplicates:
             for (int i=0; i<q.size(); i++){
                 boolean flag = true;
@@ -137,27 +130,34 @@ public class Graph_Algo implements graph_algorithms , Serializable{
                     if (list1.get(0).getKey() == list2.get(list2.size()-1).getKey()) {q.remove(i); flag=false;}
                 }
             }
+            */
             return q;
         }
         
-        
-
-
 	@Override
 	public List<node_metadata> TSP(List<Integer> targets) {
 		return fw.getShortestPathWithTarget(targets);
 	}
 
-    private Queue strToQueue(ArrayList<node_metadata> list) {
-        Queue<node_metadata> q = new LinkedList<>();
-        for (node_metadata curr : list){
-            q.add(curr);
+        private Queue strToQueue(ArrayList<node_metadata> list) {
+            Queue<node_metadata> q = new LinkedList<>();
+            for (node_metadata curr : list){
+                q.add(curr);
+            }
+            return q;
         }
-        
-        return q;
+
+        @Override
+        public boolean isConnected(int src, int dest) {
+            if (src < 0 || dest < 0 || fw.getMat().length <= src || fw.getMat().length <= dest) return false;
+            return (fw.getMat()[src][dest] != Integer.MAX_VALUE);
+        }
+
+    public Queue<Edge> getPrim() {
+        if (!isConnected()){User_Dialog.showAlert("The graph is not connected."); return null;}
+        prim p = new prim(g, fw);
+        return p.primMST();
     }
 
-
-	
 }
 

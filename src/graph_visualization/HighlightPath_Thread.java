@@ -36,7 +36,6 @@ public class HighlightPath_Thread extends Thread{
         Graph_Algo ga = new Graph_Algo(g);
         Queue<node_metadata> q = ga.shortestPath(src, dest);
         list_of_queues.add(q);
-       
     }
 
     HighlightPath_Thread(Graph g, List<Queue> list_q, boolean animation) {
@@ -52,10 +51,11 @@ public class HighlightPath_Thread extends Thread{
     
 
         
-        private Point2D getPoint(int x){
-            return new Point2D(g.getNode(x).getLocation().x(), g.getNode(x).getLocation().y());
-        }
+    private Point2D getPoint(int x){
+        return new Point2D(g.getNode(x).getLocation().x(), g.getNode(x).getLocation().y());
+    }
         
+    @Override
     public void run(){
  
             Queue<node_metadata> q = new LinkedList<>();

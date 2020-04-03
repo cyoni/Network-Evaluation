@@ -14,18 +14,10 @@ import graph.node_metadata;
  * @author Yoni
  */
 public interface graph_algorithms {
-
 	public void save(String file_name);
-
 	public boolean isConnected();
-
+        public boolean isConnected(int x, int y);
 	public double shortestPathDist(int src, int dest);
-
-	
 	public Queue<node_metadata> shortestPath(int src, int dest);
-
-        
 	public List<node_metadata> TSP(List<Integer> targets);
-	
-	
 }

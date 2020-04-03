@@ -135,6 +135,19 @@ public class DGraph implements Graph, Serializable {
             }
                 return edges;
         }
+        
+        
+        @Override
+        @SuppressWarnings("unchecked")
+	public List<edge_metadata>[] getArrayOfVertciesWithEdges() {
+	List<edge_metadata>[] array_graph = new ArrayList[this.g.size()];
+    	for (int i = 0; i < array_graph.length; i++) array_graph[i] = new ArrayList<>();
+    	for (int i = 0; i < array_graph.length; i++) {
+    		array_graph[i].addAll(getE(i));
+		}
+		return array_graph;
+	}
+	
 
 }
 

@@ -111,7 +111,7 @@ public interface Graph {
 //         * @param edge - the edge with its values.
 //         */
 //        public void connectById(Edge edge);
-
+        public List<edge_metadata>[] getArrayOfVertciesWithEdges();
 	
 	
 }

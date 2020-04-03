@@ -17,7 +17,7 @@ public class Edge implements edge_metadata, Serializable {
 	private double weight;
 	private int src, dest, src_id, dest_id;
 	private String info, tag;
-	static int index = 0; // shared variable to share src and dests.
+	static int index = 0; // shared variable to share src and dest.
         
 	public Edge(int src_id, int dest_id, double weight) {
             this.src = src_id;
@@ -26,7 +26,6 @@ public class Edge implements edge_metadata, Serializable {
             this.dest_id = dest_id;
             this.weight = weight;
 	}
-	
         
    	@Override
 	public int getSrcId() {
@@ -60,17 +59,16 @@ public class Edge implements edge_metadata, Serializable {
 
 	@Override
 	public void setInfo(String s) {
-		this.info = s;
-		
+            this.info = s;	
 	}
 
 	@Override
 	public String getTag() {
-		return tag;
+            return tag;
 	}
 
 	@Override
 	public void setTag(String t) {
-		this.tag = t;
+            this.tag = t;
 	}
 }

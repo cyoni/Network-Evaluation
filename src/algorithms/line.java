@@ -15,6 +15,9 @@ public class line {
         
     	/**
 	 * This function returns a point somewhere between a line
+         * @param p1
+         * @param p2
+         * @param percent 
 	 * @return vector
 	 **/
 	public static Point2D getPointOnLine(Point2D p1, Point2D p2, int percent) {
