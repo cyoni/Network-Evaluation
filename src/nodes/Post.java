@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package graph;
+package nodes;
 
+import graph.Node;
 import utils.Point2D;
 
 /**

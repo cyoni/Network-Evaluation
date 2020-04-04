@@ -7,7 +7,7 @@ package algorithms;
 
 import java.util.List;
 import java.util.Queue;
-import graph.node_metadata;
+import nodes.node_metadata;
 
 /**
  *

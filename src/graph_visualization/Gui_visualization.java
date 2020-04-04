@@ -15,8 +15,8 @@ import graph.DGraph;
 import graph.Graph;
 import graph.Node;
 import graph.Edge;
-import graph.Member;
-import graph.Post;
+import nodes.Member;
+import nodes.Post;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import utils.Point2D;
 import utils.StdDraw;
 import utils.User_Dialog;
 import graph.edge_metadata;
-import graph.node_metadata;
+import nodes.node_metadata;
 import relationship.Friend;
 import relationship.Like;
 
@@ -112,11 +112,16 @@ public class Gui_visualization extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setText(".");
+        jButton7.setText("Connected Components");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText(".");
 
-        jButton9.setText("Pause/Resume");
+        jButton9.setText(".");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton9ActionPerformed(evt);
@@ -224,7 +229,7 @@ public class Gui_visualization extends javax.swing.JFrame {
         StdDraw.setYscale(0, 100);
          
         //  Construct graph
-         ConstructGraph c = new ConstructGraph(acc, 100, 100);
+         ConstructGraph c = new ConstructGraph(acc, 95, 95);
          g = c.getGraph();
          StdDraw.clear();
          // draw all nodes 
@@ -239,7 +244,7 @@ public class Gui_visualization extends javax.swing.JFrame {
             StdDraw.point(n.getLocation().x(), n.getLocation().y()); // draw the node(point)
             // print the key of the nodes
             StdDraw.setPenColor(StdDraw.BLACK);
-            StdDraw.text(n.getLocation().x()+1, n.getLocation().y()+1.5, n.getKey()+""); // print the id of the point
+            StdDraw.text(n.getLocation().x()+1, n.getLocation().y()+1.5, n.getName() + "(" + n.getKey() + ")"); // print the id of the point
           }
 
           // draw all edges
@@ -263,6 +268,8 @@ public class Gui_visualization extends javax.swing.JFrame {
                      
                      StdDraw.line(g.getNode(current_edge.getSrc()).getLocation().x(), g.getNode(current_edge.getSrc()).getLocation().y(),
                             g.getNode(current_edge.getDest()).getLocation().x(), g.getNode(current_edge.getDest()).getLocation().y());  // draw line 
+                     
+//                     StdDraw.text(n.getLocation().x()+1, n.getLocation().y()+1.5, n.getKey()+"");
                 }
                 graphAlgo = new Graph_Algo(g);
 
@@ -311,8 +318,12 @@ public class Gui_visualization extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         Queue<Edge> f = graphAlgo.getPrim();
-        User_Dialog.showAlert(f.size() + "#");
+       //TODO
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments

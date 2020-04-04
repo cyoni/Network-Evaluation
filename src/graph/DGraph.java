@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package graph;
+import nodes.node_metadata;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import utils.User_Dialog;
 
 /**
  * This class represents a graph.
@@ -56,22 +58,30 @@ public class DGraph implements Graph, Serializable {
 	public void addNode(node_metadata n) {
             g.put(n.getKey(), n);
             id2key.put(n.getId(),n.getKey());
+            System.out.println("new node: " + n.getKey() + ". " + n.getId());
 	}
 
 	@Override
 	public void connect(Edge edge) {
 		List<edge_metadata> list = e.get(edge.getSrc());
 		if (list == null) list = new ArrayList<>();
+                
+           /*     int x1 = (int) getNode(edge.getSrc()).getLocation().x();
+                int x2 = (int) getNode(edge.getDest()).getLocation().x();
+                int y1 = (int) getNode(edge.getSrc()).getLocation().y();
+                int y2 = (int) getNode(edge.getDest()).getLocation().y();
+             */   
+            //    int  dis=(int) Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));	
+             //   edge.setWeight(dis);
 		list.add(edge);
 		e.put(edge.getSrc(), list);
-/*	
-		list = e.get(dest);
-		if (list == null) list = new ArrayList<>();
-		edge_new = new edge_metadata(dest, src, w);
-		list.add(edge_new);
-		e.put(dest, list);
-		*/
-				
+                System.out.println("new adge: " + edge.getSrc() + "->" + edge.getDest());
+
+               // list = e.get(edge.getDest());
+           //     if (list == null) list = new ArrayList<>();
+           //     list.add(edge);
+            //    e.put(edge.getDest(), list);
+             //   System.out.println("..adge: " + edge.getDest() + "->" + edge.getSrc());	
 	}
        
 
@@ -140,10 +150,17 @@ public class DGraph implements Graph, Serializable {
         @Override
         @SuppressWarnings("unchecked")
 	public List<edge_metadata>[] getArrayOfVertciesWithEdges() {
-	List<edge_metadata>[] array_graph = new ArrayList[this.g.size()];
-    	for (int i = 0; i < array_graph.length; i++) array_graph[i] = new ArrayList<>();
-    	for (int i = 0; i < array_graph.length; i++) {
-    		array_graph[i].addAll(getE(i));
+	List<edge_metadata>[] array_graph = new ArrayList[g.size()];
+    	
+        for (Map.Entry<Integer,  List<edge_metadata>> entry : e.entrySet()){
+        System.out.println(entry.getKey() + "," + entry.getValue());
+        }
+        
+    	        for (int i=0; i<g.size(); i++){
+                array_graph[i] = new ArrayList<>();
+                Collection<edge_metadata> l = getE(i);
+                if (l!=null)
+                    array_graph[i].addAll(l);
 		}
 		return array_graph;
 	}

@@ -6,6 +6,7 @@
 package graph;
 
 import java.io.Serializable;
+import nodes.node_metadata;
 import utils.Point2D;
 
 public class Node implements node_metadata, Serializable {
@@ -20,11 +21,13 @@ public class Node implements node_metadata, Serializable {
     private String info;
     private int key;
     private int id;
-
+    protected String name = "";
+    
     public Node(int key, int id, Point2D location) {
         this.location = location;
         this.key = key;
         this.id = id;
+        
     }
 
     @Override
@@ -68,6 +71,11 @@ public class Node implements node_metadata, Serializable {
     @Override
     public int getId() {
         return id;
+    }
+    
+    @Override
+    public String getName(){
+        return name;
     }
 
 }

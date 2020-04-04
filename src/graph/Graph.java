@@ -5,6 +5,7 @@
  */
 package graph;
 
+import nodes.node_metadata;
 import java.util.Collection;
 import java.util.List;
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package graph;
+package nodes;
 
 import utils.Point2D;
 
@@ -49,4 +49,5 @@ public interface node_metadata {
 	public void setTag(int t);
         
         public int getId();
+        public String getName();
 }

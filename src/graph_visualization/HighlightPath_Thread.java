@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import utils.Point2D;
 import utils.StdDraw;
-import graph.node_metadata;
+import nodes.node_metadata;
 /**
  *
  * @author Yoni

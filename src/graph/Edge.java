@@ -17,7 +17,7 @@ public class Edge implements edge_metadata, Serializable {
 	private double weight;
 	private int src, dest, src_id, dest_id;
 	private String info, tag;
-	static int index = 0; // shared variable to share src and dest.
+	//static int index = 0; // shared variable to share src and dest.
         
 	public Edge(int src_id, int dest_id, double weight) {
             this.src = src_id;

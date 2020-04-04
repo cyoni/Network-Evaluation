@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import graph.edge_metadata;
-import graph.node_metadata;
+import nodes.node_metadata;
 
 
 /**

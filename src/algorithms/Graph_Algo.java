@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import graph.edge_metadata;
-import graph.node_metadata;
+import nodes.node_metadata;
 import java.util.Iterator;
 import utils.User_Dialog;
 
@@ -40,7 +40,7 @@ public class Graph_Algo implements graph_algorithms , Serializable{
 	
 	@Override
 	public boolean isConnected() {
-            int s = 0;
+        int s = 0;
         // Mark all the vertices as not visited(By default 
         // set as false) 
         List<edge_metadata> adj[]; //Adjacency Lists 
@@ -48,6 +48,9 @@ public class Graph_Algo implements graph_algorithms , Serializable{
         int V = g.nodeSize();
         boolean visited[] = new boolean[V]; 
         adj = g.getArrayOfVertciesWithEdges();
+        
+         for (int i=0; i<adj.length; i++) if (adj[i].size() > 0) {s = i; break;}
+        
         // Create a queue for BFS 
         LinkedList<Integer> queue = new LinkedList<Integer>(); 
   
@@ -55,7 +58,7 @@ public class Graph_Algo implements graph_algorithms , Serializable{
         visited[s]=true; 
         queue.add(s); 
   
-        while (queue.size() != 0) 
+        while (!queue.isEmpty()) 
         { 
             // Dequeue a vertex from queue and print it 
             s = queue.poll(); 
@@ -65,9 +68,9 @@ public class Graph_Algo implements graph_algorithms , Serializable{
             // If a adjacent has not been visited, then mark it 
             // visited and enqueue it 
             
-            for (int i=0; i< adj.length; i++)
+            for (int i=0;i<adj[s].size(); i++)
             { 
-                int n = i; 
+                int n = adj[s].get(i).getDest();
                 if (!visited[n]) 
                 { 
                     visited[n] = true; 
@@ -75,10 +78,9 @@ public class Graph_Algo implements graph_algorithms , Serializable{
                 } 
             } 
         } 
-                        
-                        
-			for (boolean what : visited) if (!what) return false;
-		return true;
+    
+	for (boolean what : visited) if (!what) return false;
+        return true;
 	}
 
 	@Override

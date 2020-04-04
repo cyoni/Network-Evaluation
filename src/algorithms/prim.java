@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import utils.User_Dialog;
+import java.util.Arrays; 
 
 /**
  *
@@ -39,7 +41,8 @@ public class prim {
 				min = key[v]; 
 				min_index = v; 
 			} }
-
+                
+                User_Dialog.showAlert(min_index + "$$" + Arrays.toString(key));
 		return min_index; 
 	} 
 
