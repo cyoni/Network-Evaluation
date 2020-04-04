@@ -19,15 +19,14 @@ public class Node implements node_metadata, Serializable {
     private static final long serialVersionUID = -5098381326948746081L;
     private Point2D location;
     private String info;
-    private int key;
-    private int id;
+    private int key, id;
+    public static int GLOBAL_ID = 0;
     protected String name = "";
     
-    public Node(int key, int id, Point2D location) {
+    public Node(int id, Point2D location) {
         this.location = location;
-        this.key = key;
         this.id = id;
-        
+        this.key = GLOBAL_ID++;
     }
 
     @Override

@@ -38,9 +38,9 @@ public class Gui_visualization extends javax.swing.JFrame {
     AccesConnection acc;
     static Color[] colors = {Color.YELLOW};
     static int color_index = 0;
-    HighlightPath_Thread highlightThread;
+    private HighlightPath_Thread highlightThread;
     private Graph_Algo graphAlgo;
-  
+    private Draw draw;
     
     public Gui_visualization() {
         initComponents();
@@ -51,6 +51,10 @@ public class Gui_visualization extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         acc = a; 
+        //  Construct graph
+         ConstructGraph c = new ConstructGraph(acc, 95, 95);
+         g = c.getGraph();
+         draw = new Draw(g, acc);
     }
     
     /**
@@ -177,7 +181,8 @@ public class Gui_visualization extends javax.swing.JFrame {
         color_index= (color_index+1)%colors.length;
         return colors[color_index];
     }
-    
+   
+     
     public void constructGraph(){
                  
 //        
@@ -224,55 +229,7 @@ public class Gui_visualization extends javax.swing.JFrame {
     
     // draw graph
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        StdDraw.setCanvasSize(1300, 800);
-        StdDraw.setXscale(0, 100);
-        StdDraw.setYscale(0, 100);
-         
-        //  Construct graph
-         ConstructGraph c = new ConstructGraph(acc, 95, 95);
-         g = c.getGraph();
-         StdDraw.clear();
-         // draw all nodes 
-         List<node_metadata> graphtNode =  new ArrayList<> (g.getV());
-         for (node_metadata n: graphtNode) {
-             if (n instanceof Member)
-                StdDraw.setPenColor(Color.red);
-              else if (n instanceof Post) 
-                StdDraw.setPenColor(Color.blue);
-             
-            StdDraw.setPenRadius(0.02);
-            StdDraw.point(n.getLocation().x(), n.getLocation().y()); // draw the node(point)
-            // print the key of the nodes
-            StdDraw.setPenColor(StdDraw.BLACK);
-            StdDraw.text(n.getLocation().x()+1, n.getLocation().y()+1.5, n.getName() + "(" + n.getKey() + ")"); // print the id of the point
-          }
-
-          // draw all edges
-            List<edge_metadata> graphEdge = new ArrayList<>();
-            graphEdge = g.getEdges();
-                for (edge_metadata current_edge : graphEdge){
-                int src = current_edge.getSrcId();
-                int dest = current_edge.getDestId();
-                    
-                if (current_edge instanceof Friend) 
-                    StdDraw.setPenColor(Color.GREEN); // set color
-                else if (current_edge instanceof Like) 
-                    StdDraw.setPenColor(Color.BLUE);
-                // .... else if...
-                
-                  // print the edges and connection
-                   StdDraw.setPenRadius(0.005);
-                   Point2D text_pos = line.getPointOnLine(new Point2D(g.getNode(current_edge.getSrc()).getLocation().x(), g.getNode(current_edge.getSrc()).getLocation().y()),
-                     new Point2D(g.getNode(current_edge.getDest()).getLocation().x(), g.getNode(current_edge.getDest()).getLocation().y()), 50);
-                     StdDraw.text(text_pos.x()-1.5, text_pos.y()+1.5, g.getEdge(src, dest).getTag()+ ""); // print text connection
-                     
-                     StdDraw.line(g.getNode(current_edge.getSrc()).getLocation().x(), g.getNode(current_edge.getSrc()).getLocation().y(),
-                            g.getNode(current_edge.getDest()).getLocation().x(), g.getNode(current_edge.getDest()).getLocation().y());  // draw line 
-                     
-//                     StdDraw.text(n.getLocation().x()+1, n.getLocation().y()+1.5, n.getKey()+"");
-                }
-                graphAlgo = new Graph_Algo(g);
-
+        draw.drawGraph();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -294,7 +251,7 @@ public class Gui_visualization extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        StdDraw.clear();
+        clearGraph();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -371,6 +328,13 @@ public class Gui_visualization extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+
+    private void clearGraph() {
+        StdDraw.clear();
+        Node.GLOBAL_ID = 0;
+    }
+
+   
 
   
 }

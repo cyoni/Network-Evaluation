@@ -41,6 +41,7 @@ public class DGraph implements Graph, Serializable {
        
         @Override
          public int getKeyById(int id) {
+             System.out.println(id + " $$$$$$$$$$$$$$$$$$$$$$" + (id2key.get(id) == null));
             return id2key.get(id);
          }
 
@@ -57,7 +58,8 @@ public class DGraph implements Graph, Serializable {
 	@Override
 	public void addNode(node_metadata n) {
             g.put(n.getKey(), n);
-            id2key.put(n.getId(),n.getKey());
+            
+            id2key.put( n.getId(), n.getKey());
             System.out.println("new node: " + n.getKey() + ". " + n.getId());
 	}
 

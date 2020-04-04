@@ -9,6 +9,7 @@ import DB_Connection.AccesConnection;
 import graph.DGraph;
 import graph.Edge;
 import graph.Graph;
+import graph.Node;
 import nodes.Member;
 import nodes.Post;
 import java.sql.ResultSet;
@@ -31,7 +32,6 @@ public class ConstructGraph {
     private int height;
     private AccesConnection acc;
     private Statement statment;
-    private static int numNodes;
 
 
     public ConstructGraph(AccesConnection a, int width, int height) {
@@ -40,10 +40,8 @@ public class ConstructGraph {
         this.width = width;
         this.height = height;
         graph = new DGraph();
-        numNodes = 0;
         addMembers();
         addPosts();
-       
     }
     
     // read db and add to graph the members
@@ -55,9 +53,8 @@ public class ConstructGraph {
                        String name = rs.getString("name");
                        int id = rs.getInt("person_id");
                        int friends = rs.getInt("friends");
-                       Member m = new Member(name, friends, numNodes, id, randomPoint());
+                       Node m = new Member(name, friends, id, randomPoint());
                        graph.addNode(m);
-                       numNodes++;
                     }
             ResultSet rs1 = statment.executeQuery("SELECT * FROM [T_Friends]");
             while ( rs1.next()) {
@@ -78,9 +75,8 @@ public class ConstructGraph {
             ResultSet rs = statment.executeQuery("SELECT [post_id] FROM [T_Posts];");
             while (rs.next()) {
                        int id = rs.getInt("post_id");
-                       Post p = new Post(numNodes, id, randomPoint());
+                       Node p = new Post(id, randomPoint());
                        graph.addNode(p);
-                       numNodes++;
                     }
           ResultSet rs1 = statment.executeQuery("SELECT [post_id],[member_id] FROM [T_Posts] INNER JOIN T_Likes ON T_Posts.post_id = T_Likes.compoment_id;");
            while (rs1.next()) {
