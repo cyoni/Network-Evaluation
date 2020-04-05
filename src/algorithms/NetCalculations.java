@@ -50,6 +50,19 @@ public class NetCalculations {
              return 0;
    }
    
+   /**
+    * This method calculate the number of posts in the network
+    * @return
+    * @throws SQLException 
+    */
+   public int CalNumOfPosts () throws SQLException {
+        ResultSet rs = statment.executeQuery("SELECT Count(*) AS [Posts] FROM [T_Posts]");
+         if(rs.next())
+            return rs.getInt("Posts");
+         else
+             return 0;
+   }
+   
   
    /**
     * This method calculate the number of groups in the network

@@ -32,6 +32,7 @@ public class ConstructGraph {
     private int height;
     private AccesConnection acc;
     private Statement statment;
+    private NetCalculations cal;
 
 
     public ConstructGraph(AccesConnection a, int width, int height) {
@@ -40,6 +41,7 @@ public class ConstructGraph {
         this.width = width;
         this.height = height;
         graph = new DGraph();
+        cal = new NetCalculations(acc);
         addMembers();
         addPosts();
     }
@@ -47,13 +49,16 @@ public class ConstructGraph {
     // read db and add to graph the members
     private void addMembers() {
         try {
+            int numMembers = cal.CalNumOfMembers();
+            double RADIUS = 30;
             // add nodes of members
             ResultSet rs = statment.executeQuery("SELECT T_Members.person_id, T_Persons.name, T_Members.friends FROM T_Members INNER JOIN T_Persons ON T_Members.person_id = T_Persons.person_id;");
+           int idx = 0;
                     while ( rs.next()) {
                        String name = rs.getString("name");
                        int id = rs.getInt("person_id");
                        int friends = rs.getInt("friends");
-                       Node m = new Member(name, friends, id, randomPoint());
+                       Node m = new Member(name, friends, id, circlePoint(numMembers, idx++, RADIUS));
                        graph.addNode(m);
                     }
             ResultSet rs1 = statment.executeQuery("SELECT * FROM [T_Friends]");
@@ -72,10 +77,13 @@ public class ConstructGraph {
     
     private void addPosts() {
         try {
+            int numPosts = cal.CalNumOfPosts();
+            double RADIUS = 10;
             ResultSet rs = statment.executeQuery("SELECT [post_id] FROM [T_Posts];");
+            int idx =0;
             while (rs.next()) {
                        int id = rs.getInt("post_id");
-                       Node p = new Post(id, randomPoint());
+                       Node p = new Post(id, circlePoint(numPosts,idx++,RADIUS));
                        graph.addNode(p);
                     }
           ResultSet rs1 = statment.executeQuery("SELECT [post_id],[member_id] FROM [T_Posts] INNER JOIN T_Likes ON T_Posts.post_id = T_Likes.compoment_id;");
