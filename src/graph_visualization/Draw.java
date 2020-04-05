@@ -30,11 +30,11 @@ import utils.StdDraw;
 public class Draw {
 
     private Graph g;
-    private AccesConnection acc;
+    private AccesConnection accessConnection_toDatabase;
    
-    public Draw(Graph g, AccesConnection acc){
+    public Draw(Graph g, AccesConnection accessConnection_toDatabase){
         this.g = g;
-        this.acc = acc;
+        this.accessConnection_toDatabase = accessConnection_toDatabase;
     }
     
     
@@ -98,28 +98,15 @@ public class Draw {
     }
 
     private void drawConnection(node_metadata src, node_metadata dest, Point2D label_location) {
-    
-        // find the right most point:
-        node_metadata right_node = null, left_node = null;
+                    
+      //  double distance_x = line.distance(right_node.getLocation(), left_node.getLocation());
+     //   double distance_y = right_node.getLocation().y() - p3.y();
+      //  double degree = (Math.asin(distance_y / distance_x)*180/Math.PI);
 
-        if (src.getLocation().x() > dest.getLocation().x()){
-            right_node = src;
-            left_node = dest;
-        }
-        else {
-            left_node = src;
-            right_node = dest;
-        }
-        Point2D p3 = new Point2D(right_node.getLocation().x(), left_node.getLocation().y());
-                
-        double distance_x = line.distance(right_node.getLocation(), left_node.getLocation());
-        double distance_y = right_node.getLocation().y() - p3.y();
-        double degree = (Math.asin(distance_y / distance_x)*180/Math.PI);
+      
+        double degree = Math.toDegrees(Math.atan2(src.getLocation().y()-dest.getLocation().y(), src.getLocation().x()-dest.getLocation().x()));
         
-        System.out.println("distance_x=" + distance_x + "distance_y="+distance_y + "degree:" + (degree)  + "x=" + right_node.getLocation().x() + ",y=" + right_node.getLocation().y()  );
-        
-        
-        StdDraw.text(label_location.x(), label_location.y()+1.5, g.getEdge(src.getKey(), dest.getKey()).getTag(), degree);// print text connection
+        StdDraw.text(label_location.x(), label_location.y()+1, g.getEdge(src.getKey(), dest.getKey()).getTag(), degree);// print text connection
        
 
     }

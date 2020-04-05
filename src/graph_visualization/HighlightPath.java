@@ -22,14 +22,14 @@ import nodes.node_metadata;
  *
  * @author Yoni
  */
-public class HighlightPath_Thread extends Thread{
+public class HighlightPath extends Thread{
     private Graph g;
     private int src, dest;
     private boolean animation;
     private List<Queue> list_of_queues;
     private boolean pause = false;
     
-    public HighlightPath_Thread(Graph g, int src, int dest, boolean animation){
+    public HighlightPath(Graph g, int src, int dest, boolean animation){
         this.g = g;
         this.animation = animation;
         list_of_queues = new ArrayList<>();
@@ -38,7 +38,7 @@ public class HighlightPath_Thread extends Thread{
         list_of_queues.add(q);
     }
 
-    HighlightPath_Thread(Graph g, List<Queue> list_q, boolean animation) {
+    HighlightPath(Graph g, List<Queue> list_q, boolean animation) {
         list_of_queues = list_q;
         this.animation = animation;
         this.g = g;
@@ -102,7 +102,7 @@ public class HighlightPath_Thread extends Thread{
             try {  
                 sleep(10);
             } catch (InterruptedException ex) {
-                Logger.getLogger(HighlightPath_Thread.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(HighlightPath.class.getName()).log(Level.SEVERE, null, ex);
             }
             Point2D tmp = line.getPointOnLine(p1, p2, ++percent);
             StdDraw.point(tmp.x(), tmp.y());

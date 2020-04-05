@@ -25,7 +25,11 @@ public class NewClass {
         Point2D p3 = line.getPointOnLine(p1, p2, 50);
         StdDraw.line(p1.x(), p1.y(), p2.x(), p2.y());
         
-        StdDraw.text(p3.x(), p3.y()+3, "shalom", -44.3839);
+        double xx = Math.atan2(p2.y()-p1.y(),p2.x()-p1.x());
+        double deg = Math.toDegrees(xx);
+        System.out.println(deg);
+        
+        StdDraw.text(p3.x(), p3.y()+5, "shalom", deg); // -44.3839
         
                 
     }

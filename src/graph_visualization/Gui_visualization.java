@@ -38,7 +38,7 @@ public class Gui_visualization extends javax.swing.JFrame {
     AccesConnection acc;
     static Color[] colors = {Color.YELLOW};
     static int color_index = 0;
-    private HighlightPath_Thread highlightThread;
+    private HighlightPath highlightThread;
     private Graph_Algo graphAlgo;
     private Draw draw;
     
@@ -243,7 +243,7 @@ public class Gui_visualization extends javax.swing.JFrame {
         if (graphAlgo.isConnected(src, dest)){
         String ask = User_Dialog.getInputDialog("Animation mode? [1=yes, 0=no]");
         if (ask != null){
-            highlightThread = new HighlightPath_Thread(g,  src, dest,  (ask.equals("1")));
+            highlightThread = new HighlightPath(g,  src, dest,  (ask.equals("1")));
             highlightThread.action();
             }
         }
@@ -260,7 +260,7 @@ public class Gui_visualization extends javax.swing.JFrame {
         if (q.size() > 0){
             animation = (User_Dialog.getInputDialog("Found " + q.size() +" path/s. Apply animation mode? [1=yes, 0=no]")
                      .equals("1")) ? true : false;
-            highlightThread = new HighlightPath_Thread(g, q, animation);
+            highlightThread = new HighlightPath(g, q, animation);
             highlightThread.action();
         }
         

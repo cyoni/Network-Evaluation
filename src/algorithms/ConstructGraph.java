@@ -30,18 +30,18 @@ public class ConstructGraph {
     private Graph graph;
     private int width;
     private int height;
-    private AccesConnection acc;
+    private AccesConnection accessConnection_ToDatabase;
     private Statement statment;
     private NetCalculations cal;
 
 
-    public ConstructGraph(AccesConnection a, int width, int height) {
-        this.acc = a;
-        statment = acc.getStatment();
+    public ConstructGraph(AccesConnection accessConnection_toDatabase, int width, int height) {
+        this.accessConnection_ToDatabase = accessConnection_toDatabase;
+        statment = accessConnection_toDatabase.getStatment();
         this.width = width;
         this.height = height;
         graph = new DGraph();
-        cal = new NetCalculations(acc);
+        cal = new NetCalculations(accessConnection_ToDatabase);
         addMembers();
         addPosts();
     }
@@ -125,7 +125,7 @@ public class ConstructGraph {
                 a + (Math.cos(angle) * radius),
                 b + (Math.sin(angle) * radius)
         );
-        System.out.println("p: " + p.toString());
+        System.out.println("p: " + p.toString());   
         return p;
     }
 

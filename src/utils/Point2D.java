@@ -17,6 +17,11 @@ public class Point2D {
         this.x = x;
         this.y = y;
     }
+
+    public Point2D(Point2D p) { // copy constructor
+        this.x = p.x;
+        this.y = p.y;
+    }
     
     public double x(){ return x;}
     public double y(){ return y;}
