@@ -50,7 +50,7 @@ public class ConstructGraph {
     private void addMembers() {
         try {
             int numMembers = cal.CalNumOfMembers();
-            double RADIUS = 30;
+            double RADIUS = 25;
             // add nodes of members
             ResultSet rs = statment.executeQuery("SELECT T_Members.person_id, T_Persons.name, T_Members.friends FROM T_Members INNER JOIN T_Persons ON T_Members.person_id = T_Persons.person_id;");
            int idx = 0;
@@ -58,7 +58,7 @@ public class ConstructGraph {
                        String name = rs.getString("name");
                        int id = rs.getInt("person_id");
                        int friends = rs.getInt("friends");
-                       Node m = new Member(name, friends, id, circlePoint(numMembers, idx++, RADIUS));
+                       Node m = new Member(name, friends, id, circlePoint(numMembers, idx++, RADIUS,30,35));
                        graph.addNode(m);
                     }
             ResultSet rs1 = statment.executeQuery("SELECT * FROM [T_Friends]");
@@ -83,7 +83,7 @@ public class ConstructGraph {
             int idx =0;
             while (rs.next()) {
                        int id = rs.getInt("post_id");
-                       Node p = new Post(id, circlePoint(numPosts,idx++,RADIUS));
+                       Node p = new Post(id, circlePoint(numPosts,idx++,RADIUS,70,70));
                        graph.addNode(p);
                     }
           ResultSet rs1 = statment.executeQuery("SELECT [post_id],[member_id] FROM [T_Posts] INNER JOIN T_Likes ON T_Posts.post_id = T_Likes.compoment_id;");
@@ -111,10 +111,10 @@ public class ConstructGraph {
         return new Point2D(x, y);   
     }
     
-    private Point2D circlePoint(int n, int i, double radius) {
+    private Point2D circlePoint(int n, int i, double radius, int a, int b) {
 
-        final double a = width / 2;
-        final int b = height / 2;
+//        final double a = width / 2;
+//        final int b = height / 2;
         System.out.println("n: " + n);
         System.out.println("i: " + i);
 
