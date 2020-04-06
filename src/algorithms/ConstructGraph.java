@@ -124,7 +124,7 @@ public class ConstructGraph {
         Point2D p = new Point2D(
                 a + (Math.cos(angle) * radius),
                 b + (Math.sin(angle) * radius)
-        );
+        ); 
         System.out.println("p: " + p.toString());   
         return p;
     }
