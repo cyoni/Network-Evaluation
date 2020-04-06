@@ -32,6 +32,7 @@ public class line {
 		double y = y1 + u[1] * distance*((double)percent/100);
 		return new Point2D(x,y);
 	}
+         
         
         public static double distance(Point2D p1, Point2D p2){
             return Math.sqrt(Math.pow((p2.y()-p1.y()), 2) + Math.pow((p2.x()-p1.x()), 2));
