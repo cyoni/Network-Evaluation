@@ -29,5 +29,4 @@ public class Ad {
     public int getCategoryID(){return category;}
     public int getInterest(){return interest;}
     public double getProductPrice() {return product_price;}
-    
 }
