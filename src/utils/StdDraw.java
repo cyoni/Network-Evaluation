@@ -38,6 +38,8 @@ package utils;
  *
  ******************************************************************************/
 
+import algorithms.Graph_Mouse_Event;
+import graph.Graph;
 import graph_visualization.Gui_visualization;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -492,7 +494,7 @@ import javax.swing.KeyStroke;
  *  @author Kevin Wayne
  */
 public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
-        private static Gui_visualization g;
+        private static Graph graph;
 	/**
 	 *  The color black.
 	 */
@@ -643,8 +645,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	// set of key codes currently pressed down
 	private static TreeSet<Integer> keysDown = new TreeSet<Integer>();
 
-    public static void setGui(Gui_visualization gg) {
-            gg = g;
+    public static void setGraph(Graph g) {
+            graph = g;
     }
 
 	// singleton pattern: client can't instantiate
@@ -1738,7 +1740,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// this body is intentionally left empty
+            int y_point = height - e.getY();              
+            Graph_Mouse_Event.show_data_of_node(graph, e.getX(), y_point);
 	}
 
 	/**

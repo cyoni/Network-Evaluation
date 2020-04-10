@@ -102,21 +102,22 @@ public class Gui_visualization extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Longest Path");
+        jButton4.setText("Filter");
+        jButton4.setActionCommand(".");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
-        jButton6.setText("Minimum Spanning Tree");
+        jButton6.setText(".");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
 
-        jButton7.setText("Connected Components");
+        jButton7.setText(".");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -155,9 +156,9 @@ public class Gui_visualization extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
@@ -230,6 +231,7 @@ public class Gui_visualization extends javax.swing.JFrame {
     // draw graph
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         draw.drawGraph();
+        StdDraw.setGraph(g);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -255,15 +257,7 @@ public class Gui_visualization extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        boolean animation = false;
-        List<Queue> q = graphAlgo.longestPath();
-        if (q.size() > 0){
-            animation = (User_Dialog.getInputDialog("Found " + q.size() +" path/s. Apply animation mode? [1=yes, 0=no]")
-                     .equals("1")) ? true : false;
-            highlightThread = new HighlightPath(g, q, animation);
-            highlightThread.action();
-        }
-        
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -274,7 +268,7 @@ public class Gui_visualization extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        Queue<Edge> f = graphAlgo.getPrim();
+
        //TODO
     }//GEN-LAST:event_jButton6ActionPerformed
 

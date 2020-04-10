@@ -41,7 +41,6 @@ public class DGraph implements Graph, Serializable {
        
         @Override
          public int getKeyById(int id) {
-             System.out.println(id + " $$$$$$$$$$$$$$$$$$$$$$" + (id2key.get(id) == null));
             return id2key.get(id);
          }
 

@@ -12,6 +12,7 @@ import algorithms.line;
 import graph.Graph;
 import graph.Node;
 import graph.edge_metadata;
+import gui.ScreenSize;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +41,14 @@ public class Draw {
     
     public void drawGraph(){
                 
-        StdDraw.setCanvasSize(1300, 800);
-        StdDraw.setXscale(0, 100);
-        StdDraw.setYscale(0, 100);
+        StdDraw.setCanvasSize(ScreenSize.WIDTH, ScreenSize.HEIGHT);
+        StdDraw.setXscale(0, ScreenSize.WIDTH);
+        StdDraw.setYscale(0, ScreenSize.HEIGHT);
          
          // draw all nodes 
          List<node_metadata> graphtNode =  new ArrayList<> (g.getV());
          for (node_metadata n: graphtNode) {
-             if (n instanceof Member)
+             if (n instanceof Member) // it violates open/close rule
                 StdDraw.setPenColor(Color.red);
               else if (n instanceof Post) 
                 StdDraw.setPenColor(Color.blue);
@@ -55,8 +56,8 @@ public class Draw {
             StdDraw.setPenRadius(0.02);
             StdDraw.point(n.getLocation().x(), n.getLocation().y()); // draw the node(point)
             // print the key of the nodes
-            StdDraw.setPenColor(StdDraw.BLACK);
-            StdDraw.text(n.getLocation().x()+1, n.getLocation().y()+1.5, n.getName() + "(" + Math.floor(n.getLocation().x()) + "," + Math.floor( n.getLocation().y()) + ")"); // print the id of the point
+        //    StdDraw.setPenColor(StdDraw.BLACK);
+         //   StdDraw.text(n.getLocation().x()+1, n.getLocation().y()+1.5,"(" + Math.floor(n.getLocation().x()) + "," + Math.floor( n.getLocation().y()) + ")"); // print the id of the point
           }
 
           // draw all edges
@@ -66,7 +67,7 @@ public class Draw {
                 int src = current_edge.getSrcId();
                 int dest = current_edge.getDestId();
                     
-                if (current_edge instanceof Friend) 
+                if (current_edge instanceof Friend)  // it violates open/close rule
                     StdDraw.setPenColor(Color.GREEN); // set color
                 else if (current_edge instanceof Like) 
                     StdDraw.setPenColor(Color.BLUE);
