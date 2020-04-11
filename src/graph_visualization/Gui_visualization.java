@@ -8,33 +8,22 @@ package graph_visualization;
 import DB_Connection.AccesConnection;
 import algorithms.ConstructGraph;
 import algorithms.Graph_Algo;
-import algorithms.graph_algorithms;
-import algorithms.line;
-import algorithms.prim;
-import graph.DGraph;
 import graph.Graph;
 import graph.Node;
-import graph.Edge;
-import nodes.Member;
-import nodes.Post;
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-import utils.Point2D;
 import utils.StdDraw;
 import utils.User_Dialog;
-import graph.edge_metadata;
-import nodes.node_metadata;
-import relationship.Friend;
-import relationship.Like;
+import javax.swing.JFrame;
+import relationship.Relationships;
+
 
 /**
  *
  * @author Yoni
  */
-public class Gui_visualization extends javax.swing.JFrame {
-    Graph g;
+public class Gui_visualization extends JFrame {
+    String[] relationships = Relationships.relationships;
+    Graph graph;
     AccesConnection acc;
     static Color[] colors = {Color.YELLOW};
     static int color_index = 0;
@@ -53,8 +42,8 @@ public class Gui_visualization extends javax.swing.JFrame {
         acc = a; 
         //  Construct graph
          ConstructGraph c = new ConstructGraph(acc, 95, 95);
-         g = c.getGraph();
-         draw = new Draw(g, acc);
+         graph = c.getGraph();
+         draw = new Draw(graph, acc);
     }
     
     /**
@@ -102,7 +91,7 @@ public class Gui_visualization extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Filter");
+        jButton4.setText("Filter...");
         jButton4.setActionCommand(".");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,54 +173,12 @@ public class Gui_visualization extends javax.swing.JFrame {
     }
    
      
-    public void constructGraph(){
-                 
-//        
-//        Node x = new Node_metadata(0, new  Point2D(10, 50));
-//        Node x2 = new Node_metadata(1, new Point2D(50, 50));
-//        Node x3 = new Node_metadata(2, new Point2D(10, 20));
-//        Node x4 = new Node_metadata(3, new Point2D(50, 20));    
-//        Node x5 = new Node_metadata(4, new Point2D(60, 50));    
-//        Node x6 = new Node_metadata(5, new Point2D(50, 40));    
-//        Node x7 = new Node_metadata(6, new Point2D(40, 30));    
-//        Node x8 = new Node_metadata(7, new Point2D(40, 80));    
-//        Node x9 = new Node_metadata(8, new Point2D(70, 76));    
-//        Node x10 = new Node_metadata(9, new Point2D(75, 10));    
-//
-//        
-//        g.addNode(x);
-//        g.addNode(x2);
-//        g.addNode(x3);
-//        g.addNode(x4);
-//     /*   g.addNode(x5);
-//        g.addNode(x6);
-//        g.addNode(x7);
-//        g.addNode(x8);
-//        g.addNode(x9);
-//        g.addNode(x10);
-// */
-//        
-//        g.connect(0, 1, 50);
-//        g.connect(1, 3, 50);
-//        g.connect(2, 3, 50);
-//        g.connect(2, 0, 50);
-//        
-//     /*   g.connect(4, 5, 50);
-//        g.connect(5, 1, 50);
-//        g.connect(6, 5, 50);
-//        g.connect(6, 7, 50);
-//        g.connect(7, 8, 50);
-//        g.connect(9, 3, 50);*/
-//        
-
-        
-        
-    }
+    public void constructGraph(){}
     
     // draw graph
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         draw.drawGraph();
-        StdDraw.setGraph(g);
+        StdDraw.setGraph(graph);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -245,7 +192,7 @@ public class Gui_visualization extends javax.swing.JFrame {
         if (graphAlgo.isConnected(src, dest)){
         String ask = User_Dialog.getInputDialog("Animation mode? [1=yes, 0=no]");
         if (ask != null){
-            highlightThread = new HighlightPath(g,  src, dest,  (ask.equals("1")));
+            highlightThread = new HighlightPath(graph,  src, dest,  (ask.equals("1")));
             highlightThread.action();
             }
         }
@@ -257,7 +204,13 @@ public class Gui_visualization extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-
+     
+      FilterRelationship fr = new FilterRelationship("Filter...", relationships, draw);
+      fr.setSize(200, 300);
+      fr.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      fr.addComponentsToPane(fr.getContentPane());
+      fr.setVisible(true);
+    
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed

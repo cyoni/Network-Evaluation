@@ -15,7 +15,7 @@ public class Friend extends Edge {
     
     public Friend(int x, int y, double weight){
         super(x, y, weight);
-        setTag("Friends");
+        setTag("Friend");
     }
     
     

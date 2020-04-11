@@ -5,17 +5,12 @@
  */
 package relationship;
 
-import graph.Edge;
-
 /**
  *
  * @author Yoni
  */
-public class Advertise extends Edge {
+public class Relationships {
     
-    public Advertise(int x, int y, double weight){
-        super(x, y, weight);
-        setTag("Advertise");
-    }
+    public static String[] relationships =  {"Friend", "Post", "Like", "Share", "Advertise"};
     
 }

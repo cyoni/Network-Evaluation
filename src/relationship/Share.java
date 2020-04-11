@@ -14,6 +14,6 @@ import graph.Edge;
 public class Share extends Edge{
         public Share(int x, int y, double weight){
         super(x, y, weight);
-        setTag("Shares");
+        setTag("Share");
     }
 }

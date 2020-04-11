@@ -44,6 +44,7 @@ public class ConstructGraph {
         this.height = height;
         graph = new DGraph();
         cal = new NetCalculations(accessConnection_ToDatabase);
+        
         addMembers();
         addPosts();
     }
@@ -93,9 +94,8 @@ public class ConstructGraph {
            while (rs1.next()) {
                        int memberId = rs1.getInt("member_id");
                        int postId = rs1.getInt("post_id");
-                       
-                        int keySrc = graph.getKeyById(memberId);
-                        int keyDest = graph.getKeyById(postId);
+                       int keySrc = graph.getKeyById(memberId);
+                       int keyDest = graph.getKeyById(postId);
                        
                         graph.connect(new Like(keySrc, keyDest, 1)); // member -[:likes] -> post
                     }

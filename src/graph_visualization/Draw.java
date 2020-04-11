@@ -15,6 +15,7 @@ import graph.edge_metadata;
 import gui.ScreenSize;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import nodes.Member;
 import nodes.Post;
@@ -32,7 +33,8 @@ public class Draw {
 
     private Graph g;
     private AccesConnection accessConnection_toDatabase;
-   
+    private HashMap<String, Boolean> relationship_to_filter = new HashMap<>();
+
     public Draw(Graph g, AccesConnection accessConnection_toDatabase){
         this.g = g;
         this.accessConnection_toDatabase = accessConnection_toDatabase;
@@ -64,38 +66,37 @@ public class Draw {
             List<edge_metadata> graphEdge = new ArrayList<>();
             graphEdge = g.getEdges();
                 for (edge_metadata current_edge : graphEdge){
-                int src = current_edge.getSrcId();
-                int dest = current_edge.getDestId();
-                    
-                if (current_edge instanceof Friend)  // it violates open/close rule
-                    StdDraw.setPenColor(Color.GREEN); // set color
-                else if (current_edge instanceof Like) 
-                    StdDraw.setPenColor(Color.BLUE);
-                // .... else if...
-                
-                  // print the edges and connection
-                   StdDraw.setPenRadius(0.005);
-                   node_metadata Node_src = g.getNode(current_edge.getSrc());
-                   node_metadata Node_dest = g.getNode(current_edge.getDest());
-                   
-                   Point2D label_location = line.getPointOnLine(new Point2D(Node_src.getLocation().x(), Node_src.getLocation().y()),
-                     new Point2D(Node_dest.getLocation().x(), Node_dest.getLocation().y()), 50);
-                   double x1 = Node_src.getLocation().x();
-                   double y1 = Node_src.getLocation().y();
-                   double x2 = Node_dest.getLocation().x();
-                   double y2 = Node_dest.getLocation().y();
-                   
-                   double m = (y2-y1)/(x2-x1);
-                          
-                   drawConnection(Node_src, Node_dest, label_location);
-                     
-                     StdDraw.line(g.getNode(current_edge.getSrc()).getLocation().x(), g.getNode(current_edge.getSrc()).getLocation().y(),
-                            g.getNode(current_edge.getDest()).getLocation().x(), g.getNode(current_edge.getDest()).getLocation().y());  // draw line 
-                  
-                             
-//                     StdDraw.text(n.getLocation().x()+1, n.getLocation().y()+1.5, n.getKey()+"");
+                    if (!relationship_to_filter.containsKey(current_edge.getTag())){
+                        int src = current_edge.getSrcId();
+                        int dest = current_edge.getDestId();
+
+                        if (current_edge instanceof Friend) StdDraw.setPenColor(Color.GREEN); // set color
+                        else if (current_edge instanceof Like) StdDraw.setPenColor(Color.BLUE);
+                        // .... else if...
+
+                          // print the edges and connection
+                         StdDraw.setPenRadius(0.005);
+                           node_metadata Node_src = g.getNode(current_edge.getSrc());
+                           node_metadata Node_dest = g.getNode(current_edge.getDest());
+
+                           Point2D label_location = line.getPointOnLine(new Point2D(Node_src.getLocation().x(), Node_src.getLocation().y()),
+                             new Point2D(Node_dest.getLocation().x(), Node_dest.getLocation().y()), 50);
+                           double x1 = Node_src.getLocation().x();
+                           double y1 = Node_src.getLocation().y();
+                           double x2 = Node_dest.getLocation().x();
+                           double y2 = Node_dest.getLocation().y();
+
+                           double m = (y2-y1)/(x2-x1);
+
+                           drawConnection(Node_src, Node_dest, label_location);
+
+                             StdDraw.line(g.getNode(current_edge.getSrc()).getLocation().x(), g.getNode(current_edge.getSrc()).getLocation().y(),
+                                    g.getNode(current_edge.getDest()).getLocation().x(), g.getNode(current_edge.getDest()).getLocation().y());  // draw line 
+
+
+        //                     StdDraw.text(n.getLocation().x()+1, n.getLocation().y()+1.5, n.getKey()+"");
+                        }
                 }
-                
     }
 
     private void drawConnection(node_metadata src, node_metadata dest, Point2D label_location) {
@@ -111,4 +112,16 @@ public class Draw {
        
 
     }
+
+    public void add_to_filter(String str) {
+        relationship_to_filter.put(str, true);
+    }
+
+    public void remove_from_filter(String str) {
+        if (relationship_to_filter.containsKey(str)) relationship_to_filter.remove(str);
+    }
+    
+    public HashMap<String, Boolean> getRelationshipHashMap(){return relationship_to_filter;}
+    
+    
 }
