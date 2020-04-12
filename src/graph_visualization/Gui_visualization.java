@@ -15,6 +15,8 @@ import utils.StdDraw;
 import utils.User_Dialog;
 import javax.swing.JFrame;
 import relationship.Relationships;
+import gui.ScreenSize;
+
 
 
 /**
@@ -41,7 +43,7 @@ public class Gui_visualization extends JFrame {
         setLocationRelativeTo(null);
         acc = a; 
         //  Construct graph
-         ConstructGraph c = new ConstructGraph(acc, 95, 95);
+         ConstructGraph c = new ConstructGraph(acc, ScreenSize.WIDTH, ScreenSize.HEIGHT);
          graph = c.getGraph();
          draw = new Draw(graph, acc);
     }
