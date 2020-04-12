@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package graph;
+
+import java.awt.Color;
+
 /**
  * This interface represents the set of operations applicable on a 
  * directional edge(src, dest) in a (directional) weighted graph.
@@ -58,5 +61,7 @@ public interface edge_metadata {
 	 * @param t - the new value of the tag
 	 */
 	public void setTag(String t);
+
+        public Color getColor();
         
 }

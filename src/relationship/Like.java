@@ -6,6 +6,7 @@
 package relationship;
 
 import graph.Edge;
+import java.awt.Color;
 
 /**
  *
@@ -13,7 +14,7 @@ import graph.Edge;
  */
 public class Like extends Edge{
         public Like(int x, int y, double weight){
-        super(x, y, weight);
+        super(x, y, weight, Color.BLUE);
         setTag("Like");
     }
 }

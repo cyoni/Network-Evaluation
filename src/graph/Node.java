@@ -5,6 +5,7 @@
  */
 package graph;
 
+import java.awt.Color;
 import java.io.Serializable;
 import nodes.node_metadata;
 import utils.Point2D;
@@ -22,10 +23,12 @@ public class Node implements node_metadata, Serializable {
     private int key, id;
     public static int GLOBAL_ID = 0;
     protected String name = "";
+    private Color node_color;
     
-    public Node(int id, Point2D location) {
+    public Node(int id, Point2D location, Color color) {
         this.location = location;
         this.id = id;
+        this.node_color = color;
         this.key = GLOBAL_ID++;
     }
 
@@ -75,6 +78,11 @@ public class Node implements node_metadata, Serializable {
     @Override
     public String getName(){
         return name;
+    }
+
+    @Override
+    public Color getColor() {
+        return node_color;
     }
 
 }

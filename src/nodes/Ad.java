@@ -4,20 +4,21 @@
  * and open the template in the editor.
  */
 package nodes;
-import graph.Node;
-import utils.Point2D;
 
+import graph.Node;
+import java.awt.Color;
+import utils.Point2D;
 
 /**
  *
  * @author caron
  */
-public class Advertiser_node extends Node{
+public class Ad extends Node{
 
-    public Advertiser_node(int id, Point2D location) {
-        super(id, location);
+    public Ad(int id, Point2D location) {
+        super(id, location, Color.GREEN);
     }
     
-   
+    
     
 }

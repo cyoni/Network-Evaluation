@@ -6,6 +6,7 @@
 package nodes;
 
 import graph.Node;
+import java.awt.Color;
 import utils.Point2D;
 
 /**
@@ -15,7 +16,7 @@ import utils.Point2D;
 public class Post extends Node {
 
     public Post(int key, Point2D location) {
-        super(key, location);
+        super(key, location, Color.ORANGE);
     }
 
     

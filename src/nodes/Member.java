@@ -6,6 +6,7 @@
 package nodes;
 
 import graph.Node;
+import java.awt.Color;
 import utils.Point2D;
 
 /**
@@ -14,15 +15,15 @@ import utils.Point2D;
  */
 public class Member extends Node {
    
-    private int friends;
+    private int friends_size;
 
-    public Member(String name, int friends, int key, Point2D location) {
-        super(key, location);
+    public Member(String name, int friends_size, int key, Point2D location) {
+        super(key, location, Color.RED);
         this.name = name;
-        this.friends = friends;
+        this.friends_size = friends_size;
     }
 
-   
+   public int getFriendSize(){return friends_size;}
     
     
     

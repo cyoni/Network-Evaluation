@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import network.Advertiser;
+import network.Evaluation_Advertiser;
 import org.apache.commons.lang3.time.DateUtils;
 
 /**
@@ -357,15 +357,15 @@ public int getAdvertisers() throws SQLException {
              return 0;
    }
 
-public ArrayList<Advertiser> _getAdvertisers() throws SQLException {
-       ArrayList<Advertiser> advertisers = new  ArrayList<Advertiser>();
+public ArrayList<Evaluation_Advertiser> _getAdvertisers() throws SQLException {
+       ArrayList<Evaluation_Advertiser> advertisers = new  ArrayList<Evaluation_Advertiser>();
        ResultSet rs = statment.executeQuery("SELECT T_Advertisers.person_id, Sum(T_Advertisements.price) AS [SumOfprice]"
                + " FROM T_Advertisers INNER JOIN T_Advertisements ON T_Advertisers.person_id = T_Advertisements.advertisers_id"
                + " GROUP BY T_Advertisers.person_id;");
        while (rs.next()) {
            int advertisersID = rs.getInt("person_id");
            int expenses = rs.getInt("SumOfprice");
-           Advertiser advertiser = new Advertiser(advertisersID,expenses);
+           Evaluation_Advertiser advertiser = new Evaluation_Advertiser(advertisersID,expenses);
            advertisers.add(advertiser);
        }
        return advertisers;

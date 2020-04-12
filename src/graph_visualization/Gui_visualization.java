@@ -14,8 +14,10 @@ import java.awt.Color;
 import utils.StdDraw;
 import utils.User_Dialog;
 import javax.swing.JFrame;
-import relationship.Relationships;
+import relationship.RelationshipTypes;
 import gui.ScreenSize;
+import java.util.HashMap;
+import java.util.Set;
 
 
 
@@ -24,7 +26,6 @@ import gui.ScreenSize;
  * @author Yoni
  */
 public class Gui_visualization extends JFrame {
-    String[] relationships = Relationships.relationships;
     Graph graph;
     AccesConnection acc;
     static Color[] colors = {Color.YELLOW};
@@ -207,7 +208,7 @@ public class Gui_visualization extends JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
      
-      FilterRelationship fr = new FilterRelationship("Filter...", relationships, draw);
+      FilterRelationship fr = new FilterRelationship("Filter...", RelationshipTypes.relationships, draw);
       fr.setSize(200, 300);
       fr.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       fr.addComponentsToPane(fr.getContentPane());

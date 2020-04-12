@@ -5,6 +5,7 @@
  */
 package nodes;
 
+import java.awt.Color;
 import utils.Point2D;
 
 public interface node_metadata {
@@ -50,4 +51,6 @@ public interface node_metadata {
         
         public int getId();
         public String getName();
+
+        public Color getColor();
 }

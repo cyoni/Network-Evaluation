@@ -3,21 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package network;
+package nodes;
+import graph.Node;
+import java.awt.Color;
+import utils.Point2D;
+
 
 /**
  *
  * @author caron
  */
-public class Advertiser {
-    
-    private int id;
-    private double expenses;
+public class Advertiser extends Node{
 
-    public Advertiser(int id, double expenses) {
-        this.id = id;
-        this.expenses = expenses;
+    public Advertiser(int id, Point2D location) {
+        super(id, location, Color.BLUE);
+        
     }
     
+   
     
 }

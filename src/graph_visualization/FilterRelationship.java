@@ -59,7 +59,7 @@ public class FilterRelationship extends JFrame {
         for (int i=0; i<checkbox.length; i++){
            JCheckBox tmp = new JCheckBox(relationships[i]);
            
-           if (draw.getRelationshipHashMap().containsKey(tmp.getText()))    
+           if (draw.getRelationshipHashMap().contains(tmp.getText()))    
                tmp.setSelected(true);
            else
                tmp.setSelected(false);
@@ -75,7 +75,6 @@ public class FilterRelationship extends JFrame {
         applyButton.addActionListener(new ActionListener(){ // apply button click
             public void actionPerformed(ActionEvent e){
                 for (int i=0; i<checkbox.length; i++){
-                    //System.out.println("button " + i + ":" + checkbox[i].isSelected());
                     if (checkbox[i].isSelected()){
                         draw.add_to_filter(checkbox[i].getText());
                     }

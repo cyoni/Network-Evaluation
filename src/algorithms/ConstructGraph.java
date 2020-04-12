@@ -18,8 +18,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import nodes.Ad_node;
-import nodes.Advertiser_node;
+import nodes.Ad;
+import nodes.Advertiser;
 import relationship.Advertise;
 import relationship.Friend;
 import relationship.Like;
@@ -116,7 +116,7 @@ public class ConstructGraph {
             int idx =0;
             while (rs.next()) {
                        int advertiserId = rs.getInt("person_id");
-                       Node p = new Advertiser_node(advertiserId, circlePoint(numAdvertisers,idx++,radius,a,b));
+                       Node p = new Advertiser(advertiserId, circlePoint(numAdvertisers,idx++,radius,a,b));
                        graph.addNode(p);
             }
             
@@ -136,7 +136,7 @@ public class ConstructGraph {
                        int adId = rs.getInt("advertisement_id");
                        int advertiserId = rs.getInt("advertisers_id");
                        
-                       Node p = new Ad_node(adId, circlePoint(numAds,idx++,radius,a,b));
+                       Node p = new Ad(adId, circlePoint(numAds,idx++,radius,a,b));
                        graph.addNode(p);
 
                        

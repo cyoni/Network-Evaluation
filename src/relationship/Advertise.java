@@ -6,6 +6,7 @@
 package relationship;
 
 import graph.Edge;
+import java.awt.Color;
 
 /**
  *
@@ -14,8 +15,9 @@ import graph.Edge;
 public class Advertise extends Edge {
     
     public Advertise(int x, int y, double weight){
-        super(x, y, weight);
+        super(x, y, weight, Color.ORANGE);
         setTag("Advertise");
     }
+    
     
 }
