@@ -17,6 +17,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import nodes.Ad_node;
+import nodes.Advertiser_node;
 import nodes.Member;
 import nodes.Post;
 import nodes.node_metadata;
@@ -54,6 +56,11 @@ public class Draw {
                 StdDraw.setPenColor(Color.red);
               else if (n instanceof Post) 
                 StdDraw.setPenColor(Color.blue);
+              else if (n instanceof Ad_node) 
+                StdDraw.setPenColor(Color.pink);
+               else if (n instanceof Advertiser_node) 
+                StdDraw.setPenColor(Color.orange);
+
              
             StdDraw.setPenRadius(0.02);
             StdDraw.point(n.getLocation().x(), n.getLocation().y()); // draw the node(point)

@@ -18,6 +18,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import nodes.Ad_node;
+import nodes.Advertiser_node;
+import relationship.Advertise;
 import relationship.Friend;
 import relationship.Like;
 import utils.Point2D;
@@ -47,6 +50,8 @@ public class ConstructGraph {
         
         addMembers();
         addPosts();
+        addAdvertisers();
+        addAds();
     }
     
     // read db and add to graph the members
@@ -105,6 +110,54 @@ public class ConstructGraph {
 
     }
     
+    private void addAdvertisers() {
+        
+        try {
+            int numAdvertisers = cal.CalNumOfAdvertisers();
+            double RADIUS = 50;
+            ResultSet rs = statment.executeQuery("SELECT [person_id] FROM [T_Advertisers]");
+            int idx =0;
+            while (rs.next()) {
+                       int advertiserId = rs.getInt("person_id");
+                       Node p = new Advertiser_node(advertiserId, circlePoint(numAdvertisers,idx++,RADIUS,300,300));
+                       graph.addNode(p);
+            }
+            
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ConstructGraph.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+   
+     private void addAds() {
+         
+        try {
+            int numAds = cal.CalNumOfAds();
+            double RADIUS = 50;
+        ResultSet rs = statment.executeQuery("SELECT [advertisement_id] ,[advertisers_id] FROM [T_advertisements]");
+         int idx =0;
+            while (rs.next()) {
+                       int adId = rs.getInt("advertisement_id");
+                       int advertiserId = rs.getInt("advertisers_id");
+                       
+                       Node p = new Ad_node(adId, circlePoint(numAds,idx++,RADIUS,400,400));
+                       graph.addNode(p);
+
+                       
+                       int keySrc = graph.getKeyById(advertiserId);
+                       int keyDest = graph.getKeyById(adId);
+                       
+                       graph.connect(new Advertise(keySrc, keyDest, 1)); // advertise -[:Advertise] -> ad
+
+                       
+                    }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConstructGraph.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           
+         
+         
+     }
     
     // get random point in range of the bord
     private Point2D randomPoint() {
