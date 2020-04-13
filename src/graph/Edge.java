@@ -23,21 +23,11 @@ public class Edge implements edge_metadata, Serializable {
     public Edge(int src_id, int dest_id, double weight, Color edge_color) {
         this.src = src_id;
         this.dest = dest_id;
-        this.src_id = src_id;
-        this.dest_id = dest_id;
         this.weight = weight;
         this.edge_color = edge_color;
     }
         
-    @Override
-    public int getSrcId() {
-        return src_id;
-    }
-
-    @Override
-    public int getDestId() {
-	return dest_id;
-    }     
+ 
         
     @Override
     public int getSrc() {
