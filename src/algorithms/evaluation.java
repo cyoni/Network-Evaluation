@@ -117,9 +117,32 @@ public class evaluation {
 
     private void performEvaluation() throws IOException {
         write("Started process"); 
-                                
-        write(">> Each advertiser is worth " + value_advertiser + ". Adding $" + add(value_advertiser*num_advertisers));
+        
+        evaluate_advetisers();
+        evaluate_number_of_people_who_might_see_an_ad();
+       // evaluate.. ()...
 
+
+    }
+    
+    private void write(String str) throws IOException{
+            myWriter.write(str + "\n");
+    }
+    
+    private void closeWriter() throws IOException {
+        write("The process is completed");   
+        myWriter.close();
+    }
+
+    private void showResult() {
+        User_Dialog.showAlert("Estimated network value is " + network_value);
+    }
+
+    private void evaluate_advetisers() throws IOException {
+    write(">> Each advertiser is worth " + value_advertiser + ". Adding $" + add(value_advertiser*num_advertisers));
+    }
+
+    private void evaluate_number_of_people_who_might_see_an_ad() throws IOException {
         if (network_data_from_file != null){
             int categories_size = network_data_from_file.getCategories();
             List<Ad> list_ads = network_data_from_file.getAds();
@@ -146,19 +169,7 @@ public class evaluation {
              }
             
         }
-    }
-    
-    private void write(String str) throws IOException{
-            myWriter.write(str + "\n");
-    }
-    
-    private void closeWriter() throws IOException {
-        write("The process is completed");   
-        myWriter.close();
-    }
 
-    private void showResult() {
-        User_Dialog.showAlert("Estimated network value is " + network_value);
     }
 
     // a data base for the evaluation
