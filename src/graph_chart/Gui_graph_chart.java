@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package graph_chart;
+
 import javax.swing.JFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import DB_Connection.database;
@@ -39,19 +34,18 @@ public class Gui_graph_chart extends JFrame {
     protected List<graph_chart_data> data_structure;
     protected user User;
     protected JMenuItem m1, m2, m9, m3, m7, m8, m6;
+    private String getDataFromEmail;
 
 
-    public Gui_graph_chart(user User) {
+    public Gui_graph_chart(user User) throws SQLException {
       super("Chart Graph");
       this.User = User;
       build();
    }
-   // to work on the menu
-    protected void build(){
+
+    protected void build() throws SQLException{
       data_structure = new ArrayList<>();
       setMenu();
-      getData();
-     
     }
     
     
@@ -59,23 +53,17 @@ public class Gui_graph_chart extends JFrame {
         JMenuBar mb; 
         // create a menubar 
         mb = new JMenuBar(); 
-  
         // create a menu 
         JMenu x = new JMenu("File"); 
-         
-        
         m1 = new JMenuItem("Change month/year");
         m2 = new JMenuItem("Exit"); 
-
         // add menu items to menu 
         x.add(m1); 
         x.addSeparator();
         x.add(m2);
-        
         mb.add(x); 
         // add menubar to frame 
         setJMenuBar(mb);  
-        
         startMouseListener();
     }
        
@@ -91,6 +79,11 @@ public class Gui_graph_chart extends JFrame {
     }
     
    protected void initializeGraph(graph_chart_data latestData){
+      Rectangle r = getBounds();
+
+      setSize(r.width+1 , r.height); // refresh window
+      setLocationRelativeTo(null);
+            
      String title = "Network Value";
      String months[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
      if (latestData != null)
@@ -107,32 +100,29 @@ public class Gui_graph_chart extends JFrame {
       ChartPanel chartPanel = new ChartPanel(lineChart);
       chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
       setContentPane(chartPanel);
-      Rectangle r = getBounds();
-      setSize(r.width+1 , r.height); // refresh window
+
    }
 
- protected void getData(){
+    public void getData() throws SQLException{
+       if (getDataFromEmail == null) getDataFromEmail = User.getEmail();
        List<graph_chart_data> list = new ArrayList<>();
        // fetch data
-       ResultSet rs = database.query("SELECT email, year, month, data FROM network_value WHERE email='"+ User.getEmail() +"' "
+       ResultSet rs = database.query("SELECT email, year, month, data FROM network_value WHERE email='"+ getDataFromEmail +"' "
                + "ORDER BY year DESC, month DESC");
-       try {
-           while (rs.next()){
-               int year = rs.getInt("year");
-               int month = rs.getInt("month");
-               String dataWithSpace = rs.getString("data");
-               String data = dataWithSpace.replaceAll("\\s+",""); // eliminate whitespaces
-               // int year, int month, String str
-               graph_chart_data gcd = new graph_chart_data(year, month, data); // don't worry my friend it's not what you're thinking about 
-               list.add(gcd);
-           }
-             data_structure = list; // save data 
-           if (!data_structure.isEmpty()){
+    
+        while (rs.next()){
+            int year = rs.getInt("year");
+            int month = rs.getInt("month");
+            String dataWithSpace = rs.getString("data");
+            String data = dataWithSpace.replaceAll("\\s+",""); // eliminate whitespaces
+            // int year, int month, String str
+            graph_chart_data gcd = new graph_chart_data(year, month, data); // don't worry my friend it's not what you're thinking about 
+            list.add(gcd);
+        }
+            data_structure = list; // save data 
+            if (!data_structure.isEmpty()){
                initializeGraph(data_structure.get(0));  // set latest data
             }
-       } catch (SQLException ex) {
-           Logger.getLogger(Gui_graph_chart.class.getName()).log(Level.SEVERE, null, ex);
-       }
  }
 /**
  *  This method builds the graph.
@@ -148,4 +138,8 @@ public class Gui_graph_chart extends JFrame {
                   }
       return dataset;
    }    
+
+    public void setEmailOfAnOwner(String owner_email) {
+        this.getDataFromEmail = owner_email;
+    }
 }

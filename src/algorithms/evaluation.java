@@ -22,6 +22,9 @@ import utils.User_Dialog;
  */
 public class evaluation {
     FileWriter myWriter;
+    
+    
+    
     /////////////////this kind of data should be downloaded from the DB!//////////////////////////////////
     private double value_like = 0.2;
     private double value_share = 0.5;
@@ -32,18 +35,16 @@ public class evaluation {
     private double percent_inactive_ad = 20; 
     private double value_active_ad = 0.3; 
     
-
+    private int num_members;
+    private int num_advertisers;
+    private int num_ads;
+    private int num_active_ads;
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     private double result = 0.0;
     
-    private void write(String str){
-        try {
+    private void write(String str) throws IOException{
             myWriter.write(str + "\n");
-            
-        } catch (IOException ex) {
-            Logger.getLogger(evaluation.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     private int _int(String s){ return Integer.parseInt(s);}
     
@@ -53,10 +54,10 @@ public class evaluation {
         write("Started process");   
  
         
-        int num_members = _int(network.num_members.getText());
-        int num_advertisers = _int(network.num_advertisers.getText());
-        int num_ads = _int(network.num_ads.getText());
-        int num_active_ads = _int(network.active_ads.getText());
+        num_members = _int(network.num_members.getText());
+        num_advertisers = _int(network.num_advertisers.getText());
+        num_ads = _int(network.num_ads.getText());
+        num_active_ads = _int(network.active_ads.getText());
         
                         
         write(">> Each advertiser is worth " + value_advertiser + ". Adding $" + add(value_advertiser*num_advertisers));

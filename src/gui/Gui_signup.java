@@ -14,6 +14,9 @@ import database.user;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.User_Dialog;
 
 /**
@@ -195,27 +198,33 @@ public class Gui_signup extends javax.swing.JFrame {
     else if (isOwner.isSelected() && network_name.isEmpty()) {txt_network_name.requestFocus();}
         else{
         
-        ResultSet ans = database.query("SELECT email FROM users WHERE email='"+ email +"';");
         try{
-            while (ans.next()){
-                User_Dialog.showAlert("There is already an account with this email address.");
-                return;
+            
+            ResultSet ans = database.query("SELECT email FROM users WHERE email='"+ email +"';");
+            try{
+                while (ans.next()){
+                    User_Dialog.showAlert("There is already an account with this email address.");
+                    return;
+                }
             }
+            catch(Exception e){}
+            
+            database.query_update("INSERT INTO users (name, email, password, isOwner)" +
+                    "VALUES ('"+ name +"', '"+ email +"', '" + password + "', '"+ owner +"')");
+            
+            if (isOwner.isSelected()){
+                database.query_update("INSERT INTO owners (email, network_name)" +
+                        "VALUES ('"+ email +"', '"+ network_name +"')");
+            }
+            
+            user u = login.setNewInstance(new user(name, email, "-1"));
+            this.dispose();
+            Gui_network g = new Gui_network(u);
+            g.setVisible(true);
+            
         }
-        catch(Exception e){}
-        
-       database.query_update("INSERT INTO users (name, email, password, isOwner)" +
-            "VALUES ('"+ name +"', '"+ email +"', '" + password + "', '"+ owner +"')");
-        
-       if (isOwner.isSelected()){
-         database.query_update("INSERT INTO owners (email, network_name)" +
-            "VALUES ('"+ email +"', '"+ network_name +"')");
-       }
-       
-       user u = login.setNewInstance(new user(name, email, "-1"));    
-       this.dispose();
-       Gui_network g = new Gui_network(u);
-       g.setVisible(true);
+        catch(SQLException ex){Logger.getLogger(Gui_signup.class.getName()).log(Level.SEVERE, null, ex);
+}
         
         }
     }//GEN-LAST:event_jButton1ActionPerformed

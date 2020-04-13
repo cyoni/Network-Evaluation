@@ -22,7 +22,9 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -41,13 +43,12 @@ import utils.User_Dialog;
  * @author Yoni
  */
 public class Gui_network extends javax.swing.JFrame {
-    
-    private JMenuItem m1, m2, m9, m3, m7, m8, m6;
-    AccesConnection acc;
-    NetworkData net;
-    private user User;
-    
- private JMenuBar menuBar = new JMenuBar(); // Window menu bar
+   
+    protected user User;
+    private HashMap<String, String> hashmap_mySharedNetworks = new HashMap<>();
+    protected AccesConnection accessConnection_local_database;
+    protected NetworkData net;
+
     /**
      * Creates new form NewJFrame
      */
@@ -58,167 +59,48 @@ public class Gui_network extends javax.swing.JFrame {
         setMenu();
     }
 
-    Gui_network(user User) {
+    Gui_network(user User) throws SQLException {
         this();
         this.User = User;
-        jLabel_username.setText(User.getName());
-        validateUser();
         LoadSharedNetworks();
+        setMenu();
+        setHello();
     }
     
     private void setMenu(){
-         JMenuBar mb; 
-        // create a menubar 
-        mb = new JMenuBar(); 
-        // create a menu 
-        JMenu x = new JMenu("File"); 
-        JMenu x2 = new JMenu("Help"); 
-        JMenu x3 = new JMenu("Graph");
-        JMenu x4 = new JMenu("Network");
-                 
-        m1 = new JMenuItem("Load a network file"); 
-        m9 = new JMenuItem("Log Out"); 
-        m3 = new JMenuItem("Exit");
-        
-        m6 = new JMenuItem("Graph Visualization");
-        m7 = new JMenuItem("Graph Chart");
-        
-        m8 = new JMenuItem("Evaluate Network");    
-        m2 = new JMenuItem("Grant/revoke permission");
-        
-        JMenuItem m4 = new JMenuItem("How to use this software");
-        JMenuItem m5 = new JMenuItem("About");
-        // add menu items to menu 
-        x.add(m1); 
-        x.addSeparator();
-        x.add(m9); // logout
-        x.add(m3); //exit
-        
-        x3.add(m6);
-        x3.add(m7);
-
-        x2.add(m4);
-        x2.add(m5);
-
-        x4.add(m8);
-        x4.add(m2);
-
-        // add menu to menu bar 
-        mb.add(x); 
-        mb.add(x3);
-        mb.add(x4);
-        mb.add(x2);
-        
-        setJMenuBar(mb);  // add menubar to frame 
-        startMouseListener();
+        Menu_network menu_network = new Menu_network(this);
+        menu_network.setMenu();
     }
 
-    public void validateUser() {
-          try{
-                String key = User.getKey();
-               // User_Dialog.showAlert(key);
-                ResultSet rs = database.query("SELECT email FROM login_instance WHERE private_key='"+ key +"';");
-                boolean ans = false;
-                while(rs.next()){
-                    ans = true;
-                }
-                if (!ans) {
-                    User_Dialog.showAlert("The system was unable to validate this User account."); 
-                    User = null;
-                }
-        }
-        catch(Exception e){System.out.println(e);}
+    protected void validateUser() {
+        User.validateUser(User);
     }
 
-    private void startMouseListener() {
-        
-            m8.addActionListener((ActionEvent e) -> {try { 
-                // evalutate network
-                evaluation g = new evaluation();
-                g.evaluate(this, net);
-                } catch (IOException ex) {
-                    Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
-
-            m6.addActionListener((ActionEvent e) -> { // open graph visualization
-                show_graph_visualization();
-            });
-                    
-	    m2.addActionListener((ActionEvent e) -> {// add/change permissions
-            Gui_manageUsers g = new Gui_manageUsers();// open gui_manageUsers window
-            g.setUser(User);
-            g.setVisible(true);   
-            });
-            
-            m3.addActionListener((ActionEvent e) -> {// exit
-             System.exit(0);
-            });
-            
-            
-            m7.addActionListener((ActionEvent e) -> {// open chart graph window
-
-                Gui_graph_chart chart = new Gui_graph_chart(User);
-
-            chart.pack( );
-            RefineryUtilities.centerFrameOnScreen( chart );
-            chart.setVisible( true );    
-                
-            });      
-            
-            
-            m9.addActionListener((ActionEvent e) -> {// user log out
-            this.dispose();
-            File file = new File("user.txt");
-            try{
-            file.delete();}
-            catch(Exception x){System.out.println(x);}
-            Gui_login g = new Gui_login();
-            g.setVisible(true);   
- 
-            });
-            
-            
-            // open FileChooser and build NetworkData 
-            m1.addActionListener((ActionEvent e) -> {
-            JFileChooser fileChooser = new JFileChooser();
-            int rVal  =fileChooser.showOpenDialog(Gui_network.this);
-            if (rVal == JFileChooser.APPROVE_OPTION) { // click open file 
-                
-            String diraction = fileChooser.getCurrentDirectory().toString()+"\\"+fileChooser.getSelectedFile().getName();
-            acc = new AccesConnection(diraction);
-            NetCalculations cal = new NetCalculations(acc);
-            net = new NetworkData (cal);
-            
-            // set all the number field of the network
-            setField();
-               
-            }
-            else { // click cancel 
-                System.out.println("You pressed cancel");
-            }
-            });
-            
-            
-            
+    private void startMouseListener() {    
             // network_list listener:
             
-            network_list.addMouseListener(new MouseAdapter(){
-          @Override
-          public void mouseClicked(MouseEvent e) {
-              if (e.getClickCount() == 2) {
-                  
-              String value = (String)network_list.getModel().getElementAt(network_list.locationToIndex(e.getPoint()));
-              User_Dialog.showAlert(value);
-              }
-          }
-                
-            });
-
-            
+            networksSharedWithMe.addMouseListener(new MouseAdapter(){
+        @Override
+        public void mouseClicked(MouseEvent e)  {
+            if (e.getClickCount() == 2) {
+                String network_name = (String)networksSharedWithMe.getModel().getElementAt(networksSharedWithMe.locationToIndex(e.getPoint()));
+                String owner_email = hashmap_mySharedNetworks.get(network_name);
+                if (owner_email != null){
+                    Gui_graph_chart gui;
+                    try {
+                        gui = new Gui_graph_chart(User);
+                        gui.setVisible(true);
+                        gui.setEmailOfAnOwner(owner_email);
+                        gui.getData();
+                        gui.pack();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);}
+                }
+            }
+        }});  
     }
     
-    private void setField() {
+    protected void setField() {
         
 	Thread th = new Thread(new Runnable() { 
             public void run() {
@@ -271,7 +153,6 @@ public class Gui_network extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel15 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         num_pages = new javax.swing.JTextField();
@@ -318,7 +199,7 @@ public class Gui_network extends javax.swing.JFrame {
         net_expenses = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        network_list = new javax.swing.JList<>();
+        networksSharedWithMe = new javax.swing.JList<>();
         jPanel2 = new javax.swing.JPanel();
         total_traffic = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
@@ -327,26 +208,32 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel_username = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        eval_label = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
-
-        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel15.setText("Welcome to NetEval");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Basic"));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Total Pages:");
 
+        num_pages.setText("0");
+
+        num_likes.setText("0");
+
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Total Likes: ");
 
+        num_members.setText("0");
+        num_members.setName(""); // NOI18N
         num_members.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 num_membersActionPerformed(evt);
             }
         });
+
+        num_shares.setText("0");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Total Members:");
@@ -354,9 +241,12 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Total Shares:");
 
+        num_groups.setText("0");
+
         jLabel25.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel25.setText("Total groups:");
 
+        num_active.setText("0");
         num_active.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 num_activeActionPerformed(evt);
@@ -370,8 +260,12 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Total Advertisers:");
 
+        num_advertisers.setText("0");
+
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel13.setText("Total advertisements:");
+
+        num_ads.setText("0");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -384,29 +278,27 @@ public class Gui_network extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel1))
-                                .addGap(36, 36, 36)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(num_pages)
-                                    .addComponent(num_members)))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                                .addComponent(num_likes, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel23)
                                     .addComponent(jLabel25)
                                     .addComponent(jLabel8)
                                     .addComponent(jLabel12))
                                 .addGap(18, 18, Short.MAX_VALUE)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(num_shares, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
-                                    .addComponent(num_active)
-                                    .addComponent(num_groups)
+                                    .addComponent(num_groups, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
                                     .addComponent(num_advertisers)
-                                    .addComponent(num_ads))))
+                                    .addComponent(num_ads)
+                                    .addComponent(num_shares, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(num_active, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel6))
+                                .addGap(36, 36, 36)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(num_likes)
+                                    .addComponent(num_pages)
+                                    .addComponent(num_members))))
                         .addGap(8, 8, 8))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel13)
@@ -454,17 +346,27 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Avg shares /day:");
 
+        avg_shares.setText("0");
+
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Avg likes /day:");
+
+        avg_likes.setText("0");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Avg posts /day:");
 
+        avg_posts.setText("0");
+
         jLabel26.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel26.setText("Avg # of friends:");
 
+        avg_friends.setText("0");
+
         jLabel27.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel27.setText("Avg. time of use /day:");
+
+        avg_time.setText("0");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -530,14 +432,27 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel18.setText("Active advertisements:");
 
+        active_ads.setText("0");
+
         jLabel29.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel29.setText("New advertisers /week:");
+
+        new_ads.setText("0");
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel20.setText("Network Ads Profit");
 
+        net_profit.setText("0");
+        net_profit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                net_profitActionPerformed(evt);
+            }
+        });
+
         jLabel33.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel33.setText("advertisements /month:");
+
+        avg_ads.setText("0");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -592,6 +507,10 @@ public class Gui_network extends javax.swing.JFrame {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Staff"));
 
+        num_employees.setText("0");
+
+        sum_salaries.setText("0");
+
         jLabel22.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel22.setText("Salaries in total:");
 
@@ -600,6 +519,8 @@ public class Gui_network extends javax.swing.JFrame {
 
         jLabel24.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel24.setText("Network Expenses:");
+
+        net_expenses.setText("0");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -643,8 +564,8 @@ public class Gui_network extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Shared networks with me"));
 
-        network_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(network_list);
+        networksSharedWithMe.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(networksSharedWithMe);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -665,11 +586,15 @@ public class Gui_network extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Traffic"));
 
+        total_traffic.setText("0");
+
         jLabel31.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel31.setText("Total Traffic");
 
         jLabel32.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel32.setText("Traffic diversity /d:");
+
+        avg_traffic.setText("0");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -683,7 +608,7 @@ public class Gui_network extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(total_traffic)
-                    .addComponent(avg_traffic, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
+                    .addComponent(avg_traffic))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -716,6 +641,9 @@ public class Gui_network extends javax.swing.JFrame {
             }
         });
 
+        eval_label.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        eval_label.setText("Loading...");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -729,36 +657,37 @@ public class Gui_network extends javax.swing.JFrame {
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(143, 143, 143)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(eval_label, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(405, 405, 405)
                         .addComponent(jLabel3)
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabel_username))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel_username)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel_username))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel15))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton1)
+                            .addComponent(jLabel_username)
+                            .addComponent(jLabel3))
+                        .addGap(29, 29, 29))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(eval_label)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -794,14 +723,18 @@ public class Gui_network extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
             String diraction = "C:\\Users\\Yoni\\myDB.accdb";
-            acc = new AccesConnection(diraction);
-            NetCalculations cal = new NetCalculations(acc);
+            accessConnection_local_database = new AccesConnection(diraction);
+            NetCalculations cal = new NetCalculations(accessConnection_local_database);
             net = new NetworkData(cal);
             
             // set all the number field of the network
             setField();
             show_graph_visualization();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void net_profitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_net_profitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_net_profitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -855,11 +788,11 @@ public class Gui_network extends javax.swing.JFrame {
     public javax.swing.JTextField avg_shares;
     public javax.swing.JTextField avg_time;
     public javax.swing.JTextField avg_traffic;
+    private javax.swing.JLabel eval_label;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
@@ -890,7 +823,7 @@ public class Gui_network extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTextField net_expenses;
     public javax.swing.JTextField net_profit;
-    private javax.swing.JList<String> network_list;
+    private javax.swing.JList<String> networksSharedWithMe;
     public javax.swing.JTextField new_ads;
     public javax.swing.JTextField num_active;
     public javax.swing.JTextField num_ads;
@@ -905,27 +838,36 @@ public class Gui_network extends javax.swing.JFrame {
     public javax.swing.JTextField total_traffic;
     // End of variables declaration//GEN-END:variables
 
-    private void LoadSharedNetworks() {     // does not work TOFIX  
+    
+    
+    protected void LoadSharedNetworks() throws SQLException {
         DefaultListModel model1 = new DefaultListModel();
- 
-        ResultSet rs = database.query("SELECT email, network_name FROM owners WHERE email IN"
-                + " (SELECT owner FROM permissions WHERE usr_email='"+ User.getEmail() +"');");
-        try{
-            while(rs.next()){
-                String network_name = rs.getString("network_name");
-                model1.addElement(network_name);
-             }
+         ResultSet rs = database.query("SELECT permissions.owner, permissions.usr_email, owners.network_name, owners.email"
+                 + " FROM permissions INNER JOIN owners ON"
+                 + " permissions.owner=owners.email WHERE permissions.permission=1 AND permissions.usr_email='"+ User.getEmail() +"'");
+      //  ResultSet rs = database.query("SELECT email, network_name FROM owners WHERE email IN"
+        //        + " (SELECT owner FROM permissions WHERE usr_email='"+ User.getEmail() +" AND permission=1');");
+        while(rs.next()){
+            String network_name = rs.getString("network_name");
+            String email = rs.getString("email");
+            model1.addElement(network_name);
+                        
+            hashmap_mySharedNetworks.put(network_name, email);
         }
-        catch(Exception x){System.out.println(x);}
-        
-        network_list.setModel(model1);
-        
+        startMouseListener();
+        networksSharedWithMe.setModel(model1);
+    }
 
-        }
+    
+    protected void show_graph_visualization() {
+        Gui_visualization g = new Gui_visualization(accessConnection_local_database);
+        g.setVisible(true);   
+  
+    }
 
-    private void show_graph_visualization() {
-            Gui_visualization g = new Gui_visualization(acc);
-            g.setVisible(true);   
+    protected void setHello() {
+        eval_label.setText("Welcome to netEval");
+        jLabel_username.setText(User.getName());
     }
     
 

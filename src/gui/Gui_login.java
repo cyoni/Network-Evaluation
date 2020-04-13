@@ -35,12 +35,8 @@ public class Gui_login extends javax.swing.JFrame {
     public Gui_login() {
         initComponents();
         setLocationRelativeTo(null);
-        
         setDefaultCloseOperation(Gui_login.DISPOSE_ON_CLOSE);
-
         checkForUserInstance();
-        
-
     }
 
     /**
@@ -282,8 +278,9 @@ public class Gui_login extends javax.swing.JFrame {
                     if (User != null){ 
                         this.dispose();
                         Gui_network g = new Gui_network(User);
+                        g.validateUser();
                         g.setVisible(true);
-                           return;
+                        return;
                 }
             }                 
         }
