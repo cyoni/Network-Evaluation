@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DB_Connection;
 
 import java.sql.Connection;
@@ -30,7 +25,6 @@ public class database extends Thread {
      * @return 
      */
     public static ResultSet query(String q){
-            	
         Connection connection = get_connection();
         ResultSet rs = null;
 	PreparedStatement ps=null;
@@ -38,9 +32,6 @@ public class database extends Thread {
 	    String query=q  +";";
 	    ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
-          //   while(rs.next()){
-         //        System.out.println("name- "+rs.getString("name"));
-         //    }
 	} catch (Exception e) {
 	    System.out.println(e);
 	}
@@ -55,11 +46,6 @@ public class database extends Thread {
      */
     
     public static int query_update(String q){
-        
-        
-        
-        
-            	
         Connection connection = get_connection();
         int rs = -1;
 	PreparedStatement ps=null;

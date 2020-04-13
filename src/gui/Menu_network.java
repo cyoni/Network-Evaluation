@@ -86,8 +86,10 @@ public class Menu_network {
                 try {
                     // evalutate network
                     evaluation g = new evaluation();
-                    g.evaluate(gui_network, gui_network.net);
+                    g.evaluate(gui_network, gui_network.getNetworkDataFromFile());
                 } catch (IOException ex) {
+                    Logger.getLogger(Menu_network.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
                     Logger.getLogger(Menu_network.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
@@ -144,7 +146,7 @@ public class Menu_network {
             String diraction = fileChooser.getCurrentDirectory().toString()+"\\"+fileChooser.getSelectedFile().getName();
             gui_network.accessConnection_local_database = new AccesConnection(diraction);
             NetCalculations cal = new NetCalculations(gui_network.accessConnection_local_database);
-            gui_network.net = new NetworkData(cal);
+            gui_network.setNetworkDataFromFile(new NetworkData(cal));
             
             // set all the number field of the network
             gui_network.setField();

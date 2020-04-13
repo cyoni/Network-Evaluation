@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package algorithms;
 
 import data_structure.Ad;
@@ -15,17 +10,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import network.NetworkData;
 import utils.User_Dialog;
+import DB_Connection.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import database.user;
 
 /**
  * This class contains algorithms that provide an estimation of the network's value.
  * @author Yoni
  */
 public class evaluation {
-    FileWriter myWriter;
+    private FileWriter myWriter;
+    private user User;
     
-    
-    
-    /////////////////this kind of data should be downloaded from the DB!//////////////////////////////////
+    /////////////////The following data should be downloaded from the DB File //////////////////////////////////
     private double value_like = 0.2;
     private double value_share = 0.5;
     private double value_post = 0.2;
@@ -41,30 +42,87 @@ public class evaluation {
     private int num_active_ads;
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    private double result = 0.0;
+    private double network_value = 0.0;
+    private Gui_network network;
+    private NetworkData network_data_from_file;
+        
+    public void evaluate(Gui_network network, NetworkData network_data_from_file) throws IOException, SQLException{
+        User = network.getUser();
+        this.network = network;
+        this.network_data_from_file = network_data_from_file;
+        
+        initEvaluation();
+        performEvaluation();
+        closeWriter();
+        recordResultInDatabase();
+        showResult();
+
+      }
     
-    private void write(String str) throws IOException{
-            myWriter.write(str + "\n");
+    private void recordResultInDatabase() throws SQLException{
+        
+        String question = User_Dialog.getInputDialog("Would you like to record the result in the database? [1=yes, 0=no]");
+        if (question.equals("1")){
+            int answer_from_server = -1;
+            String evaluation_data = "";
+            Date date = new Date();
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int day  = localDate.getDayOfMonth();
+            int year  = localDate.getYear();
+            int month = localDate.getMonthValue();
+
+            ResultSet rs = database.query("SELECT * FROM network_value WHERE email='"+ User.getEmail() +""
+                    + " AND month="+ month +"' AND year="+ year +"");
+
+            if (rs == null){
+                evaluation_data = day + "," + network_value;
+               answer_from_server = database.query_update("INSERT INTO network_value (email, year, month, data) VALUES('"+ User.getEmail() +"'"
+                        + ", ('"+ year +"'), ('"+ month +"'), ('"+ evaluation_data +"')");
+            }
+            else{
+                String data_from_database = "";
+                while (rs.next()){
+                    data_from_database = rs.getString("data");
+                }
+                evaluation_data = data_from_database + ";" + day + "," + network_value;
+
+               answer_from_server = database.query_update("UPDATE network_value SET data='"+ evaluation_data +"' WHERE email='"+ User.getEmail() +"'");
+            }
+            if (answer_from_server == 1){
+                User_Dialog.showAlert("The result has been successfully recorded!");
+            }
+            else{
+                User_Dialog.showAlert("There was an error while processing this request.");
+            }
+        }
+        
     }
-    private int _int(String s){ return Integer.parseInt(s);}
     
-    public void evaluate(Gui_network network, NetworkData net) throws IOException{
+    private int convertIntFromString(String s){ return Integer.parseInt(s);}
+
+    private Double add(double d) {
+        network_value+=d;
+        return network_value;
+    }
+
+    private void initEvaluation() throws IOException {
+        num_members = convertIntFromString(network.num_members.getText());
+        num_advertisers = convertIntFromString(network.num_advertisers.getText());
+        num_ads = convertIntFromString(network.num_ads.getText());
+        num_active_ads = convertIntFromString(network.active_ads.getText());
         
         myWriter = new FileWriter("network_evaluation.txt");
-        write("Started process");   
- 
-        
-        num_members = _int(network.num_members.getText());
-        num_advertisers = _int(network.num_advertisers.getText());
-        num_ads = _int(network.num_ads.getText());
-        num_active_ads = _int(network.active_ads.getText());
-        
-                        
+
+    }
+
+    private void performEvaluation() throws IOException {
+        write("Started process"); 
+                                
         write(">> Each advertiser is worth " + value_advertiser + ". Adding $" + add(value_advertiser*num_advertisers));
 
-        if (net != null){
-            int categories_size = net.getCategories();
-            List<Ad> list_ads = net.getAds();
+        if (network_data_from_file != null){
+            int categories_size = network_data_from_file.getCategories();
+            List<Ad> list_ads = network_data_from_file.getAds();
             cat_item[] arr_ads = new cat_item[list_ads.size()];
             for(int i=0;i<arr_ads.length; i++) arr_ads[i] = new cat_item();
             double[] evaluated_profit_from_ad = new double[arr_ads.length];
@@ -88,27 +146,21 @@ public class evaluation {
              }
             
         }
-       
-        
-        write("The process is completed");   
-        myWriter.close();
-        User_Dialog.showAlert("Estimated network value is " + result);
-      }
-        
-        
-    
-    
-      public static void main(String[] args) throws IOException {
-
-      }
-
-    private Double add(double d) {
-        result+=d;
-        return result;
     }
     
+    private void write(String str) throws IOException{
+            myWriter.write(str + "\n");
+    }
     
-    
+    private void closeWriter() throws IOException {
+        write("The process is completed");   
+        myWriter.close();
+    }
+
+    private void showResult() {
+        User_Dialog.showAlert("Estimated network value is " + network_value);
+    }
+
     // a data base for the evaluation
     class cat_item{
         double profit = 0;
