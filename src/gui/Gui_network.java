@@ -17,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Base64;
@@ -58,9 +59,8 @@ public class Gui_network extends javax.swing.JFrame {
     Gui_network(user User) throws SQLException {
         this();
         this.User = User;
-        LoadSharedNetworks();
-        setMenu();
-        setHello();
+
+        initializeScreen.start();
     }
     
     private void setMenu(){
@@ -72,6 +72,18 @@ public class Gui_network extends javax.swing.JFrame {
         User.validateUser(User);
     }
 
+    Thread initializeScreen = new Thread(){
+   
+        public void run(){
+            try {
+                sleep(1000);
+                LoadSharedNetworks();
+                setMenu();
+                setHello(); 
+            } catch(Exception e){}
+        }
+    };
+            
     private void startMouseListener() {    
             // network_list listener:
             
@@ -250,7 +262,7 @@ public class Gui_network extends javax.swing.JFrame {
                                     .addComponent(jLabel6))
                                 .addGap(36, 36, 36)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(num_likes)
+                                    .addComponent(num_likes, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
                                     .addComponent(num_pages)
                                     .addComponent(num_members))))
                         .addGap(8, 8, 8))
@@ -581,7 +593,6 @@ public class Gui_network extends javax.swing.JFrame {
 
         jLabel3.setText("Hi");
 
-        jLabel_username.setText("Username");
         jLabel_username.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel_usernameMouseClicked(evt);
@@ -618,9 +629,8 @@ public class Gui_network extends javax.swing.JFrame {
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(eval_label, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(405, 405, 405)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel_username)

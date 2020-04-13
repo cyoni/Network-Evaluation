@@ -16,7 +16,7 @@ public class Edge implements edge_metadata, Serializable {
     
     private static final long serialVersionUID = 4269760787650059514L;
     private double weight;
-    private int src, dest, src_id, dest_id;
+    private int src, dest;
     private String info, tag;
     private Color edge_color;
         

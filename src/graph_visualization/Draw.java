@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package graph_visualization;
 
 import DB_Connection.AccesConnection;
@@ -63,7 +58,8 @@ public class Draw {
     }
 
     public void remove_from_filter(String str) {
-        if (relationship_to_filter.contains(str)) relationship_to_filter.remove(str);
+        if (relationship_to_filter.contains(str)) 
+            relationship_to_filter.remove(str);
     }
     
     public Set<String> getRelationshipHashMap(){return relationship_to_filter;}

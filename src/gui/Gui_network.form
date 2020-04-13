@@ -44,9 +44,8 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="eval_label" min="-2" pref="227" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="405" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel_username" min="-2" max="-2" attributes="0"/>
@@ -141,7 +140,7 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="num_likes" max="32767" attributes="0"/>
+                                      <Component id="num_likes" pref="99" max="32767" attributes="0"/>
                                       <Component id="num_pages" max="32767" attributes="0"/>
                                       <Component id="num_members" max="32767" attributes="0"/>
                                   </Group>
@@ -903,9 +902,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel_username">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Username"/>
-      </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel_usernameMouseClicked"/>
       </Events>

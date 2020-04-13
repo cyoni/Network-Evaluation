@@ -166,13 +166,10 @@ public class Gui_login extends javax.swing.JFrame {
      * @param evt 
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    String email = txt_email.getText();
-    String password = txt_password.getText();
-    
-    email = email.trim();
-    password = password.trim();
-   
-    
+    final String email = txt_email.getText();
+    final String password = txt_password.getText();
+    final String trim_email = email.trim();
+
     if (email.isEmpty()){
         txt_email.requestFocus();
         return;
@@ -182,33 +179,9 @@ public class Gui_login extends javax.swing.JFrame {
         return;
     }
     
-    password = KeyGenerator.encodeString(password);
-    
-    String sql = "SELECT name, password FROM users where email='"+email+"'";
-    ResultSet rs = database.query(sql); // 
-    
-    /// /
-    
-        try {
-            if(rs.next()){ 
-                String name = rs.getString("name");
-                String passInDB = rs.getString("password");
-                if(password.equals(passInDB)) { // Checks that the entered password is the same as the password in the database
-                    user User = login.setNewInstance(new user(name, email, "-1")); // get a new private key
-                    this.dispose();
-                    Gui_network g = new Gui_network(User);
-                    g.setVisible(true);
-                }
-                else
-                    User_Dialog.showAlert("The password is wrong.");
-            }
-            else { // email was not found
-                    User_Dialog.showAlert("This email address is not registered.");
-            }
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(Gui_login.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    final String encoded_password = KeyGenerator.encodeString(password);
+    LogIn(trim_email,encoded_password);
+ 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void signup_txtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signup_txtMouseClicked
@@ -288,5 +261,35 @@ public class Gui_login extends javax.swing.JFrame {
         
                 this.setVisible(true);
 
+    }
+
+    private void LogIn(String email, String encoded_password) {
+        String sql = "SELECT name, password FROM users where email='"+email+"'";
+        Thread thread = new Thread(){
+
+            public void run(){
+                   ResultSet rs = database.query(sql); 
+
+            try {
+                if(rs.next()){ 
+                    String name = rs.getString("name");
+                    String passInDB = rs.getString("password");
+                    if(encoded_password.equals(passInDB)) { // Checks that the entered password is the same as the password in the database
+                        user User = login.setNewInstance(new user(name, email, "-1")); // get a new private key
+                        dispose();
+                        Gui_network g = new Gui_network(User);
+                        g.setVisible(true);
+                    }
+                    else
+                        User_Dialog.showAlert("The password is wrong.");
+                }
+                else { // email was not found
+                        User_Dialog.showAlert("This email address is not registered.");
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Gui_login.class.getName()).log(Level.SEVERE, null, ex);      }
+            }};   
+         thread.start();
     }
 }

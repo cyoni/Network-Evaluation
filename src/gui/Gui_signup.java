@@ -197,36 +197,10 @@ public class Gui_signup extends javax.swing.JFrame {
     else if (password.isEmpty()) {txt_password.requestFocus();}
     else if (isOwner.isSelected() && network_name.isEmpty()) {txt_network_name.requestFocus();}
         else{
-        
-        try{
-            
-            ResultSet ans = database.query("SELECT email FROM users WHERE email='"+ email +"';");
-            try{
-                while (ans.next()){
-                    User_Dialog.showAlert("There is already an account with this email address.");
-                    return;
-                }
-            }
-            catch(Exception e){}
-            
-            database.query_update("INSERT INTO users (name, email, password, isOwner)" +
-                    "VALUES ('"+ name +"', '"+ email +"', '" + password + "', '"+ owner +"')");
-            
-            if (isOwner.isSelected()){
-                database.query_update("INSERT INTO owners (email, network_name)" +
-                        "VALUES ('"+ email +"', '"+ network_name +"')");
-            }
-            
-            user u = login.setNewInstance(new user(name, email, "-1"));
-            this.dispose();
-            Gui_network g = new Gui_network(u);
-            g.setVisible(true);
-            
+        signUp(name, email, password, owner, network_name);
         }
-        catch(SQLException ex){Logger.getLogger(Gui_signup.class.getName()).log(Level.SEVERE, null, ex);
-}
         
-        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void isOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isOwnerActionPerformed
@@ -302,4 +276,46 @@ public class Gui_signup extends javax.swing.JFrame {
     private javax.swing.JTextField txt_network_name;
     private javax.swing.JPasswordField txt_password;
     // End of variables declaration//GEN-END:variables
+
+    private void signUp(String name, String email, String password, int owner, String network_name) {
+         
+        Thread thread = new Thread(){
+            public void run(){
+               
+                    int result  = -1;
+                    ResultSet ans = database.query("SELECT email FROM users WHERE email='"+ email +"';");
+                    try{
+                        while (ans.next()){
+                            User_Dialog.showAlert("There is already an account with this email address.");
+                            return;
+                        }
+
+                        result = database.query_update("INSERT INTO users (name, email, password, isOwner)" +
+                                "VALUES ('"+ name +"', '"+ email +"', '" + password + "', '"+ owner +"')");
+
+                        if (isOwner.isSelected()){
+                          result =  database.query_update("INSERT INTO owners (email, network_name)" +
+                                    "VALUES ('"+ email +"', '"+ network_name +"')");
+                        }
+
+                        if (result == -1){
+                            User_Dialog.showAlert("There was an error while creating the account.");
+                        }
+                        else{
+                            user u = login.setNewInstance(new user(name, email, "-1"));
+                            dispose();
+                            Gui_network g = new Gui_network(u);
+                            g.setVisible(true);
+                        }
+                    }
+                    catch(Exception e){}
+                    
+            }
+        };
+        thread.start();
+       
+    }
+
+        
+        
 }
