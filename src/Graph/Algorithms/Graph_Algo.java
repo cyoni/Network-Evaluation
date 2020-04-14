@@ -5,7 +5,6 @@
  */
 package Graph.Algorithms;
 
-import algorithms.prim;
 import Graph.Edge;
 import Graph.Graph;
 import java.io.Serializable;
