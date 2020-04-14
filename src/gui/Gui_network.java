@@ -56,7 +56,7 @@ public class Gui_network extends javax.swing.JFrame {
         setMenu();
     }
 
-    Gui_network(user User) throws SQLException {
+    public Gui_network(user User) throws SQLException {
         this();
         this.User = User;
 
@@ -68,7 +68,7 @@ public class Gui_network extends javax.swing.JFrame {
         menu_network.setMenu();
     }
 
-    protected void validateUser() {
+    public void validateUser() {
         User.validateUser(User);
     }
 

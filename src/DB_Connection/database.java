@@ -1,23 +1,19 @@
 package DB_Connection;
 
+import ManageUsers.Gui_manageUsers;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import utils.MouseCursor;
 
 /**
  *
  * @author Yoni
  */
-public class database extends Thread {
+public class database {
     
-    public Thread getIt(){
-        return this;
-    }
-    
-    public void run(){
-        
-    }
+
 
     /**
      * This method runs queries. The use of this method is only to read from the DB.
@@ -25,6 +21,7 @@ public class database extends Thread {
      * @return 
      */
     public static ResultSet query(String q){
+       
         Connection connection = get_connection();
         ResultSet rs = null;
 	PreparedStatement ps=null;

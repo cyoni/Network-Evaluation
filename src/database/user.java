@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import DB_Connection.database;
@@ -11,7 +6,7 @@ import java.sql.ResultSet;
 import utils.User_Dialog;
 
 /**
- * This class represents a user
+ * This class represents the user
  * @author Yoni
  */
 public class user implements Serializable{
@@ -29,7 +24,7 @@ public class user implements Serializable{
     public String getName(){return name;}
     public String getEmail(){return email;}
 
-    public String getPrivate_key(){return private_key;}
+    public String getPrivateKey(){return private_key;}
     public String getKey() {
         return private_key;
     }

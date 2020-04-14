@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package gui;
+package ManageUsers;
 
+import login.Gui_login;
 import DB_Connection.database;
 import algorithms.emailValidation;
 import database.user;
+import java.awt.Cursor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,22 +13,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import utils.MouseCursor;
 import utils.User_Dialog;
 
 /**
  *
  * @author Yoni
  */
-public class Gui_manageUsers extends javax.swing.JFrame {
-    private user User;
- 
+public class Gui_manageUsers extends JFrame {
+    private final user User;
+    private static int changeStatusOfUser = -1;
+    
     /**
-     * Creates new form Gui_manageUsers
+     * Creates new form GuimanageUsers
+     * @param User
      */
-    public Gui_manageUsers() {
+    public Gui_manageUsers(user User) {
         initComponents();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(Gui_login.DISPOSE_ON_CLOSE);
+        this.User = User;
+        loadUserList();
    }
 
 
@@ -48,9 +51,9 @@ public class Gui_manageUsers extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         users_list = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        grand_or_revoke_permiss_button = new javax.swing.JButton();
+        new_usr_button = new javax.swing.JButton();
+        remove_usr_button = new javax.swing.JButton();
 
         jButton5.setText("New User");
 
@@ -64,24 +67,24 @@ public class Gui_manageUsers extends javax.swing.JFrame {
 
         users_list.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton1.setText("Grant/Revoke Permission");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        grand_or_revoke_permiss_button.setText("Grant/Revoke Permission");
+        grand_or_revoke_permiss_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                grand_or_revoke_permiss_buttonActionPerformed(evt);
             }
         });
 
-        jButton4.setText("New User");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        new_usr_button.setText("New User");
+        new_usr_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                new_usr_buttonActionPerformed(evt);
             }
         });
 
-        jButton6.setText("Remove User");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        remove_usr_button.setText("Remove User");
+        remove_usr_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                remove_usr_buttonActionPerformed(evt);
             }
         });
 
@@ -95,11 +98,11 @@ public class Gui_manageUsers extends javax.swing.JFrame {
                         .addComponent(users_list, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(jButton1)
+                            .addComponent(grand_or_revoke_permiss_button)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(remove_usr_button, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(new_usr_button, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,9 +121,9 @@ public class Gui_manageUsers extends javax.swing.JFrame {
                 .addComponent(users_list, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton4)
-                    .addComponent(jButton6))
+                    .addComponent(grand_or_revoke_permiss_button)
+                    .addComponent(new_usr_button)
+                    .addComponent(remove_usr_button))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -128,126 +131,114 @@ public class Gui_manageUsers extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void addUser(){
-           
-        String email =  User_Dialog.getInputDialog("Enter the email of the user:");
-    if (email==null) return;
-    email = email.trim();
-    boolean ans = emailValidation.isValid(email);
-    
-    if (!ans) addUser();
-        else{
-            for (int i=0; i< users_list.getItemCount(); i++){
-                if (users_list.getItemAt(i).equals(email)){
-                    User_Dialog.showAlert(email + " already exists!");
-                    return;
-                }
-            }
-            boolean ok = false;
-                ResultSet result = database.query("SELECT name FROM users WHERE email='"+email+"'");
-                
-            try {
-                while (result.next()){ok=true;}
-            } catch (SQLException ex) {
-                Logger.getLogger(Gui_manageUsers.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if (!ok){
-                User_Dialog.showAlert("This email address was not found!");
-            } else if (email.equals(User.getEmail())) {User_Dialog.showAlert("You can't add youself!");}
-            else{
-                
-                database.query_update("INSERT INTO permissions (owner, usr_email)\n" +
-            "    VALUES ('"+ User.getEmail() +"', '"+ email +"');");
-                users_list.addItem(email + " (unauthorized)");
-            }
-        }
+           Thread thread = new Thread(){
+             public void run(){
+                String email =  User_Dialog.getInputDialog("Enter the email of the user:");
+                if (email==null) return;
+                email = email.trim();
+                boolean ans = emailValidation.isValid(email);
+
+                if (!ans) addUser();
+                    else{
+                        for (int i=0; i< users_list.getItemCount(); i++){
+                            if (users_list.getItemAt(i).equals(email)){
+                                User_Dialog.showAlert(email + " already exists!");
+                                return;
+                            }
+                        }
+                        boolean ok = false;
+                            ResultSet result = database.query("SELECT name FROM users WHERE email='"+email+"'");
+
+                        try {
+                            while (result.next()){ok=true;}
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Gui_manageUsers.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        if (!ok){
+                            User_Dialog.showAlert("This email address was not found!");
+                        } else if (email.equals(User.getEmail())) {User_Dialog.showAlert("You can't add youself!");}
+                        else{
+
+                            database.query_update("INSERT INTO permissions (owner, usr_email)\n" +
+                        "    VALUES ('"+ User.getEmail() +"', '"+ email +"');");
+                            users_list.addItem(email + " (unauthorized)");
+                        }
+                    }
+            }  
+        };
+           thread.start();
     }
     
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void new_usr_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_new_usr_buttonActionPerformed
      addUser();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_new_usr_buttonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+    private void grand_or_revoke_permiss_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grand_or_revoke_permiss_buttonActionPerformed
         String[] arr = getStatusFromList(users_list.getSelectedItem().toString());
-        String email = arr[0];
+        final String email = arr[0];
  
         String status = arr[1];
-        int changeTo = -1;
+       
         users_list.setEditable(true);
         int index = users_list.getSelectedIndex();
         users_list.removeItemAt(index);
         String w = "";
-        if (status.equals("authorized")) {changeTo=-1; w = email+" (unauthorized)"; users_list.addItem(w); }      
-        else if (status.equals("unauthorized")) {changeTo=1; w=email + " (authorized)"; users_list.addItem(w);  }      
+        if (status.equals("authorized")) {changeStatusOfUser=-1; w = email+" (unauthorized)"; users_list.addItem(w); }      
+        else if (status.equals("unauthorized")) {changeStatusOfUser=1; w=email + " (authorized)"; users_list.addItem(w);  }      
         users_list.setSelectedItem(w);
         users_list.setEditable(false);
-          database.query_update("UPDATE permissions SET permission="+ changeTo +" WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"';");
+        Thread thread = new Thread(){
+            public void run(){
+                MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, true);
+                database.query_update("UPDATE permissions SET permission="+ changeStatusOfUser +" WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"';");
+                MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, false);
+            }
+        };
+        thread.start();
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_grand_or_revoke_permiss_buttonActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void remove_usr_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remove_usr_buttonActionPerformed
         String str = users_list.getSelectedItem().toString();
         String[] arr = getStatusFromList(str);
         String email = arr[0];
-      database.query_update("DELETE from permissions WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"' "
-              + "AND permission=1;");
+        Thread thread = new Thread(){
+            public void run(){
+                database.query_update("DELETE from permissions WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"' "
+                + "AND permission=1;");
+            }
+        };
+        thread.start();
+        
+
       users_list.removeItem(str);
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_remove_usr_buttonActionPerformed
 
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Gui_manageUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Gui_manageUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Gui_manageUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Gui_manageUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Gui_manageUsers().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton grand_or_revoke_permiss_button;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton new_usr_button;
+    private javax.swing.JButton remove_usr_button;
     private javax.swing.JComboBox<String> users_list;
     // End of variables declaration//GEN-END:variables
 
-    void setUser(user User) {
-        this.User = User;
-        loadUserList();
-    }
 
     private void loadUserList() {
         users_list.removeAllItems();
-        ResultSet rs = database.query("SELECT usr_email, permission FROM permissions where owner='"+ User.getEmail() +"';");
+        Thread thread = new Thread(){
+            public void run(){
+                MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, true);
+               ResultSet rs = database.query("SELECT usr_email, permission FROM permissions where owner='"+ User.getEmail() +"';");
+               parseUsersList(rs);
+               MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, false);
+            }
+        };
+        thread.start();
+    }
+    private void parseUsersList(ResultSet rs){
         try {
             while (rs.next()){
                 String email = rs.getString("usr_email");
@@ -260,8 +251,6 @@ public class Gui_manageUsers extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Gui_manageUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
     }
 
     private String[] getStatusFromList(String str) {
@@ -272,5 +261,7 @@ public class Gui_manageUsers extends javax.swing.JFrame {
         status = status.substring(0, status.length()-1);
         return new String[]{email , status};
     }
+
+
 
 }

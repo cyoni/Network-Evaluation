@@ -1,7 +1,10 @@
 
 package gui;
 
+import ManageUsers.Gui_manageUsers;
+import login.Gui_login;
 import DB_Connection.AccesConnection;
+import MyAccount.Gui_MyAccount;
 import algorithms.NetCalculations;
 import algorithms.evaluation;
 import java.awt.event.ActionEvent;
@@ -82,6 +85,12 @@ public class Menu_network {
 
     private void startMouseListener() {
            
+            m10.addActionListener((ActionEvent e) -> { 
+                    // open my account window
+                    Gui_MyAccount g = new Gui_MyAccount(gui_network.getUser());
+                    g.setVisible(true);
+            });
+        
             m8.addActionListener((ActionEvent e) -> { 
                 try {
                     // evalutate network
@@ -99,8 +108,7 @@ public class Menu_network {
             });
                     
 	    m2.addActionListener((ActionEvent e) -> {// add/change permissions
-            Gui_manageUsers g = new Gui_manageUsers();// open gui_manageUsers window
-            g.setUser(gui_network.User);
+            Gui_manageUsers g = new Gui_manageUsers(gui_network.User);// open gui_manageUsers window
             g.setVisible(true);   
             });
             

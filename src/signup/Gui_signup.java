@@ -1,29 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package gui;
 
-import DB_Connection.database;
+package signup;
+
+import login.Gui_login;
 import algorithms.KeyGenerator;
 import algorithms.emailValidation;
-import algorithms.login;
-import database.seriable;
-import database.user;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import utils.User_Dialog;
 
 /**
  *
  * @author Yoni
  */
-public class Gui_signup extends javax.swing.JFrame {
+public class Gui_signup extends Signup {
 
     /**
      * Creates new form NewJFrame
@@ -56,7 +42,7 @@ public class Gui_signup extends javax.swing.JFrame {
         txt_first_name = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txt_password = new javax.swing.JPasswordField();
-        isOwner = new javax.swing.JCheckBox();
+        isOwner_checkbox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -93,11 +79,11 @@ public class Gui_signup extends javax.swing.JFrame {
 
         jLabel8.setText("First Name");
 
-        isOwner.setSelected(true);
-        isOwner.setText("I'm an owner");
-        isOwner.addActionListener(new java.awt.event.ActionListener() {
+        isOwner_checkbox.setSelected(true);
+        isOwner_checkbox.setText("I'm an owner");
+        isOwner_checkbox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                isOwnerActionPerformed(evt);
+                isOwner_checkboxActionPerformed(evt);
             }
         });
 
@@ -136,7 +122,7 @@ public class Gui_signup extends javax.swing.JFrame {
                                     .addComponent(txt_network_name, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
                                     .addComponent(txt_password))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(isOwner)))
+                        .addComponent(isOwner_checkbox)))
                 .addContainerGap(9, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -159,7 +145,7 @@ public class Gui_signup extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_network_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
-                            .addComponent(isOwner))
+                            .addComponent(isOwner_checkbox))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -185,7 +171,8 @@ public class Gui_signup extends javax.swing.JFrame {
     String name = txt_first_name.getText();
     String email = txt_email.getText();
     String password = KeyGenerator.encodeString(txt_password.getText());
-    int owner = isOwner.isSelected() ? 1:0;
+
+    isOwner = isOwner_checkbox.isSelected() ? 1:0;
     
     name = name.trim();
     network_name = network_name.trim();
@@ -195,23 +182,19 @@ public class Gui_signup extends javax.swing.JFrame {
     if (name.isEmpty()){ txt_first_name.requestFocus();}
     else if (!emailValidation.isValid(email)){txt_email.requestFocus();}
     else if (password.isEmpty()) {txt_password.requestFocus();}
-    else if (isOwner.isSelected() && network_name.isEmpty()) {txt_network_name.requestFocus();}
+    else if (isOwner == 1 && network_name.isEmpty()) {txt_network_name.requestFocus();}
         else{
-        signUp(name, email, password, owner, network_name);
+        signUp(name, email, password, isOwner, network_name);
         }
-        
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void isOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isOwnerActionPerformed
+    private void isOwner_checkboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isOwner_checkboxActionPerformed
 
-            if (isOwner.isSelected()){
-                txt_network_name.setEnabled(true);
-            }
-            else txt_network_name.setEnabled(false);
-
-            
-    }//GEN-LAST:event_isOwnerActionPerformed
+        if (isOwner_checkbox.isSelected()){
+            txt_network_name.setEnabled(true);
+        }
+        else txt_network_name.setEnabled(false);            
+    }//GEN-LAST:event_isOwner_checkboxActionPerformed
 
     private void login_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_login_labelMouseClicked
         this.dispose();
@@ -220,48 +203,9 @@ public class Gui_signup extends javax.swing.JFrame {
 
         }//GEN-LAST:event_login_labelMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Gui_signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Gui_signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Gui_signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Gui_signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Gui_signup().setVisible(true);
-            }
-        });
-    }
-    
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox isOwner;
+    private javax.swing.JCheckBox isOwner_checkbox;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -277,45 +221,5 @@ public class Gui_signup extends javax.swing.JFrame {
     private javax.swing.JPasswordField txt_password;
     // End of variables declaration//GEN-END:variables
 
-    private void signUp(String name, String email, String password, int owner, String network_name) {
-         
-        Thread thread = new Thread(){
-            public void run(){
-               
-                    int result  = -1;
-                    ResultSet ans = database.query("SELECT email FROM users WHERE email='"+ email +"';");
-                    try{
-                        while (ans.next()){
-                            User_Dialog.showAlert("There is already an account with this email address.");
-                            return;
-                        }
-
-                        result = database.query_update("INSERT INTO users (name, email, password, isOwner)" +
-                                "VALUES ('"+ name +"', '"+ email +"', '" + password + "', '"+ owner +"')");
-
-                        if (isOwner.isSelected()){
-                          result =  database.query_update("INSERT INTO owners (email, network_name)" +
-                                    "VALUES ('"+ email +"', '"+ network_name +"')");
-                        }
-
-                        if (result == -1){
-                            User_Dialog.showAlert("There was an error while creating the account.");
-                        }
-                        else{
-                            user u = login.setNewInstance(new user(name, email, "-1"));
-                            dispose();
-                            Gui_network g = new Gui_network(u);
-                            g.setVisible(true);
-                        }
-                    }
-                    catch(Exception e){}
-                    
-            }
-        };
-        thread.start();
-       
-    }
-
-        
-        
+ 
 }
