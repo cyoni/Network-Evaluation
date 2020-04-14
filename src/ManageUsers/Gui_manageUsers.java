@@ -1,9 +1,9 @@
 package ManageUsers;
 
-import login.Gui_login;
-import DB_Connection.database;
-import algorithms.emailValidation;
-import database.user;
+import Login.Gui_login;
+import Database.Database;
+import Account.EmailValidation;
+import Account.UserAccount;
 import java.awt.Cursor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,22 +14,22 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import utils.MouseCursor;
-import utils.User_Dialog;
+import Utils.MouseCursor;
+import Utils.User_Dialog;
 
 /**
  *
  * @author Yoni
  */
 public class Gui_manageUsers extends JFrame {
-    private final user User;
+    private final UserAccount User;
     private static int changeStatusOfUser = -1;
     
     /**
      * Creates new form GuimanageUsers
      * @param User
      */
-    public Gui_manageUsers(user User) {
+    public Gui_manageUsers(UserAccount User) {
         initComponents();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(Gui_login.DISPOSE_ON_CLOSE);
@@ -136,7 +136,7 @@ public class Gui_manageUsers extends JFrame {
                 String email =  User_Dialog.getInputDialog("Enter the email of the user:");
                 if (email==null) return;
                 email = email.trim();
-                boolean ans = emailValidation.isValid(email);
+                boolean ans = EmailValidation.isValid(email);
 
                 if (!ans) addUser();
                     else{
@@ -147,7 +147,7 @@ public class Gui_manageUsers extends JFrame {
                             }
                         }
                         boolean ok = false;
-                            ResultSet result = database.query("SELECT name FROM users WHERE email='"+email+"'");
+                            ResultSet result = Database.query("SELECT name FROM users WHERE email='"+email+"'");
 
                         try {
                             while (result.next()){ok=true;}
@@ -159,7 +159,7 @@ public class Gui_manageUsers extends JFrame {
                         } else if (email.equals(User.getEmail())) {User_Dialog.showAlert("You can't add youself!");}
                         else{
 
-                            database.query_update("INSERT INTO permissions (owner, usr_email)\n" +
+                            Database.query_update("INSERT INTO permissions (owner, usr_email)\n" +
                         "    VALUES ('"+ User.getEmail() +"', '"+ email +"');");
                             users_list.addItem(email + " (unauthorized)");
                         }
@@ -190,7 +190,7 @@ public class Gui_manageUsers extends JFrame {
         Thread thread = new Thread(){
             public void run(){
                 MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, true);
-                database.query_update("UPDATE permissions SET permission="+ changeStatusOfUser +" WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"';");
+                Database.query_update("UPDATE permissions SET permission="+ changeStatusOfUser +" WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"';");
                 MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, false);
             }
         };
@@ -204,7 +204,7 @@ public class Gui_manageUsers extends JFrame {
         String email = arr[0];
         Thread thread = new Thread(){
             public void run(){
-                database.query_update("DELETE from permissions WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"' "
+                Database.query_update("DELETE from permissions WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"' "
                 + "AND permission=1;");
             }
         };
@@ -231,7 +231,7 @@ public class Gui_manageUsers extends JFrame {
         Thread thread = new Thread(){
             public void run(){
                 MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, true);
-               ResultSet rs = database.query("SELECT usr_email, permission FROM permissions where owner='"+ User.getEmail() +"';");
+               ResultSet rs = Database.query("SELECT usr_email, permission FROM permissions where owner='"+ User.getEmail() +"';");
                parseUsersList(rs);
                MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, false);
             }
