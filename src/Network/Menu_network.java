@@ -26,8 +26,7 @@ import org.jfree.ui.RefineryUtilities;
  * @author Yoni
  */
 public class Menu_network {
-    private JMenuItem m1, m2, m9, m3, m7, m8, m6, m10;
-    private JMenuBar menuBar = new JMenuBar(); // Window menu bar
+    private JMenuItem loadNetworkFile, permissions, logOut, exit, graphChart, evaluateNetwork, graphVisualization, myAccount;
     private final Gui_network gui_network;
     
     public Menu_network(Gui_network gui_network){
@@ -35,63 +34,62 @@ public class Menu_network {
     }
     
     protected void setMenu(){
-        JMenuBar mb; 
-        // create a menubar 
-        mb = new JMenuBar(); 
-        // create a menu 
-        JMenu x = new JMenu("File"); 
-        JMenu x2 = new JMenu("Help"); 
-        JMenu x3 = new JMenu("Graph");
-        JMenu x4 = new JMenu("Network");
+        JMenuBar menuBar = new JMenuBar(); 
+
+        JMenu file = new JMenu("File"); 
+        JMenu help = new JMenu("Help"); 
+        JMenu graph = new JMenu("Graph");
+        JMenu network = new JMenu("Network");
                  
-        m1 = new JMenuItem("Load a network file"); 
-        m10 = new JMenuItem("My Account"); 
-        m9 = new JMenuItem("Log Out"); 
-        m3 = new JMenuItem("Exit");
+        loadNetworkFile = new JMenuItem("Load a network file"); 
+        myAccount = new JMenuItem("My Account"); 
+        logOut = new JMenuItem("Log Out"); 
+        exit = new JMenuItem("Exit");
         
-        m6 = new JMenuItem("Graph Visualization");
-        m7 = new JMenuItem("Graph Chart");
+        graphVisualization = new JMenuItem("Graph Visualization");
+        graphChart = new JMenuItem("Graph Chart");
         
-        m8 = new JMenuItem("Evaluate Network");    
-        m2 = new JMenuItem("Grant/revoke permission");
+        evaluateNetwork = new JMenuItem("Evaluate Network");    
+        permissions = new JMenuItem("Grant/revoke permission");
         
         JMenuItem m4 = new JMenuItem("How to use this software");
         JMenuItem m5 = new JMenuItem("About");
-        // add menu items to menu 
-        x.add(m1); 
-        x.addSeparator();
-        x.add(m10);// my account
-        x.add(m9); // logout
-        x.addSeparator();
-        x.add(m3); //exit
+
+        file.add(loadNetworkFile); 
+        file.addSeparator();
+        file.add(myAccount);
+        file.add(logOut); 
+        file.addSeparator();
+        file.add(exit); 
         
-        x3.add(m6);
-        x3.add(m7);
+        graph.add(graphVisualization);
+        graph.add(graphChart);
 
-        x2.add(m4);
-        x2.add(m5);
+        help.add(m4);
+        help.add(m5);
 
-        x4.add(m8);
-        x4.add(m2);
+        network.add(evaluateNetwork);
+        network.addSeparator();
+        network.add(permissions);
 
         // add menu to menu bar 
-        mb.add(x); 
-        mb.add(x3);
-        mb.add(x4);
-        mb.add(x2);
-        gui_network.setJMenuBar(mb);  // add menubar to frame 
+        menuBar.add(file); 
+        menuBar.add(graph);
+        menuBar.add(network);
+        menuBar.add(help);
+        gui_network.setJMenuBar(menuBar);  // add menubar to frame 
         startMouseListener();
     }
 
     private void startMouseListener() {
            
-            m10.addActionListener((ActionEvent e) -> { 
+            myAccount.addActionListener((ActionEvent e) -> { 
                     // open my account window
                     Gui_MyAccount g = new Gui_MyAccount(gui_network.getUser());
                     g.setVisible(true);
             });
         
-            m8.addActionListener((ActionEvent e) -> { 
+            evaluateNetwork.addActionListener((ActionEvent e) -> { 
                 try {
                     // evalutate network
                     Network_Evaluation g = new Network_Evaluation();
@@ -103,21 +101,21 @@ public class Menu_network {
                 }
             });
            
-            m6.addActionListener((ActionEvent e) -> { // open graph visualization
+            graphVisualization.addActionListener((ActionEvent e) -> { // open graph visualization
                 gui_network.show_graph_visualization();
             });
                     
-	    m2.addActionListener((ActionEvent e) -> {// add/change permissions
+	    permissions.addActionListener((ActionEvent e) -> {// add/change permissions
             Gui_manageUsers g = new Gui_manageUsers(gui_network.User);// open gui_manageUsers window
             g.setVisible(true);   
             });
             
-            m3.addActionListener((ActionEvent e) -> {// exit
+            exit.addActionListener((ActionEvent e) -> {// exit
              System.exit(0);
             });
             
             
-            m7.addActionListener((ActionEvent e) -> {// open chart graph window
+            graphChart.addActionListener((ActionEvent e) -> {// open chart graph window
                 Graph_chart.Gui_graph_chart chart;
                 try {
                     chart = new Graph_chart.Gui_graph_chart(gui_network.User);
@@ -133,7 +131,7 @@ public class Menu_network {
             });      
             
             
-            m9.addActionListener((ActionEvent e) -> {// user log out
+            logOut.addActionListener((ActionEvent e) -> {// user log out
             gui_network.dispose();
             File file = new File("user.txt");
             try{
@@ -146,7 +144,7 @@ public class Menu_network {
             
             
             // open FileChooser and build NetworkData 
-            m1.addActionListener((ActionEvent e) -> {
+            loadNetworkFile.addActionListener((ActionEvent e) -> {
             JFileChooser fileChooser = new JFileChooser();
             int rVal = fileChooser.showOpenDialog(gui_network);
             if (rVal == JFileChooser.APPROVE_OPTION) { // click open file 

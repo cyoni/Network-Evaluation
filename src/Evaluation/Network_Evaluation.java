@@ -112,7 +112,6 @@ public class Network_Evaluation {
         num_active_ads = convertIntFromString(network.active_ads.getText());
         
         myWriter = new FileWriter("network_evaluation.txt");
-
     }
 
     private void performEvaluation() throws IOException {
@@ -121,12 +120,10 @@ public class Network_Evaluation {
         evaluate_advetisers();
         evaluate_number_of_people_who_might_see_an_ad();
        // evaluate.. ()...
-
-
     }
     
     private void write(String str) throws IOException{
-            myWriter.write(str + "\n");
+        myWriter.write(str + "\n");
     }
     
     private void closeWriter() throws IOException {
@@ -139,7 +136,7 @@ public class Network_Evaluation {
     }
 
     private void evaluate_advetisers() throws IOException {
-    write(">> Each advertiser is worth " + value_advertiser + ". Adding $" + add(value_advertiser*num_advertisers));
+        write(">> Each advertiser is worth " + value_advertiser + ". Adding $" + add(value_advertiser*num_advertisers));
     }
 
     private void evaluate_number_of_people_who_might_see_an_ad() throws IOException {

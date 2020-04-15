@@ -147,6 +147,7 @@ public class Gui_manageUsers extends JFrame {
                             }
                         }
                         boolean ok = false;
+                        MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, true);
                             ResultSet result = Database.query("SELECT name FROM users WHERE email='"+email+"'");
 
                         try {
@@ -164,6 +165,7 @@ public class Gui_manageUsers extends JFrame {
                             users_list.addItem(email + " (unauthorized)");
                         }
                     }
+                MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, false);
             }  
         };
            thread.start();
@@ -204,8 +206,10 @@ public class Gui_manageUsers extends JFrame {
         String email = arr[0];
         Thread thread = new Thread(){
             public void run(){
+                MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, true);
                 Database.query_update("DELETE from permissions WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"' "
                 + "AND permission=1;");
+                MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, false);
             }
         };
         thread.start();

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Login;
 
 import Utils.KeyGenerator;
@@ -61,7 +56,7 @@ public class Login extends javax.swing.JFrame {
     public static UserAccount setNewInstance(UserAccount User) {
     String name = User.getName();
     String email = User.getEmail();
-    String key = KeyGenerator.getKey(32); // private key - so the system will remember the user and he wont have to enter his password.
+    String key = KeyGenerator.getKey(32); // private key - so the system will remember the user and he won't have to enter his password again.
     User = new UserAccount(name, email, key);          
     String sql = "INSERT INTO login_instance (private_key, email)\n" +
                  "VALUES('"+ key +"', '"+ email +"')\n" +
