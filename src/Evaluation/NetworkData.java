@@ -6,6 +6,7 @@
 package Evaluation;
 
 import Data_structure.Ad;
+import Data_structure.Category;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,11 +53,14 @@ public class NetworkData {
     private double avgAds;
     private double newAds;
     private double netProfit;
-    private List<Ad> list_ads;
+    
     // list of obj
     int advertisers;
+    private List<Ad> list_ads;
+    private List<Category> list_cats;
 
-    // need to add
+
+//    // need to add
     private int numPosts;
     private int numViews;
     private double avgViews;
@@ -96,12 +100,14 @@ public class NetworkData {
          avgAds = c.CalAvgAds();
          newAds= c.CalNewAds();
          netProfit= c.CalSumOfAdsProfit();
-         list_ads = c.getAds();
          
          advertisers = c.getAdvertisers();
+         list_ads = c.getAds();
+         list_cats = c.getCats();
+
          
          // need to add
-         avgViews = c.CalAvgViews();
+          avgViews = c.CalAvgViews();
          
         
                  
@@ -221,5 +227,15 @@ public class NetworkData {
     public int getCategories() {
         return cal.getCategories();
     }
+
+    public List<Ad> getList_ads() {
+        return list_ads;
+    }
+
+    public List<Category> getList_cats() {
+        return list_cats;
+    }
+    
+    
  
 }

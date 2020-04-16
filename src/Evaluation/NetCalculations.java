@@ -7,6 +7,7 @@ package Evaluation;
 
 import Database.AccesConnection;
 import Data_structure.Ad;
+import Data_structure.Category;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -399,5 +400,21 @@ public ArrayList<Evaluation_Advertiser> _getAdvertisers() throws SQLException {
        }
             return -1;
     }
+    
+    
+public ArrayList<Category> getCats() throws SQLException {
+       ArrayList<Category> cats = new  ArrayList<>();
+       ResultSet rs = statment.executeQuery("SELECT Count(T_Likes.member_id) AS num_members, T_Pages.category_id, T_Categories.cat_name"
+               + " FROM (T_Likes INNER JOIN T_Pages ON T_Likes.compoment_id = T_Pages.page_id) "
+               + "INNER JOIN T_Categories ON T_Pages.category_id = T_Categories.ID GROUP BY T_Pages.category_id, T_Categories.cat_name;");
+       while (rs.next()) {
+           int category = rs.getInt("category_id");
+           int interest = rs.getInt("num_members");
+           String name = rs.getString("cat_name");
+           
+           cats.add(new Category(category, name, interest));
+       }
+       return cats;
+   }
    
 }
