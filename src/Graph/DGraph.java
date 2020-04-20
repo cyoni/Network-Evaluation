@@ -174,9 +174,11 @@ public class DGraph implements Graph, Serializable {
     public List<node_metadata> getNeighbors(int node_key) {
         List<node_metadata> neighbors = new ArrayList();
         List<edge_metadata> node_edges = e.get(node_key);
+        if (node_edges != null ) {
         for (edge_metadata edge : node_edges) {
             node_metadata n = getNode(edge.getDest()); // get neighbor
             neighbors.add(n);
+        }
         }
         return neighbors;
 

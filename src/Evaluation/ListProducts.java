@@ -18,8 +18,8 @@ public class ListProducts {
   // ProductForAdv have: product_id;  profit, list category , expoForDay, dayForAdv; 
     
     public ListProducts() {
-       ProductForAdv p1 = new ProductForAdv(1, 12, null, 10, 3);
-       ProductForAdv p2 = new ProductForAdv(2, 3, null, 80, 8);
+       ProductForAdv p1 = new ProductForAdv(1, 12, null, 5, 1);
+       ProductForAdv p2 = new ProductForAdv(2, 3, null, 3, 3);
        this.products.add(p1);
        this.products.add(p2);
 

@@ -68,7 +68,7 @@ public class Network_Evaluation {
         this.network = network;
         this.network_data_from_file = network_data_from_file;
         this.g = g;
-        this.membersId = getMembers(new ArrayList<node_metadata> (g.getV())); // all members 
+        this.membersId = getMembers(new ArrayList<node_metadata>(g.getV())); // all members 
 
         initEvaluation();
         performEvaluation();
@@ -158,8 +158,6 @@ public class Network_Evaluation {
         write(">> Each advertiser is worth " + value_advertiser + ". Adding $" + add(value_advertiser * num_advertisers));
     }
 
-    
-    
     /**
      * The purpose of this function is to estimate the number of people who will
      * be interested in the product (and maybe buy it) To calculate this we use
@@ -169,20 +167,23 @@ public class Network_Evaluation {
      *
      */
     private int findInterested(ProductForAdv p) {
-
+        // Way 1: rely on previous advertisements
         List<Ad> list_ads = network_data_from_file.getAds(); // prev ads
         double avg_clicks = calculateAvgClicks(list_ads);
-        
-        if ( p.getCategory() == null )
-            return 0;
-        
-        List<Integer> p_cats = p.getCategory(); // product categorys
-        int sum = 0;
-        for (int cat : p_cats) {
-            sum += interstIngCat(cat);
+
+        // Way 2: Take a look at the product category
+        int intersting = 0;
+        if (p.getCategory() == null) {
+            intersting = 0;
+        } else {
+            List<Integer> p_cats = p.getCategory(); // product categorys
+            for (int cat : p_cats) {
+                intersting += interstIngCat(cat);
+            }
         }
-        // No one is interested in any product category
-        // if ( sum == 0)
+        double w1 = 0.4;
+        double w2 = 0.6;
+        int sum = (int) (w1 * avg_clicks + w2 * intersting);
 
         return sum;
 
@@ -193,14 +194,20 @@ public class Network_Evaluation {
      * share the products, of the people who are interested in the product
      */
     private int findShared(int intersted) {
-        
-        if ( intersted == 0)
+
+        if (intersted == 0) {
             return 0;
-        
+        }
+
         double avg_share_per_day = network_data_from_file.getAvgShares();
 
-        int memberShares = (int) avg_share_per_day / intersted;
+        double percent = (avg_share_per_day / num_members);
+        double random = Math.random(); // Get probability between [0-1)
+        
+         double w1 = 0.4;
+         double w2 = 0.6;
 
+        int memberShares = (int) ((w1*percent + w2*random)* intersted);
         return memberShares;
 
     }
@@ -209,18 +216,18 @@ public class Network_Evaluation {
      * The purpose of the function is to estimate the number of people who will
      * watch a particular advertisement. To calculate this we will use two ways
      * 1) We rely on previous advertisements posted on the network and find the
-     * average views on a network advertisement
-     * 2) Simulate the ad distribution process on the network including all of its steps
-     * and try to predict how many people will see the ad
+     * average views on a network advertisement 2) Simulate the ad distribution
+     * process on the network including all of its steps and try to predict how
+     * many people will see the ad
      *
      * @throws IOException
      */
     private void evaluate_number_of_people_who_might_see_an_ad() throws IOException {
-        
+
         // Way 1 :  rely on previous advertisements
         List<Ad> list_ads = network_data_from_file.getAds(); // prev ads
         double avg_view = calculateAvgViews(list_ads);
-        
+
         // Way 2 : Simulate the ad distribution process
         ListProducts l = new ListProducts();
         ArrayList<ProductForAdv> products = l.products; // The products on which we will do the simulation
@@ -230,36 +237,36 @@ public class Network_Evaluation {
         for (ProductForAdv p : products) {
             int expo = p.getExpoForDay(); //Number of exposures of the advertisement per day
             int num_days = p.getDayForAdv(); // Numbers of days
-            
+
             int inter = findInterested(p); // The number of people on the network who were interested in the product
             int memberShares = findShared(inter); // Within those who were interested how many people will share
-            
+
             int memberExpo = 0;
             // pass over the days and fill memberPerDay 
             for (int i = 1; i <= num_days; i++) {
-                
+
                 Set<Integer> randomMember = new HashSet<Integer>(randomMembers(expo));
-                memberPerDay.put(i,randomMember); // Add random member
+                memberPerDay.put(i, randomMember); // Add random member
                 memberExpo += expo;
 
-                List<Integer> members_who_share = randomMembers(memberShares);
+                List<Integer> members_who_share = randomMembers(memberShares); //need to change to set
 
                 for (int member : members_who_share) {
                     List<Integer> friends = getFriendsOf(member);
-                    memberExpo+=friends.size();
+                    memberExpo += friends.size();
                     memberPerDay.get(i).addAll(friends); // add to map the friend exposed to the ad
                 }
-                
-                  Double random = Math.random(); // Get probability between [0-1)
-                  int memberBuy = (int) (memberExpo * random);
-                  double revenue = p.getProfit() * memberBuy;
-                  
-                  double ad_price = network_data_from_file.getPrice_ads();
-                  double expense = ad_price * num_days * expo;
-                  
-                  double profit = revenue - expense;
-                  network_value+=profit;
-                
+
+                Double random = Math.random(); // Get probability between [0-1)
+                int memberBuy = (int) (memberExpo * random); // number of member will buy the product
+                double revenue = p.getProfit() * memberBuy;
+
+                double ad_price = network_data_from_file.getPrice_ads();
+                double expense = ad_price * num_days * expo;
+
+                double profit = revenue - expense;
+                network_value += profit;
+
             }
         }
         // 
@@ -291,7 +298,6 @@ public class Network_Evaluation {
 //
 //        }
     }
-    
 
     // return list of the id of the members
     public List<Integer> getMembers(List<node_metadata> nodes) {
