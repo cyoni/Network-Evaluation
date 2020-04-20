@@ -380,9 +380,10 @@ public ArrayList<Evaluation_Advertiser> _getAdvertisers() throws SQLException {
            double price = rs.getDouble("price");
            double product_price = rs.getDouble("productPrice");
            int category = rs.getInt("Category");
-           int interest = rs.getInt("views");
+           int views = rs.getInt("views");
+           int clicks = rs.getInt("clicks");
            
-           ads.add(new Ad(isActive, price, product_price, category, interest));
+           ads.add(new Ad(isActive, price, product_price, category, views, clicks));
        }
        return ads;
    }
@@ -416,5 +417,19 @@ public ArrayList<Category> getCats() throws SQLException {
        }
        return cats;
    }
+
+ public double getPriceOfAd() {
+       ResultSet rs;
+       try {
+           rs = statment.executeQuery("SELECT [price_for_day] FROM [T_Advertising_prices];");
+           while (rs.next()) {
+             return rs.getDouble("price_for_day");
+            }
+           
+       } catch (SQLException ex) {
+           Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
+       }
+            return -1;
+    }
    
 }

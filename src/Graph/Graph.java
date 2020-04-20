@@ -113,6 +113,9 @@ public interface Graph {
 //         */
 //        public void connectById(Edge edge);
         public List<edge_metadata>[] getArrayOfVertciesWithEdges();
+        
+        public List<node_metadata> getNeighbors(int node_key);
+
 	
 	
 }

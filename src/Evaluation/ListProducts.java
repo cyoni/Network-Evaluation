@@ -1,0 +1,31 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Evaluation;
+
+import Data_structure.ProductForAdv;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author caron
+ */
+public class ListProducts {
+
+    ArrayList<ProductForAdv> products = new ArrayList<>();
+  // ProductForAdv have: product_id;  profit, list category , expoForDay, dayForAdv; 
+    
+    public ListProducts() {
+       ProductForAdv p1 = new ProductForAdv(1, 12, null, 10, 3);
+       ProductForAdv p2 = new ProductForAdv(2, 3, null, 80, 8);
+       this.products.add(p1);
+       this.products.add(p2);
+
+
+    }
+    
+    
+
+}

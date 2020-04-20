@@ -58,6 +58,7 @@ public class NetworkData {
     int advertisers;
     private List<Ad> list_ads;
     private List<Category> list_cats;
+    double price_ads;
 
 
 //    // need to add
@@ -104,6 +105,7 @@ public class NetworkData {
          advertisers = c.getAdvertisers();
          list_ads = c.getAds();
          list_cats = c.getCats();
+         price_ads = c.getPriceOfAd();
 
          
          // need to add
@@ -235,6 +237,11 @@ public class NetworkData {
     public List<Category> getList_cats() {
         return list_cats;
     }
+
+    public double getPrice_ads() {
+        return price_ads;
+    }
+    
     
     
  
