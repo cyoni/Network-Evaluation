@@ -90,16 +90,9 @@ public class Menu_network {
             });
         
             evaluateNetwork.addActionListener((ActionEvent e) -> { 
-                try {
-                    // evalutate network
-                    Network_Evaluation g = new Network_Evaluation();
-                    g.evaluate(gui_network, gui_network.getNetworkDataFromFile());
-                } catch (IOException ex) {
-                    Logger.getLogger(Menu_network.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Menu_network.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
+                                gui_network.bla();
+            }
+               );
            
             graphVisualization.addActionListener((ActionEvent e) -> { // open graph visualization
                 gui_network.show_graph_visualization();

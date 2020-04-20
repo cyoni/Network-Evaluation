@@ -33,6 +33,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import Evaluation.NetworkData;
+import Graph.Algorithms.ConstructGraph;
+import Graph.Graph;
 import org.jfree.ui.RefineryUtilities;
 import Utils.User_Dialog;
 
@@ -813,6 +815,24 @@ public class Gui_network extends javax.swing.JFrame {
     protected void show_graph_visualization() {
         Gui_visualization g = new Gui_visualization(accessConnection_local_database);
         g.setVisible(true);   
+  
+    }
+    
+      
+    protected void bla() {
+        //Graph graph = new Graph(); 
+       ConstructGraph cg = new ConstructGraph(accessConnection_local_database,0,0);
+       Graph graph = cg.getGraph();
+         Network_Evaluation net = new Network_Evaluation();
+        try {
+            net.evaluate(this, networkDataFromFile, graph);
+        } catch (IOException ex) {
+            Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       
   
     }
 

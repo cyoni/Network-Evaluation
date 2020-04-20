@@ -25,6 +25,7 @@ import Nodes.Member;
 import Nodes.node_metadata;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -67,7 +68,7 @@ public class Network_Evaluation {
         this.network = network;
         this.network_data_from_file = network_data_from_file;
         this.g = g;
-        this.membersId = getMembers((List<node_metadata>) g.getV()); // all members 
+        this.membersId = getMembers(new ArrayList<node_metadata> (g.getV())); // all members 
 
         initEvaluation();
         performEvaluation();
@@ -171,7 +172,10 @@ public class Network_Evaluation {
 
         List<Ad> list_ads = network_data_from_file.getAds(); // prev ads
         double avg_clicks = calculateAvgClicks(list_ads);
-
+        
+        if ( p.getCategory() == null )
+            return 0;
+        
         List<Integer> p_cats = p.getCategory(); // product categorys
         int sum = 0;
         for (int cat : p_cats) {
@@ -180,7 +184,7 @@ public class Network_Evaluation {
         // No one is interested in any product category
         // if ( sum == 0)
 
-        return 0;
+        return sum;
 
     }
 
@@ -189,7 +193,10 @@ public class Network_Evaluation {
      * share the products, of the people who are interested in the product
      */
     private int findShared(int intersted) {
-
+        
+        if ( intersted == 0)
+            return 0;
+        
         double avg_share_per_day = network_data_from_file.getAvgShares();
 
         int memberShares = (int) avg_share_per_day / intersted;
@@ -230,8 +237,9 @@ public class Network_Evaluation {
             int memberExpo = 0;
             // pass over the days and fill memberPerDay 
             for (int i = 1; i <= num_days; i++) {
-
-                memberPerDay.put(i, (Set<Integer>) randomMembers(expo)); // Add random member
+                
+                Set<Integer> randomMember = new HashSet<Integer>(randomMembers(expo));
+                memberPerDay.put(i,randomMember); // Add random member
                 memberExpo += expo;
 
                 List<Integer> members_who_share = randomMembers(memberShares);
