@@ -3,6 +3,10 @@ package Login;
 
 import Utils.KeyGenerator;
 import Signup.Gui_signup;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -14,6 +18,7 @@ public class Gui_login extends Login {
      * Creates new form NewJFrame1_
      */
     public Gui_login() {
+        setWindowsApperance();
         initComponents();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(Gui_login.DISPOSE_ON_CLOSE);
@@ -215,6 +220,20 @@ public class Gui_login extends Login {
     private javax.swing.JTextField txt_email;
     private javax.swing.JPasswordField txt_password;
     // End of variables declaration//GEN-END:variables
+
+    private void setWindowsApperance() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Gui_login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Gui_login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Gui_login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Gui_login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 
 }

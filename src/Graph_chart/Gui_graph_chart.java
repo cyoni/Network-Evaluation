@@ -106,23 +106,34 @@ public class Gui_graph_chart extends JFrame {
     public void getData() throws SQLException{
        if (getDataFromEmail == null) getDataFromEmail = User.getEmail();
        List<graph_chart_data> list = new ArrayList<>();
-       // fetch data
-       ResultSet rs = Database.query("SELECT email, year, month, data FROM network_value WHERE email='"+ getDataFromEmail +"' "
-               + "ORDER BY year DESC, month DESC");
-    
-        while (rs.next()){
-            int year = rs.getInt("year");
-            int month = rs.getInt("month");
-            String dataWithSpace = rs.getString("data");
-            String data = dataWithSpace.replaceAll("\\s+",""); // eliminate whitespaces
-            // int year, int month, String str
-            graph_chart_data gcd = new graph_chart_data(year, month, data); // don't worry my friend it's not what you're thinking about 
-            list.add(gcd);
-        }
-            data_structure = list; // save data 
-            if (!data_structure.isEmpty()){
-               initializeGraph(data_structure.get(0));  // set latest data
+       Thread thread = new Thread(){
+           public void run(){
+            // fetch data
+            ResultSet  rs = Database.query("SELECT email, year, month, data FROM network_value WHERE email='"+ getDataFromEmail +"' "
+               + "ORDER BY year DESC, month DESC");   
+            try{
+                while (rs.next()){
+                    int year = rs.getInt("year");
+                    int month = rs.getInt("month");
+                    String dataWithSpace = rs.getString("data");
+                    String data = dataWithSpace.replaceAll("\\s+",""); // eliminate whitespaces
+                    // int year, int month, String str
+                    graph_chart_data gcd = new graph_chart_data(year, month, data); // don't worry my friend it's not what you're thinking about 
+                    list.add(gcd);
+                }
+                data_structure = list; // save data 
+                if (!data_structure.isEmpty()){
+                   initializeGraph(data_structure.get(0));  // set latest data
+                }
+              setSize(560, 367); 
+              setLocationRelativeTo(null);
             }
+            catch(Exception e){}
+            }
+       };
+       thread.start();
+
+
  }
 /**
  *  This method builds the graph.

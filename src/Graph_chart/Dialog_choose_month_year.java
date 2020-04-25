@@ -50,10 +50,8 @@ public class Dialog_choose_month_year extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Year:");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Month:");
 
         years.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -189,8 +187,10 @@ public class Dialog_choose_month_year extends javax.swing.JFrame {
     private void setYears() {
         if (g.data_structure.isEmpty()) {User_Dialog.showAlert("Nothing to show."); return;}
         
-        years.setModel(model_years);months.setModel(model_months); // maybe they are supposed to be after adding elements
-        years.removeAllItems(); months.removeAllItems();
+        years.setModel(model_years);
+        months.setModel(model_months); 
+        years.removeAllItems();
+        months.removeAllItems();
         
         g.data_structure.forEach((item) -> {
             if (model_years.getIndexOf(item.getYear()) == -1){
@@ -200,7 +200,6 @@ public class Dialog_choose_month_year extends javax.swing.JFrame {
         
         int latest_year = g.data_structure.get(0).getYear(); // get the most recent year
         setMonths(latest_year);  // add the months of the specific year      
-        
     }
 
     void setData(Gui_graph_chart g) {

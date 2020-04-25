@@ -1,7 +1,6 @@
 package Network;
 
 
-import Network.Menu_network;
 import Database.AccesConnection;
 import Graph_visualization.Gui_visualization;
 import Graph_chart.Gui_graph_chart;
@@ -9,34 +8,21 @@ import Database.Database;
 import Evaluation.NetCalculations;
 import Evaluation.ProcessDataOfFile;
 import Evaluation.Network_Evaluation;
-import Account.ConvertUserToSeriable;
 import Account.UserAccount;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
-import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import Evaluation.NetworkData;
 import Graph.Algorithms.ConstructGraph;
 import Graph.Graph;
-import org.jfree.ui.RefineryUtilities;
-import Utils.User_Dialog;
+
 
 /**
  *
@@ -48,10 +34,9 @@ public class Gui_network extends javax.swing.JFrame {
     private HashMap<String, String> hashmap_mySharedNetworks = new HashMap<>();
     protected AccesConnection accessConnection_local_database;
     private NetworkData networkDataFromFile;
+    private String network_file = "";
 
-    /**
-     * Creates new form NewJFrame
-     */
+    
     public Gui_network() {
         initComponents();
         setLocationRelativeTo(null);
@@ -62,7 +47,6 @@ public class Gui_network extends javax.swing.JFrame {
     public Gui_network(UserAccount User) throws SQLException {
         this();
         this.User = User;
-
         initializeScreen.start();
     }
     
@@ -818,8 +802,9 @@ public class Gui_network extends javax.swing.JFrame {
   
     }
     
+    
       
-    protected void bla() {
+    protected void openEvaluateNetwork() {
         //Graph graph = new Graph(); 
        ConstructGraph cg = new ConstructGraph(accessConnection_local_database,0,0);
        Graph graph = cg.getGraph();
@@ -851,6 +836,14 @@ public class Gui_network extends javax.swing.JFrame {
 
     public UserAccount getUser() {
         return this.User;
+    }
+
+    public void setNetworkFile(String path_file) {
+        this.network_file = path_file;
+    }
+
+    public String getNetworkFile() {
+        return network_file;
     }
 
 }

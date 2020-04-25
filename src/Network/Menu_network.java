@@ -19,6 +19,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import Evaluation.NetworkData;
+import Graph_chart.Gui_chart_data_analysis;
+import Utils.User_Dialog;
 import org.jfree.ui.RefineryUtilities;
 
 /**
@@ -26,7 +28,7 @@ import org.jfree.ui.RefineryUtilities;
  * @author Yoni
  */
 public class Menu_network {
-    private JMenuItem loadNetworkFile, permissions, logOut, exit, graphChart, evaluateNetwork, graphVisualization, myAccount;
+    private JMenuItem loadNetworkFile, permissions, logOut, exit, graphChart, evaluateNetwork, graphVisualization, myAccount, dataAnalysis;
     private final Gui_network gui_network;
     
     public Menu_network(Gui_network gui_network){
@@ -48,9 +50,10 @@ public class Menu_network {
         
         graphVisualization = new JMenuItem("Graph Visualization");
         graphChart = new JMenuItem("Graph Chart");
+        dataAnalysis = new JMenuItem("Data Analysis");
         
         evaluateNetwork = new JMenuItem("Evaluate Network");    
-        permissions = new JMenuItem("Grant/revoke permission");
+        permissions = new JMenuItem("Grant/revoke permissions");
         
         JMenuItem m4 = new JMenuItem("How to use this software");
         JMenuItem m5 = new JMenuItem("About");
@@ -63,7 +66,9 @@ public class Menu_network {
         file.add(exit); 
         
         graph.add(graphVisualization);
+        graph.addSeparator();
         graph.add(graphChart);
+        graph.add(dataAnalysis);
 
         help.add(m4);
         help.add(m5);
@@ -77,12 +82,20 @@ public class Menu_network {
         menuBar.add(graph);
         menuBar.add(network);
         menuBar.add(help);
-        gui_network.setJMenuBar(menuBar);  // add menubar to frame 
+        gui_network.setJMenuBar(menuBar); 
         startMouseListener();
     }
 
     private void startMouseListener() {
            
+            dataAnalysis.addActionListener((ActionEvent e) -> { 
+                if (gui_network.getNetworkFile().isEmpty())
+                    User_Dialog.showAlert("You need to load a network file first.");
+                else{
+                    Gui_chart_data_analysis g = new Gui_chart_data_analysis(gui_network.getNetworkFile());
+                    g.setVisible(true);
+                }
+            });
             myAccount.addActionListener((ActionEvent e) -> { 
                     // open my account window
                     Gui_MyAccount g = new Gui_MyAccount(gui_network.getUser());
@@ -90,9 +103,8 @@ public class Menu_network {
             });
         
             evaluateNetwork.addActionListener((ActionEvent e) -> { 
-                                gui_network.bla();
-            }
-               );
+                gui_network.openEvaluateNetwork();
+            });
            
             graphVisualization.addActionListener((ActionEvent e) -> { // open graph visualization
                 gui_network.show_graph_visualization();
@@ -106,7 +118,6 @@ public class Menu_network {
             exit.addActionListener((ActionEvent e) -> {// exit
              System.exit(0);
             });
-            
             
             graphChart.addActionListener((ActionEvent e) -> {// open chart graph window
                 Graph_chart.Gui_graph_chart chart;
@@ -122,40 +133,38 @@ public class Menu_network {
                 }
 
             });      
-            
-            
+           
             logOut.addActionListener((ActionEvent e) -> {// user log out
-            gui_network.dispose();
-            File file = new File("user.txt");
-            try{
-            file.delete();}
-            catch(Exception x){System.out.println(x);}
-            Gui_login g = new Gui_login();
-            g.setVisible(true);   
- 
+                gui_network.dispose();
+                File file = new File("user.txt");
+                try{
+                file.delete();}
+                catch(Exception x){System.out.println(x);}
+                Gui_login g = new Gui_login();
+                g.setVisible(true);   
             });
-            
             
             // open FileChooser and build NetworkData 
             loadNetworkFile.addActionListener((ActionEvent e) -> {
+                loadFile();
+            });
+
+    }
+
+    private void loadFile() {
             JFileChooser fileChooser = new JFileChooser();
             int rVal = fileChooser.showOpenDialog(gui_network);
-            if (rVal == JFileChooser.APPROVE_OPTION) { // click open file 
-                
-            String diraction = fileChooser.getCurrentDirectory().toString()+"\\"+fileChooser.getSelectedFile().getName();
-            gui_network.accessConnection_local_database = new AccesConnection(diraction);
-            NetCalculations cal = new NetCalculations(gui_network.accessConnection_local_database);
-            gui_network.setNetworkDataFromFile(new NetworkData(cal));
-            
-            // set all the number field of the network
-            gui_network.setField();
-               
+            if (rVal == JFileChooser.APPROVE_OPTION) { // click open file  
+                gui_network.setNetworkFile(fileChooser.getCurrentDirectory().toString()+"\\"+fileChooser.getSelectedFile().getName());
+                gui_network.accessConnection_local_database = new AccesConnection(gui_network.getNetworkFile());
+                NetCalculations cal = new NetCalculations(gui_network.accessConnection_local_database);
+                gui_network.setNetworkDataFromFile(new NetworkData(cal));
+                // set all the number field of the network
+                gui_network.setField();
             }
             else { // click cancel 
                 System.out.println("You pressed cancel");
             }
-            });
-
     }
     
 }
