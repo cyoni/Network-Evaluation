@@ -1,6 +1,8 @@
 
 package Network;
 
+import About.About;
+import About.Help;
 import ManageUsers.Gui_manageUsers;
 import Login.Gui_login;
 import Database.AccesConnection;
@@ -28,7 +30,8 @@ import org.jfree.ui.RefineryUtilities;
  * @author Yoni
  */
 public class Menu_network {
-    private JMenuItem loadNetworkFile, permissions, logOut, exit, graphChart, evaluateNetwork, graphVisualization, myAccount, dataAnalysis;
+    private JMenuItem loadNetworkFile, permissions, logOut, exit, graphChart, evaluateNetwork, graphVisualization,
+            myAccount, dataAnalysis, howToUse, about;
     private final Gui_network gui_network;
     
     public Menu_network(Gui_network gui_network){
@@ -55,8 +58,8 @@ public class Menu_network {
         evaluateNetwork = new JMenuItem("Evaluate Network");    
         permissions = new JMenuItem("Grant/revoke permissions");
         
-        JMenuItem m4 = new JMenuItem("How to use this software");
-        JMenuItem m5 = new JMenuItem("About");
+        howToUse = new JMenuItem("How to use this software");
+        about = new JMenuItem("About");
 
         file.add(loadNetworkFile); 
         file.addSeparator();
@@ -70,8 +73,8 @@ public class Menu_network {
         graph.add(graphChart);
         graph.add(dataAnalysis);
 
-        help.add(m4);
-        help.add(m5);
+        help.add(howToUse);
+        help.add(about);
 
         network.add(evaluateNetwork);
         network.addSeparator();
@@ -87,84 +90,96 @@ public class Menu_network {
     }
 
     private void startMouseListener() {
-           
-            dataAnalysis.addActionListener((ActionEvent e) -> { 
-                if (gui_network.getNetworkFile().isEmpty())
-                    User_Dialog.showAlert("You need to load a network file first.");
-                else{
-                    Gui_chart_data_analysis g = new Gui_chart_data_analysis(gui_network.getNetworkFile());
-                    g.setVisible(true);
-                }
-            });
-            myAccount.addActionListener((ActionEvent e) -> { 
-                    // open my account window
-                    Gui_MyAccount g = new Gui_MyAccount(gui_network.getUser());
-                    g.setVisible(true);
-            });
+                   
+        howToUse.addActionListener((ActionEvent e) -> { 
+            Help g = new Help();
+            g.setVisible(true);
+        });  
+                
+        about.addActionListener((ActionEvent e) -> { 
+            About g = new About();
+            g.setVisible(true);
+        });  
+             
+        dataAnalysis.addActionListener((ActionEvent e) -> { 
+        if (gui_network.getNetworkFile().isEmpty())
+            User_Dialog.showAlert("You need to load a network file first.");
+        else{
+            Gui_chart_data_analysis g = new Gui_chart_data_analysis(gui_network.getNetworkFile());
+            g.setVisible(true);
+        }});
         
-            evaluateNetwork.addActionListener((ActionEvent e) -> { 
-                gui_network.openEvaluateNetwork();
-            });
+        myAccount.addActionListener((ActionEvent e) -> { 
+        // open my account window
+            Gui_MyAccount g = new Gui_MyAccount(gui_network.getUser());
+            g.setVisible(true);
+        });
+        
+        evaluateNetwork.addActionListener((ActionEvent e) -> { 
+            gui_network.openEvaluateNetwork();
+        });
            
-            graphVisualization.addActionListener((ActionEvent e) -> { // open graph visualization
-                gui_network.show_graph_visualization();
-            });
+        graphVisualization.addActionListener((ActionEvent e) -> { // open graph visualization
+            gui_network.show_graph_visualization();
+        });
                     
-	    permissions.addActionListener((ActionEvent e) -> {// add/change permissions
-            Gui_manageUsers g = new Gui_manageUsers(gui_network.User);// open gui_manageUsers window
-            g.setVisible(true);   
-            });
+	permissions.addActionListener((ActionEvent e) -> {// add/change permissions
+        Gui_manageUsers g = new Gui_manageUsers(gui_network.User);// open gui_manageUsers window
+        g.setVisible(true);   
+        });
             
-            exit.addActionListener((ActionEvent e) -> {// exit
-             System.exit(0);
-            });
+        exit.addActionListener((ActionEvent e) -> {// exit
+        System.exit(0);
+        });
             
-            graphChart.addActionListener((ActionEvent e) -> {// open chart graph window
-                Graph_chart.Gui_graph_chart chart;
-                try {
-                    chart = new Graph_chart.Gui_graph_chart(gui_network.User);
-                    chart.getData();
-                    chart.pack();
-                    RefineryUtilities.centerFrameOnScreen(chart);
-                    chart.setVisible(true);    
-                } 
-                catch (SQLException ex) {
-                    Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            });      
+        graphChart.addActionListener((ActionEvent e) -> {// open chart graph window
+        Graph_chart.Gui_graph_chart chart;
+        try {
+            chart = new Graph_chart.Gui_graph_chart(gui_network.User);
+            chart.getData();
+            chart.pack();
+            RefineryUtilities.centerFrameOnScreen(chart);
+            chart.setVisible(true);    
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
+        }});      
            
-            logOut.addActionListener((ActionEvent e) -> {// user log out
-                gui_network.dispose();
-                File file = new File("user.txt");
-                try{
-                file.delete();}
-                catch(Exception x){System.out.println(x);}
-                Gui_login g = new Gui_login();
-                g.setVisible(true);   
-            });
+        logOut.addActionListener((ActionEvent e) -> {// user log out
+        gui_network.dispose();
+        File file = new File("user.txt");
+        try{
+            file.delete();}
+            catch(Exception x){System.out.println(x);}
+            Gui_login g = new Gui_login();
+            g.setVisible(true);
+        });
             
-            // open FileChooser and build NetworkData 
-            loadNetworkFile.addActionListener((ActionEvent e) -> {
-                loadFile();
-            });
-
+        // open FileChooser and build NetworkData 
+        loadNetworkFile.addActionListener((ActionEvent e) -> {
+        loadFile()
+        ;});
     }
 
     private void loadFile() {
-            JFileChooser fileChooser = new JFileChooser();
-            int rVal = fileChooser.showOpenDialog(gui_network);
-            if (rVal == JFileChooser.APPROVE_OPTION) { // click open file  
-                gui_network.setNetworkFile(fileChooser.getCurrentDirectory().toString()+"\\"+fileChooser.getSelectedFile().getName());
+        JFileChooser fileChooser = new JFileChooser();
+        int rVal = fileChooser.showOpenDialog(gui_network);
+        if (rVal == JFileChooser.APPROVE_OPTION) { // click open file  
+            String path = fileChooser.getCurrentDirectory().toString()+"\\"+fileChooser.getSelectedFile().getName();
+            if (path.endsWith(".accdb")){
+                gui_network.setNetworkFile(path);
                 gui_network.accessConnection_local_database = new AccesConnection(gui_network.getNetworkFile());
                 NetCalculations cal = new NetCalculations(gui_network.accessConnection_local_database);
                 gui_network.setNetworkDataFromFile(new NetworkData(cal));
                 // set all the number field of the network
                 gui_network.setField();
             }
-            else { // click cancel 
-                System.out.println("You pressed cancel");
-            }
+            else
+                User_Dialog.showAlert("Only files that are finished with .accdb are permitted.");
+        }
+        else 
+            System.out.println("You pressed cancel");
+        
     }
     
 }
