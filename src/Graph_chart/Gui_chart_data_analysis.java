@@ -10,6 +10,9 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author Yoni
  */
+enum option{
+    Males_vs_Females, Member_Sign_Up_Dates, Audience_For_Posts, Traffic, Advertisers_Profit;
+}
 
 public class Gui_chart_data_analysis extends javax.swing.JFrame {
     String[] options = {"Males vs Females", "Member Sign Ups Dates", "Audience For Posts", "Traffic", "Advertisers Profit"};
