@@ -24,6 +24,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import org.apache.commons.lang3.time.DateUtils;
@@ -52,17 +55,7 @@ public class NetCalculations {
      */
     public int CalNumOfMembers() throws SQLException {
         
-        try {
-            getRegisterByMonth(2020);
-        } catch (ParseException ex) {
-            Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            getRegisterByMonth(2020,1);
-        } catch (ParseException ex) {
-            Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+                
         ResultSet rs = statment.executeQuery("SELECT Count(*) AS [Members] FROM [T_Members]");
         if (rs.next()) {
             return rs.getInt("Members");
@@ -268,7 +261,7 @@ public class NetCalculations {
     }
 
     /**
-     * This method calculate the avg of view per post a in the network
+     * This method calculate the avg of view per post a in the network group by day
      *
      * @return
      * @throws SQLException
@@ -284,7 +277,7 @@ public class NetCalculations {
     }
 
     /**
-     * This method calculate the avg of like per post a in the network
+     * This method calculate the avg of like per post a in the network group by day
      *
      * @return
      * @throws SQLException
@@ -301,7 +294,7 @@ public class NetCalculations {
     }
 
     /**
-     * This method calculate the avg of share per post a in the network
+     * This method calculate the avg of share per post a in the network group by day
      *
      * @return
      * @throws SQLException
@@ -317,7 +310,7 @@ public class NetCalculations {
     }
 
     /**
-     * This method calculate the avg of posts a in the network
+     * This method calculate the avg of posts a in the network group by day
      *
      * @return
      * @throws SQLException
@@ -525,15 +518,15 @@ public class NetCalculations {
         List<dataStructure> registerList = new ArrayList<>();
         String low_year = "#01/01/"+ String.valueOf(year)+"#";
         String high_year = "#01/01/"+ String.valueOf(year+1)+"#";
-        String query = "SELECT Count(T_Members.person_id) AS CountOfperson_id, Format([register_date],\"mmmm yyyy\") AS [month] FROM T_Members WHERE (((T_Members.register_date)>="+low_year+") And ((T_Members.register_date) <"+high_year+") ) GROUP BY Format([register_date],\"mmmm yyyy\");";
+        String query = "SELECT Count(T_Members.person_id) AS CountOfperson_id, Format([register_date],\"mm yyyy\") AS [month] FROM T_Members WHERE (((T_Members.register_date)>="+low_year+") And ((T_Members.register_date) <"+high_year+") ) GROUP BY Format([register_date],\"mm yyyy\") ORDER BY Format([register_date],\"mm yyyy\");";
         try {
             rs = statment.executeQuery(query);
             while (rs.next()) {
                 String m = rs.getString("month");
                 int num_registers = rs.getInt("CountOfperson_id");
-                DateFormat format = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
-                Date date = format.parse(m);
-                int month = date.getMonth() +1;
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("MM yyyy");
+                YearMonth ym = YearMonth.parse(m, format);
+                int month = ym.getMonthValue();
                 registerList.add(new dataStructure(String.valueOf(month), num_registers));
 
                   
@@ -571,6 +564,32 @@ public class NetCalculations {
             Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
         }
         return trafficList;
+    }
+      
+       public List<dataStructure> getAudienceByMonth(int year) throws ParseException {
+        ResultSet rs;
+
+        List<dataStructure> audienceList = new ArrayList<>();
+        String low_year = "#01/01/"+ String.valueOf(year)+"#";
+        String high_year = "#01/01/"+ String.valueOf(year+1)+"#";
+        String query = "SELECT Count(view_id) AS CountOfview, Format([view_date],\"mm yyyy\") AS [month] FROM T_Views WHERE (((view_date)>="+low_year+") And ((view_date) <"+high_year+") ) GROUP BY Format([view_date],\"mm yyyy\") ORDER BY Format([view_date],\"mm yyyy\");";
+        try {
+            rs = statment.executeQuery(query);
+            while (rs.next()) {
+                String m = rs.getString("month");
+                int num_views = rs.getInt("CountOfview");
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("MM yyyy");
+                YearMonth ym = YearMonth.parse(m, format);
+                int month = ym.getMonthValue();
+                audienceList.add(new dataStructure(String.valueOf(month), num_views));
+
+                  
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return audienceList;
     }
 
 
