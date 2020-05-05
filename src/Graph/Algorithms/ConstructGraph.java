@@ -5,8 +5,8 @@
  */
 package Graph.Algorithms;
 
-import Evaluation.NetCalculations;
-import Database.AccesConnection;
+import Evaluation.NetworkQueriesCalculations;
+import Database.LocalDatabase;
 import Graph.DGraph;
 import Graph.Edge;
 import Graph.Graph;
@@ -36,18 +36,18 @@ public class ConstructGraph {
     private Graph graph;
     private int width;
     private int height;
-    private AccesConnection accessConnection_ToDatabase;
+    private LocalDatabase accessConnection_ToDatabase;
     private Statement statment;
-    private NetCalculations cal;
+    private NetworkQueriesCalculations cal;
 
 
-    public ConstructGraph(AccesConnection accessConnection_toDatabase, int width, int height) {
+    public ConstructGraph(LocalDatabase accessConnection_toDatabase, int width, int height) {
         this.accessConnection_ToDatabase = accessConnection_toDatabase;
         statment = accessConnection_toDatabase.getStatment();
         this.width = width;
         this.height = height;
         graph = new DGraph();
-        cal = new NetCalculations(accessConnection_ToDatabase);
+        cal = new NetworkQueriesCalculations(accessConnection_ToDatabase);
         
         addMembers(300,400,400);
         addPosts(100,1100,500);

@@ -1,11 +1,11 @@
 package Network;
 
 
-import Database.AccesConnection;
+import Database.LocalDatabase;
 import Graph_visualization.Gui_visualization;
 import Graph_chart.Gui_graph_chart;
 import Database.Database;
-import Evaluation.NetCalculations;
+import Evaluation.NetworkQueriesCalculations;
 import Evaluation.ProcessDataOfFile;
 import Evaluation.Network_Evaluation;
 import Account.UserAccount;
@@ -32,7 +32,7 @@ public class Gui_network extends javax.swing.JFrame {
    
     protected UserAccount User;
     private HashMap<String, String> hashmap_mySharedNetworks = new HashMap<>();
-    protected AccesConnection accessConnection_local_database;
+    public static LocalDatabase accessConnection_local_database;
     private NetworkData networkDataFromFile;
     private String network_file = "";
 
@@ -163,7 +163,7 @@ public class Gui_network extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         eval_label = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Basic"));
@@ -674,8 +674,8 @@ public class Gui_network extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
             String diraction = "C:\\Users\\Yoni\\myDB.accdb";
-            accessConnection_local_database = new AccesConnection(diraction);
-            NetCalculations cal = new NetCalculations(accessConnection_local_database);
+            accessConnection_local_database = new LocalDatabase(diraction);
+            NetworkQueriesCalculations cal = new NetworkQueriesCalculations(accessConnection_local_database);
             networkDataFromFile = new NetworkData(cal);
             
             // set all the number field of the network
@@ -795,6 +795,9 @@ public class Gui_network extends javax.swing.JFrame {
         networksSharedWithMe.setModel(model1);
     }
 
+    public LocalDatabase getLocalDatabase(){
+        return this.accessConnection_local_database;
+    }
     
     protected void show_graph_visualization() {
         Gui_visualization g = new Gui_visualization(accessConnection_local_database);

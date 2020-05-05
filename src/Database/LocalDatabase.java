@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Database;
 
-import Evaluation.NetCalculations;
+import Evaluation.NetworkQueriesCalculations;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -17,21 +12,19 @@ import java.util.logging.Logger;
  *
  * @author caron
  */
-public class AccesConnection {
+public class LocalDatabase {
     
    private String dbPath;
-
-   
    Connection conn;
    Statement statment ;
    
-   public AccesConnection ( String path ) {
+   public LocalDatabase (String path) {
        this.dbPath = path;
        try {
-           this.conn= DriverManager.getConnection("jdbc:ucanaccess://"+dbPath);
+           this.conn= DriverManager.getConnection("jdbc:ucanaccess://" + dbPath);
            this.statment = conn.createStatement();
        } catch (SQLException ex) {
-           Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
+           Logger.getLogger(NetworkQueriesCalculations.class.getName()).log(Level.SEVERE, null, ex);
        }
    }
     
@@ -39,7 +32,7 @@ public class AccesConnection {
         return dbPath;
     }
 
-    public Connection getConn() {
+    public Connection getConnection() {
         return conn;
     }
 

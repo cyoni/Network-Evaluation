@@ -5,46 +5,35 @@
  */
 package Evaluation;
 
-import Database.AccesConnection;
+import Database.LocalDatabase;
 import Data_structure.Ad;
 import Data_structure.Category;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import Evaluation.Evaluation_Advertiser;
 import Graph_chart.dataStructure;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
-import org.apache.commons.lang3.time.DateUtils;
 
 /**
  *
  * @author caron
  */
-public class NetCalculations {
+public class NetworkQueriesCalculations {
 
     Connection conn;
     Statement statment;
 
-    public NetCalculations(AccesConnection acc) {
-
-        conn = acc.getConn();
+    public NetworkQueriesCalculations(LocalDatabase acc) {
+        conn = acc.getConnection();
         statment = acc.getStatment();
-
     }
 
     /**
@@ -453,7 +442,7 @@ public class NetCalculations {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NetworkQueriesCalculations.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
     }
@@ -482,43 +471,46 @@ public class NetCalculations {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NetworkQueriesCalculations.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
     }
 
-    public List<dataStructure> getGender() {
+    public int[] getGenderCount() {
+        int gender_array[] = new int[2];
         ResultSet rs;
-        int male = 0;
-        int female = 0;
-        List<dataStructure> genderList = new ArrayList<>();
+        int male_count = 0;
+        int female_count = 0;
 
         try {
-            rs = statment.executeQuery("SELECT [T_Persons.gender] FROM [T_Members] INNER JOIN T_Persons ON T_Members.person_id = T_Persons.person_id;");
+            rs = statment.executeQuery("SELECT T_Persons.gender FROM T_Members INNER JOIN"
+                    + " T_Persons ON T_Members.person_id = T_Persons.person_id;");
             while (rs.next()) {
                 int gender = rs.getInt("gender");
                 if (gender == 0) {
-                    male++;
+                    male_count++;
                 } else {
-                    female++;
+                    female_count++;
                 }
             }
-            genderList.add(new dataStructure("male", male));
-            genderList.add(new dataStructure("female", female));
+            gender_array[0] = male_count;
+            gender_array[1] = female_count;
 
         } catch (SQLException ex) {
-            Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NetworkQueriesCalculations.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return genderList;
+        return gender_array;
     }
 
-    public List<dataStructure> getRegisterByMonth(int year) throws ParseException {
+    public List<dataStructure> getRegisterByYear(int year) throws ParseException {
         ResultSet rs;
-
         List<dataStructure> registerList = new ArrayList<>();
         String low_year = "#01/01/"+ String.valueOf(year)+"#";
         String high_year = "#01/01/"+ String.valueOf(year+1)+"#";
-        String query = "SELECT Count(T_Members.person_id) AS CountOfperson_id, Format([register_date],\"mm yyyy\") AS [month] FROM T_Members WHERE (((T_Members.register_date)>="+low_year+") And ((T_Members.register_date) <"+high_year+") ) GROUP BY Format([register_date],\"mm yyyy\") ORDER BY Format([register_date],\"mm yyyy\");";
+        String query = "SELECT Count(T_Members.person_id) AS CountOfperson_id, Format([register_date],\"mm yyyy\") AS "
+                + "[month] FROM T_Members "
+                + "WHERE (((T_Members.register_date)>="+low_year+") And ((T_Members.register_date) <"+high_year+") ) "
+                + "GROUP BY Format([register_date],\"mm yyyy\") ORDER BY Format([register_date],\"mm yyyy\");";
         try {
             rs = statment.executeQuery(query);
             while (rs.next()) {
@@ -528,12 +520,9 @@ public class NetCalculations {
                 YearMonth ym = YearMonth.parse(m, format);
                 int month = ym.getMonthValue();
                 registerList.add(new dataStructure(String.valueOf(month), num_registers));
-
-                  
             }
-
         } catch (SQLException ex) {
-            Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NetworkQueriesCalculations.class.getName()).log(Level.SEVERE, null, ex);
         }
         return registerList;
     }
@@ -561,7 +550,7 @@ public class NetCalculations {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NetworkQueriesCalculations.class.getName()).log(Level.SEVERE, null, ex);
         }
         return trafficList;
     }
@@ -572,7 +561,9 @@ public class NetCalculations {
         List<dataStructure> audienceList = new ArrayList<>();
         String low_year = "#01/01/"+ String.valueOf(year)+"#";
         String high_year = "#01/01/"+ String.valueOf(year+1)+"#";
-        String query = "SELECT Count(view_id) AS CountOfview, Format([view_date],\"mm yyyy\") AS [month] FROM T_Views WHERE (((view_date)>="+low_year+") And ((view_date) <"+high_year+") ) GROUP BY Format([view_date],\"mm yyyy\") ORDER BY Format([view_date],\"mm yyyy\");";
+        String query = "SELECT Count(view_id) AS CountOfview, Format([view_date],\"mm yyyy\") AS [month] "
+                + "FROM T_Views WHERE (((view_date)>="+low_year+")"
+                + " And ((view_date) <"+high_year+") ) GROUP BY Format([view_date],\"mm yyyy\") ORDER BY Format([view_date],\"mm yyyy\");";
         try {
             rs = statment.executeQuery(query);
             while (rs.next()) {
@@ -581,17 +572,12 @@ public class NetCalculations {
                 DateTimeFormatter format = DateTimeFormatter.ofPattern("MM yyyy");
                 YearMonth ym = YearMonth.parse(m, format);
                 int month = ym.getMonthValue();
-                audienceList.add(new dataStructure(String.valueOf(month), num_views));
-
-                  
+                audienceList.add(new dataStructure(String.valueOf(month), num_views));  
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(NetCalculations.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NetworkQueriesCalculations.class.getName()).log(Level.SEVERE, null, ex);
         }
         return audienceList;
     }
-
-
-
 }

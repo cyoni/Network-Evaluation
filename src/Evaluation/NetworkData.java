@@ -20,7 +20,7 @@ import Network.Gui_network;
  */
 public class NetworkData {
     
-    private NetCalculations cal;
+    private NetworkQueriesCalculations cal;
 
     // Basic 
     private int numMembers;
@@ -68,7 +68,7 @@ public class NetworkData {
 
 
     
-    public NetworkData (NetCalculations c) {
+    public NetworkData (NetworkQueriesCalculations c) {
         cal = c;
         
         try {

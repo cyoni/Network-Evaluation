@@ -5,9 +5,9 @@ import About.About;
 import About.Help;
 import ManageUsers.Gui_manageUsers;
 import Login.Gui_login;
-import Database.AccesConnection;
+import Database.LocalDatabase;
 import Account.Gui_MyAccount;
-import Evaluation.NetCalculations;
+import Evaluation.NetworkQueriesCalculations;
 import Evaluation.Network_Evaluation;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -105,7 +105,7 @@ public class Menu_network {
         if (gui_network.getNetworkFile().isEmpty())
             User_Dialog.showAlert("You need to load a network file first.");
         else{
-            Gui_chart_data_analysis g = new Gui_chart_data_analysis(gui_network.getNetworkFile());
+            Gui_chart_data_analysis g = new Gui_chart_data_analysis();
             g.setVisible(true);
         }});
         
@@ -168,8 +168,8 @@ public class Menu_network {
             String path = fileChooser.getCurrentDirectory().toString()+"\\"+fileChooser.getSelectedFile().getName();
             if (path.endsWith(".accdb")){
                 gui_network.setNetworkFile(path);
-                gui_network.accessConnection_local_database = new AccesConnection(gui_network.getNetworkFile());
-                NetCalculations cal = new NetCalculations(gui_network.accessConnection_local_database);
+                gui_network.accessConnection_local_database = new LocalDatabase(gui_network.getNetworkFile());
+                NetworkQueriesCalculations cal = new NetworkQueriesCalculations(gui_network.accessConnection_local_database);
                 gui_network.setNetworkDataFromFile(new NetworkData(cal));
                 // set all the number field of the network
                 gui_network.setField();

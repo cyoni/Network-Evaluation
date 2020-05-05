@@ -5,7 +5,7 @@
  */
 package Graph_visualization;
 
-import Database.AccesConnection;
+import Database.LocalDatabase;
 import Graph.Algorithms.ConstructGraph;
 import Graph.Algorithms.Graph_Algo;
 import Graph.Graph;
@@ -27,7 +27,7 @@ import java.util.Set;
  */
 public class Gui_visualization extends JFrame {
     Graph graph;
-    AccesConnection acc;
+    LocalDatabase acc;
     static Color[] colors = {Color.YELLOW};
     static int color_index = 0;
     private HighlightPath highlightThread;
@@ -39,7 +39,7 @@ public class Gui_visualization extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    public Gui_visualization(AccesConnection a) {
+    public Gui_visualization(LocalDatabase a) {
         initComponents();
         setLocationRelativeTo(null);
         acc = a; 

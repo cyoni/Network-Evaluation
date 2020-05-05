@@ -1,29 +1,32 @@
 
 package Graph_chart;
 
+import Database.LocalDatabase;
+import Evaluation.NetworkQueriesCalculations;
+import Network.Gui_network;
+import Utils.User_Dialog;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 
 /**
  *
  * @author Yoni
  */
-enum option{
-    Males_vs_Females, Member_Sign_Up_Dates, Audience_For_Posts, Traffic, Advertisers_Profit;
-}
+//enum option{
+//   // Males_vs_Females, Member_Sign_Up_Dates, Audience_For_Posts, Traffic, Advertisers_Profit;
+//}
 
-public class Gui_chart_data_analysis extends javax.swing.JFrame {
+public class Gui_chart_data_analysis extends JFrame {
     String[] options = {"Males vs Females", "Member Sign Ups Dates", "Audience For Posts", "Traffic", "Advertisers Profit"};
     DefaultComboBoxModel model_list = new DefaultComboBoxModel();
-    private final String networkFile;
+    NetworkQueriesCalculations performLocalQuery;
 
-
-    public Gui_chart_data_analysis(String networkFile) {
+    public Gui_chart_data_analysis() {
         initComponents();
         setLocationRelativeTo(null);
-        this.networkFile = networkFile;
+        performLocalQuery = new NetworkQueriesCalculations(Gui_network.accessConnection_local_database);
         loadList();
     }
 
@@ -122,32 +125,26 @@ public class Gui_chart_data_analysis extends javax.swing.JFrame {
 
     private void MalesAndFemales() {
         List<dataStructure> gender = new ArrayList<>(); 
-        gender.add(new dataStructure("male", 600));
-        gender.add(new dataStructure("female", 450));
+        int[] gender_count = performLocalQuery.getGenderCount();
+        gender.add(new dataStructure("male", gender_count[0]));
+        gender.add(new dataStructure("female", gender_count[1]));
         
         Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Males vs Females");
         analysis.setChart(gender);
     }
 
     private void MemberSignUpDates() {
-        // "Enter a year...";
-        
-        List<dataStructure> months = new ArrayList<>(); 
-        months.add(new dataStructure("1", 500));
-        months.add(new dataStructure("2", 800));
-        months.add(new dataStructure("3", 700));
-        months.add(new dataStructure("4", 500));
-        months.add(new dataStructure("5", 550));
-        months.add(new dataStructure("6", 220));
-        months.add(new dataStructure("7", 900));
-        months.add(new dataStructure("8", 845));
-        months.add(new dataStructure("9", 852));
-        months.add(new dataStructure("10", 740));
-        months.add(new dataStructure("11", 350));
-        months.add(new dataStructure("12", 688));
-        
-        Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Sign up dates for 2020");
-        analysis.setChart(months);
+        String input = User_Dialog.getInputDialog("Enter a year...");
+        try{
+            int year = Integer.parseInt(input);
+            List<dataStructure> months = performLocalQuery.getRegisterByYear(year);
+
+            Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Sign up dates for 2020");
+            analysis.setChart(months);
+        }
+        catch(Exception e){
+            User_Dialog.showAlert("Invalid year.");
+        }
     }
 
     private void audienceForPosts() { // how many friends saw a member's post in a month(?).
@@ -172,15 +169,25 @@ public class Gui_chart_data_analysis extends javax.swing.JFrame {
     }
 
     private void traffic() {
-        // Choose a month...
-        List<dataStructure> user_traffic = new ArrayList<>(); 
-
-        for (int i=1; i<=31; i++){ 
-            user_traffic.add(new dataStructure(i+"", i)); //[day/ traffic in mb]
+        List<dataStructure> user_traffic;
+        String input_year = User_Dialog.getInputDialog("Enter a year...");
+        String input_month = User_Dialog.getInputDialog("Enter a Month... [not required field]"); //TODO
+        try{
+            int year = Integer.parseInt(input_year);
+            
+            if (input_month.isEmpty() == false){
+                int month = Integer.parseInt(input_month);
+                user_traffic = performLocalQuery.getAudienceByMonth(month);
+                
+            }
+            else
+                user_traffic = performLocalQuery.getAudienceByMonth(year);
+            Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Traffic for " + input_year + " " + input_month);
+            analysis.setChart(user_traffic);
         }
-        
-        Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Traffic for Jan");
-        analysis.setChart(user_traffic);
+        catch(Exception e){
+            User_Dialog.showAlert("Invalid year.");
+        }
     }
 
     private void AdvertiserProfits() {
