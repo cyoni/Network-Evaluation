@@ -1,6 +1,7 @@
 
 package Graph_chart;
 
+import Data_structure.Category;
 import Database.LocalDatabase;
 import Evaluation.NetworkQueriesCalculations;
 import Network.Gui_network;
@@ -19,7 +20,7 @@ import javax.swing.JFrame;
 //}
 
 public class Gui_chart_data_analysis extends JFrame {
-    String[] options = {"Males vs Females", "Member Sign Ups Dates", "Audience For Posts", "Traffic", "Advertisers Profit"};
+    String[] options = {"Males vs Females", "Member Sign Ups Dates", "Audience For Posts", "Traffic", "Advertisers Profit", "Age distribution", "Category Interesting"};
     DefaultComboBoxModel model_list = new DefaultComboBoxModel();
     NetworkQueriesCalculations performLocalQuery;
 
@@ -106,6 +107,10 @@ public class Gui_chart_data_analysis extends JFrame {
             traffic();
         else if (option.equals("Advertisers Profit"))
             AdvertiserProfits();
+        else if (option.equals("Age distribution"))
+            ages();
+        else if (option.equals("Category Interesting"))
+            categories();                
     }//GEN-LAST:event_set_optionActionPerformed
 
 
@@ -132,6 +137,27 @@ public class Gui_chart_data_analysis extends JFrame {
         Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Males vs Females");
         analysis.setChart(gender);
     }
+    
+    private void ages() {
+        List<dataStructure> ages = new ArrayList<>(); 
+        ages = performLocalQuery.getAgeCount();
+     
+        Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("The age distribution");
+        analysis.setChart(ages);
+    }
+    
+     private void categories() {
+        ArrayList<Category> cats= performLocalQuery.getCats();
+        List<dataStructure> data_cats = new ArrayList<>(); 
+        for ( Category cat : cats) {
+              String name = cat.getName();
+              int interac = cat.getMemberInterac();
+              data_cats.add(new dataStructure(name,interac));
+        }
+                      
+        Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Interest in the category");
+        analysis.setChart(data_cats);
+    }
 
     private void MemberSignUpDates() {
         String input = User_Dialog.getInputDialog("Enter a year...");
@@ -147,24 +173,19 @@ public class Gui_chart_data_analysis extends JFrame {
         }
     }
 
-    private void audienceForPosts() { // how many friends saw a member's post in a month(?).
+    private void audienceForPosts() { // audience of post in every month
         
-        List<dataStructure> members = new ArrayList<>(); 
-        members.add(new dataStructure("1", 500)); // [number of posts, number of members]
-        members.add(new dataStructure("2", 800));
-        members.add(new dataStructure("3", 700));
-        members.add(new dataStructure("4", 500));
-        members.add(new dataStructure("5", 550));
-        members.add(new dataStructure("6", 220));
-        members.add(new dataStructure("7", 900));
-        members.add(new dataStructure("8", 845));
-        members.add(new dataStructure("9", 852));
-        members.add(new dataStructure("10", 740));
-        members.add(new dataStructure("11", 350));
-        members.add(new dataStructure("12", 688));
-        
-        Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Sign up dates for 2020");
-        analysis.setChart(members);
+       String input = User_Dialog.getInputDialog("Enter a year...");
+        try{
+            int year = Integer.parseInt(input);
+            List<dataStructure> audience = performLocalQuery.getAudienceByMonth(year);
+
+            Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Audience For Posts");
+            analysis.setChart(audience);
+        }
+        catch(Exception e){
+            User_Dialog.showAlert("Invalid year.");
+        }
 
     }
 
