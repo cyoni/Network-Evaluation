@@ -447,17 +447,22 @@ public class NetworkQueriesCalculations {
         return -1;
     }
 
-    public ArrayList<Category> getCats() throws SQLException {
+    public ArrayList<Category> getCats()  {
         ArrayList<Category> cats = new ArrayList<>();
+         try {
         ResultSet rs = statment.executeQuery("SELECT Count(T_Likes.member_id) AS num_members, T_Pages.category_id, T_Categories.cat_name"
                 + " FROM (T_Likes INNER JOIN T_Pages ON T_Likes.compoment_id = T_Pages.page_id) "
                 + "INNER JOIN T_Categories ON T_Pages.category_id = T_Categories.ID GROUP BY T_Pages.category_id, T_Categories.cat_name;");
-        while (rs.next()) {
-            int category = rs.getInt("category_id");
-            int interest = rs.getInt("num_members");
-            String name = rs.getString("cat_name");
-
-            cats.add(new Category(category, name, interest));
+       
+            while (rs.next()) {
+                int category = rs.getInt("category_id");
+                int interest = rs.getInt("num_members");
+                String name = rs.getString("cat_name");
+                
+                cats.add(new Category(category, name, interest));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NetworkQueriesCalculations.class.getName()).log(Level.SEVERE, null, ex);
         }
         return cats;
     }
@@ -501,6 +506,68 @@ public class NetworkQueriesCalculations {
         }
         return gender_array;
     }
+   
+    public List<dataStructure> getAgeCount() {
+        List<dataStructure> ageList = new ArrayList<>();
+
+        final int bound1 = 17;
+        final int bound2 = 24;
+        final int bound3 = 34;
+        final int bound4 = 44;
+        final int bound5 = 54;
+        final int bound6 = 64;
+
+        int count1 = 0;
+        int count2 = 0;
+        int count3 = 0;
+        int count4 = 0;
+        int count5 = 0;
+        int count6 = 0;
+        int count7 = 0;
+
+        ResultSet rs;
+        try {
+            rs = statment.executeQuery("SELECT T_Persons.age FROM T_Members INNER JOIN"
+                    + " T_Persons ON T_Members.person_id = T_Persons.person_id;");
+            while (rs.next()) {
+                int age = rs.getInt("age");
+                if (age <= bound1) {
+                    count1++;
+                } else if (age > bound1 && age <= bound2) {
+                    count2++;
+                } else if (age > bound2 && age <= bound3) {
+                    count3++;
+                } else if (age > bound3 && age <= bound4) {
+                    count4++;
+                } else if (age > bound4 && age <= bound5) {
+                    count5++;
+                } else if (age > bound5 && age <= bound6) {
+                    count6++;
+                } else if (age > bound6) {
+                    count7++;
+                }
+
+            }
+            
+            ageList.add(new dataStructure("0-17", count1));
+            ageList.add(new dataStructure("18-24", count2));
+            ageList.add(new dataStructure("25-34", count3));
+            ageList.add(new dataStructure("35-44", count4));
+            ageList.add(new dataStructure("45-54", count5));
+            ageList.add(new dataStructure("55-64", count6));
+            ageList.add(new dataStructure("65+", count7));
+
+
+        } catch (SQLException ex) {
+            Logger.getLogger(NetworkQueriesCalculations.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //print - debug
+        for (dataStructure d: ageList)
+            System.out.println(d.toString());
+
+        return ageList;
+
+    }
 
     public List<dataStructure> getRegisterByYear(int year) throws ParseException {
         ResultSet rs;
@@ -527,7 +594,7 @@ public class NetworkQueriesCalculations {
         return registerList;
     }
     
-      public List<dataStructure> getRegisterByMonth(int year, int month) throws ParseException {
+      public List<dataStructure> getRegisterByMonth(int year, int month) {
         ResultSet rs;
 
         List<dataStructure> trafficList = new ArrayList<>();
@@ -555,7 +622,7 @@ public class NetworkQueriesCalculations {
         return trafficList;
     }
       
-       public List<dataStructure> getAudienceByMonth(int year) throws ParseException {
+       public List<dataStructure> getAudienceByMonth(int year)  {
         ResultSet rs;
 
         List<dataStructure> audienceList = new ArrayList<>();

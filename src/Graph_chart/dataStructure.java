@@ -43,6 +43,12 @@ public class dataStructure {
     public void setValue(int value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "dataStructure{" + "title=" + title + ", value=" + value + '}';
+    }
+    
     
     
 }
