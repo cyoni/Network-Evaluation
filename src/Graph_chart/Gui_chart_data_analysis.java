@@ -139,7 +139,7 @@ public class Gui_chart_data_analysis extends JFrame {
             int year = Integer.parseInt(input);
             List<dataStructure> months = performLocalQuery.getRegisterByYear(year);
 
-            Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Sign up dates for 2020");
+            Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Sign up dates for "+ year);
             analysis.setChart(months);
         }
         catch(Exception e){

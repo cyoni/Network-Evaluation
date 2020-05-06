@@ -11,7 +11,7 @@ import Utils.MouseCursor;
  *
  * @author Yoni
  */
-public class Database {
+public class PublicDatabase {
     
 
 

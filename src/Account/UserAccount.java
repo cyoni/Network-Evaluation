@@ -1,6 +1,6 @@
 package Account;
 
-import Database.Database;
+import Database.PublicDatabase;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import Utils.User_Dialog;
@@ -33,7 +33,7 @@ public class UserAccount implements Serializable{
           try{
                 String key = User.getKey();
                // User_Dialog.showAlert(key);
-                ResultSet rs = Database.query("SELECT email FROM login_instance WHERE private_key='"+ key +"';");
+                ResultSet rs = PublicDatabase.query("SELECT email FROM login_instance WHERE private_key='"+ key +"';");
                 boolean ans = false;
                 while(rs.next()){
                     ans = true;

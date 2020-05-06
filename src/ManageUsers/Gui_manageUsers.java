@@ -1,7 +1,7 @@
 package ManageUsers;
 
 import Login.Gui_login;
-import Database.Database;
+import Database.PublicDatabase;
 import Account.EmailValidation;
 import Account.UserAccount;
 import java.awt.Cursor;
@@ -148,7 +148,7 @@ public class Gui_manageUsers extends JFrame {
                         }
                         boolean ok = false;
                         MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, true);
-                            ResultSet result = Database.query("SELECT name FROM users WHERE email='"+email+"'");
+                            ResultSet result = PublicDatabase.query("SELECT name FROM users WHERE email='"+email+"'");
 
                         try {
                             while (result.next()){ok=true;}
@@ -160,7 +160,7 @@ public class Gui_manageUsers extends JFrame {
                         } else if (email.equals(User.getEmail())) {User_Dialog.showAlert("You can't add youself!");}
                         else{
 
-                            Database.query_update("INSERT INTO permissions (owner, usr_email)\n" +
+                            PublicDatabase.query_update("INSERT INTO permissions (owner, usr_email)\n" +
                         "    VALUES ('"+ User.getEmail() +"', '"+ email +"');");
                             users_list.addItem(email + " (unauthorized)");
                         }
@@ -192,7 +192,7 @@ public class Gui_manageUsers extends JFrame {
         Thread thread = new Thread(){
             public void run(){
                 MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, true);
-                Database.query_update("UPDATE permissions SET permission="+ changeStatusOfUser +" WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"';");
+                PublicDatabase.query_update("UPDATE permissions SET permission="+ changeStatusOfUser +" WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"';");
                 MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, false);
             }
         };
@@ -207,7 +207,7 @@ public class Gui_manageUsers extends JFrame {
         Thread thread = new Thread(){
             public void run(){
                 MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, true);
-                Database.query_update("DELETE from permissions WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"' "
+                PublicDatabase.query_update("DELETE from permissions WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"' "
                 + "AND permission=1;");
                 MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, false);
             }
@@ -235,7 +235,7 @@ public class Gui_manageUsers extends JFrame {
         Thread thread = new Thread(){
             public void run(){
                 MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, true);
-               ResultSet rs = Database.query("SELECT usr_email, permission FROM permissions where owner='"+ User.getEmail() +"';");
+               ResultSet rs = PublicDatabase.query("SELECT usr_email, permission FROM permissions where owner='"+ User.getEmail() +"';");
                parseUsersList(rs);
                MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, false);
             }

@@ -6,7 +6,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
-import Database.Database;
+import Database.PublicDatabase;
 import Evaluation.Network_Evaluation;
 import Account.UserAccount;
 import java.awt.Rectangle;
@@ -109,7 +109,7 @@ public class Gui_graph_chart extends JFrame {
        Thread thread = new Thread(){
            public void run(){
             // fetch data
-            ResultSet  rs = Database.query("SELECT email, year, month, data FROM network_value WHERE email='"+ getDataFromEmail +"' "
+            ResultSet  rs = PublicDatabase.query("SELECT email, year, month, data FROM network_value WHERE email='"+ getDataFromEmail +"' "
                + "ORDER BY year DESC, month DESC");   
             try{
                 while (rs.next()){

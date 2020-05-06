@@ -1,6 +1,6 @@
 package Evaluation;
 
-import Database.Database;
+import Database.PublicDatabase;
 import Data_structure.Ad;
 import Network.Gui_network;
 import java.io.FileWriter;
@@ -90,12 +90,12 @@ public class Network_Evaluation {
             int year = localDate.getYear();
             int month = localDate.getMonthValue();
 
-            ResultSet rs = Database.query("SELECT * FROM network_value WHERE email='" + User.getEmail() + ""
+            ResultSet rs = PublicDatabase.query("SELECT * FROM network_value WHERE email='" + User.getEmail() + ""
                     + " AND month=" + month + "' AND year=" + year + "");
 
             if (rs == null) {
                 evaluation_data = day + "," + network_value;
-                answer_from_server = Database.query_update("INSERT INTO network_value (email, year, month, data) VALUES('" + User.getEmail() + "'"
+                answer_from_server = PublicDatabase.query_update("INSERT INTO network_value (email, year, month, data) VALUES('" + User.getEmail() + "'"
                         + ", ('" + year + "'), ('" + month + "'), ('" + evaluation_data + "')");
             } else {
                 String data_from_database = "";
@@ -104,7 +104,7 @@ public class Network_Evaluation {
                 }
                 evaluation_data = data_from_database + ";" + day + "," + network_value;
 
-                answer_from_server = Database.query_update("UPDATE network_value SET data='" + evaluation_data + "' WHERE email='" + User.getEmail() + "'");
+                answer_from_server = PublicDatabase.query_update("UPDATE network_value SET data='" + evaluation_data + "' WHERE email='" + User.getEmail() + "'");
             }
             if (answer_from_server == 1) {
                 User_Dialog.showAlert("The result has been successfully recorded!");

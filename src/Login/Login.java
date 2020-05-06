@@ -1,7 +1,7 @@
 package Login;
 
 import Utils.KeyGenerator;
-import Database.Database;
+import Database.PublicDatabase;
 import Account.ConvertUserToSeriable;
 import Account.UserAccount;
 import Network.Gui_network;
@@ -26,7 +26,7 @@ public class Login extends javax.swing.JFrame {
             
             public void run(){
                    MouseCursor.ChangeMouseCursorBusy(Login.this, true);
-                   ResultSet rs = Database.query(sql); 
+                   ResultSet rs = PublicDatabase.query(sql); 
 
             try {
                 if(rs.next()){ 
@@ -62,7 +62,7 @@ public class Login extends javax.swing.JFrame {
                  "VALUES('"+ key +"', '"+ email +"')\n" +
                  "ON DUPLICATE KEY UPDATE private_key = VALUES(private_key)";
         
-    Database.query_update(sql); // Excucute the operation
+    PublicDatabase.query_update(sql); // Excucute the operation
     ConvertUserToSeriable.write_object("user.txt", User);
        return User;
     }

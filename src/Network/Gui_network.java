@@ -4,7 +4,7 @@ package Network;
 import Database.LocalDatabase;
 import Graph_visualization.Gui_visualization;
 import Graph_chart.Gui_graph_chart;
-import Database.Database;
+import Database.PublicDatabase;
 import Evaluation.NetworkQueriesCalculations;
 import Evaluation.ProcessDataOfFile;
 import Evaluation.Network_Evaluation;
@@ -781,7 +781,7 @@ public class Gui_network extends javax.swing.JFrame {
     
     protected void LoadSharedNetworks() throws SQLException {
         DefaultListModel model1 = new DefaultListModel();
-         ResultSet rs = Database.query("SELECT permissions.owner, permissions.usr_email, owners.network_name, owners.email"
+         ResultSet rs = PublicDatabase.query("SELECT permissions.owner, permissions.usr_email, owners.network_name, owners.email"
                  + " FROM permissions INNER JOIN owners ON"
                  + " permissions.owner=owners.email WHERE permissions.permission=1 AND permissions.usr_email='"+ User.getEmail() +"'");
         while(rs.next()){

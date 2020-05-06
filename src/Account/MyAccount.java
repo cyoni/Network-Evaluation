@@ -1,7 +1,7 @@
 
 package Account;
 
-import Database.Database;
+import Database.PublicDatabase;
 import Utils.KeyGenerator;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,7 +38,7 @@ public class MyAccount extends JFrame{
                 MouseCursor.ChangeMouseCursorBusy(MyAccount.this, true);
                 
                 String sql = "SELECT password FROM users where email='"+User.getEmail()+"'";
-                 ResultSet rs = Database.query(sql); 
+                 ResultSet rs = PublicDatabase.query(sql); 
                 try {
                     String password_from_server = "";
                     if(rs.next()){
@@ -47,7 +47,7 @@ public class MyAccount extends JFrame{
                     if (password_from_server.equals(encoded_old_password)){
                         String encoded_new_password = KeyGenerator.encodeString(new_password);
                         sql = "UPDATE users SET password='"+ encoded_new_password +"' WHERE email='" + User.getEmail() + "';";
-                        int result = Database.query_update(sql);   
+                        int result = PublicDatabase.query_update(sql);   
                         if (result != -1)
                             User_Dialog.showAlert("Your password has been changed sucessfully.");
                         else 
