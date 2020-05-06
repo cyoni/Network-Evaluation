@@ -1,6 +1,6 @@
 package Graph_visualization;
 
-import Database.AccesConnection;
+import Database.LocalDatabase;
 import Graph.Algorithms.ConstructGraph;
 import Graph.Algorithms.Graph_Algo;
 import Graph.Algorithms.line;
@@ -32,10 +32,10 @@ import Utils.StdDraw;
 public class Draw {
 
     private Graph graph;
-    private AccesConnection accessConnection_toDatabase;
+    private LocalDatabase accessConnection_toDatabase;
     private Set<String> relationship_to_filter = new HashSet<String>();
 
-    public Draw(Graph graph, AccesConnection accessConnection_toDatabase){
+    public Draw(Graph graph, LocalDatabase accessConnection_toDatabase){
         this.graph = graph;
         this.accessConnection_toDatabase = accessConnection_toDatabase;
     }
