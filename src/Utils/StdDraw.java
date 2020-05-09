@@ -41,7 +41,9 @@ package Utils;
 import About.Help;
 import Graph.Algorithms.Graph_Mouse_Event;
 import Graph.Graph;
+import Graph_visualization.Draw;
 import Graph_visualization.Visualization;
+import Relationship.RelationshipTypes;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FileDialog;
@@ -85,6 +87,7 @@ import java.util.NoSuchElementException;
 import javax.imageio.ImageIO;
 
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -596,8 +599,8 @@ public final class StdDraw implements  MouseListener, MouseMotionListener, KeyLi
 
 	// default canvas size is DEFAULT_SIZE-by-DEFAULT_SIZE
 	private static final int DEFAULT_SIZE = 512;
-	private static int width  = DEFAULT_SIZE;
-	private static int height = DEFAULT_SIZE;
+	private static int width  = 750;
+	private static int height = 600;
 
 	// default pen radius
 	private static final double DEFAULT_PEN_RADIUS = 0.002;
@@ -652,6 +655,8 @@ public final class StdDraw implements  MouseListener, MouseMotionListener, KeyLi
             graph = g;
     }
 
+
+
 	// singleton pattern: client can't instantiate
 	private StdDraw() { }
 
@@ -659,6 +664,7 @@ public final class StdDraw implements  MouseListener, MouseMotionListener, KeyLi
 	// static initializer
 	static {
 		init();
+                
 	}
 
 	/**
@@ -705,6 +711,12 @@ public final class StdDraw implements  MouseListener, MouseMotionListener, KeyLi
 		onscreen  = onscreenImage.createGraphics();
 		setXscale();
 		setYscale();
+                 
+               // setCanvasSize(ScreenSize.WIDTH, ScreenSize.HEIGHT);
+                setXscale(0, ScreenSize.WIDTH);
+                setYscale(0, ScreenSize.HEIGHT);
+                
+                
 		offscreen.setColor(DEFAULT_CLEAR_COLOR);
 		offscreen.fillRect(0, 0, width, height);
 		setPenColor();
@@ -727,6 +739,8 @@ public final class StdDraw implements  MouseListener, MouseMotionListener, KeyLi
 		draw.addMouseListener(std);
 		draw.addMouseMotionListener(std);
 
+
+                
 		frame.setContentPane(draw);
 		frame.addKeyListener(std);    // JLabel cannot get keyboard focus
 		frame.setResizable(false);
@@ -737,10 +751,11 @@ public final class StdDraw implements  MouseListener, MouseMotionListener, KeyLi
 		frame.pack();
 		frame.requestFocusInWindow();
 		frame.setVisible(true);
-                 frame.setLocationRelativeTo(null);
+                frame.setLocationRelativeTo(null);
 	}
 
         static JMenuItem save, close, draw, clearGraph;
+        static JCheckBoxMenuItem[] filter_item;
 	// create the menu bar (changed to private)
 	private static JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
@@ -769,16 +784,31 @@ public final class StdDraw implements  MouseListener, MouseMotionListener, KeyLi
                 graph_menu.addSeparator();
                 graph_menu.add(clearGraph);
                 
-                StdDraw.startMouseListener();
                 
+                 // create filter-menu:
+                 String[] values = RelationshipTypes.relationships;
+                
+                 filter_item = new JCheckBoxMenuItem[values.length];
+                for (int i=0; i<filter_item.length; i++){
+                    filter_item[i] = new JCheckBoxMenuItem(values[i]);
+                    
+                    if (Draw.relationship_to_filter.contains(values[i])){
+                         filter_item[i].setSelected(true);
+                    }
+                    
+                    filter_menu.add(filter_item[i]);
+                }
+                
+                StdDraw.startMouseListener();
 		return menuBar;
-	}
-        
-        	/**
-	 * This method cannot be called directly.
-	 */
+            }
         
 	private static void startMouseListener(){
+            
+            for (int i=0; i< filter_item.length; i++)
+                 filter_item[i].addActionListener((ActionEvent e) -> { 
+                     Visualization.filter(filter_item);
+                });
             
             draw.addActionListener((ActionEvent e) -> { 
                 Visualization.drawGraph();

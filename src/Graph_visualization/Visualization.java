@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import Relationship.RelationshipTypes;
 import Utils.ScreenSize;
 import Utils.User_Dialog;
+import javax.swing.JCheckBoxMenuItem;
 
 
 /**
@@ -47,25 +48,36 @@ public class Visualization{
 
    
     public static void drawGraph() {   
-        if (Gui_network.network_file.isEmpty()){
-            User_Dialog.showAlert("Please load a network file first.");
-        }
-        else{
+       if (loadedNetwork()){
             graphInit();
             draw.drawGraph();
             StdDraw.setGraph(graph);
         }
     }
 
-
-    private void filter() {                                         
-     
-      FilterRelationship fr = new FilterRelationship("Filter...", RelationshipTypes.relationships, draw);
-      fr.setSize(200, 300);
-      fr.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-      fr.addComponentsToPane(fr.getContentPane());
-      fr.setVisible(true);
-    
+    public static void filter(JCheckBoxMenuItem[] items) {
+        if (loadedNetwork()){
+            for(int i=0; i< items.length; i++){
+                String Value = RelationshipTypes.relationships[i];
+                if (items[i].isSelected()){
+                    draw.add_to_filter(Value);
+                }
+                else{
+                    draw.remove_from_filter(Value);
+                }
+            }
+            
+            draw.drawGraph();
+        }
     }
+
+    private static boolean loadedNetwork() {
+        if (Gui_network.network_file.isEmpty()){
+            User_Dialog.showAlert("Please load a network file first.");
+            return false;
+        }
+        return true;
+    }
+        
 
 }

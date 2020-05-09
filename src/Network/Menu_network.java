@@ -47,7 +47,7 @@ public class Menu_network {
         JMenu graph = new JMenu("Graph");
         JMenu network = new JMenu("Network");
                  
-        loadNetworkFile = new JMenuItem("Load a network file"); 
+        loadNetworkFile = new JMenuItem("Load a Network File"); 
         myAccount = new JMenuItem("My Account"); 
         logOut = new JMenuItem("Log Out"); 
         exit = new JMenuItem("Exit");

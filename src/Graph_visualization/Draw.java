@@ -33,17 +33,15 @@ public class Draw {
 
     private Graph graph;
     private LocalDatabase accessConnection_toDatabase;
-    private Set<String> relationship_to_filter = new HashSet<String>();
+    public static Set<String> relationship_to_filter = new HashSet<String>();
 
     public Draw(Graph graph, LocalDatabase accessConnection_toDatabase){
         this.graph = graph;
         this.accessConnection_toDatabase = accessConnection_toDatabase;
     }
     
-    public void drawGraph(){   
-        StdDraw.setCanvasSize(ScreenSize.WIDTH, ScreenSize.HEIGHT);
-        StdDraw.setXscale(0, ScreenSize.WIDTH);
-        StdDraw.setYscale(0, ScreenSize.HEIGHT);
+    public void drawGraph(){  
+        StdDraw.clear();
         drawNodes(); 
         drawEdges();
     }
@@ -54,7 +52,8 @@ public class Draw {
     }
 
     public void add_to_filter(String str) {
-        relationship_to_filter.add(str);
+        if (!relationship_to_filter.contains(str)) 
+            relationship_to_filter.add(str);
     }
 
     public void remove_from_filter(String str) {

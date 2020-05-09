@@ -15,7 +15,7 @@ public class Graph_Mouse_Event {
     Graph graph;
     
     public static void show_data_of_node(Graph g, int x, int y){
-        
+       
         for (int i=0; i< g.nodeSize(); i++){
             node_metadata current_node = g.getNode(i);
             

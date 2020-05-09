@@ -2,10 +2,8 @@ package Network;
 
 
 import Database.LocalDatabase;
-import Graph_visualization.Visualization;
 import Graph_chart.Gui_graph_chart;
 import Database.PublicDatabase;
-import Evaluation.NetworkQueriesCalculations;
 import Evaluation.ProcessDataOfFile;
 import Evaluation.Network_Evaluation;
 import Account.UserAccount;
@@ -788,11 +786,6 @@ public class Gui_network extends javax.swing.JFrame {
         networksSharedWithMe.setModel(model1);
     }
 
-    public LocalDatabase getLocalDatabase(){
-        return this.accessConnection_local_database;
-    }
-    
-     
       
     protected void openEvaluateNetwork() {
         //Graph graph = new Graph(); 
