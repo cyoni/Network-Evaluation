@@ -38,9 +38,10 @@ package Utils;
  *
  ******************************************************************************/
 
+import About.Help;
 import Graph.Algorithms.Graph_Mouse_Event;
 import Graph.Graph;
-import Graph_visualization.Gui_visualization;
+import Graph_visualization.Visualization;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FileDialog;
@@ -54,12 +55,13 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+//import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
 
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
@@ -89,6 +91,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+import javax.swing.WindowConstants;
 
 /**
  *  The {@code StdDraw} class provides a basic capability for
@@ -493,7 +496,7 @@ import javax.swing.KeyStroke;
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
+public final class StdDraw implements  MouseListener, MouseMotionListener, KeyListener {
         private static Graph graph;
 	/**
 	 *  The color black.
@@ -692,6 +695,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	// init
 	private static void init() {
 		if (frame != null) frame.setVisible(false);
+
 		frame = new JFrame();
 
 		
@@ -708,6 +712,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 		setFont();
 		clear();
 
+                
+               
 		// add antialiasing
 		RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
@@ -724,26 +730,77 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 		frame.setContentPane(draw);
 		frame.addKeyListener(std);    // JLabel cannot get keyboard focus
 		frame.setResizable(false);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);            // closes all windows
-		// frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);      // closes only current window
-		frame.setTitle("Standard Draw");
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);            // closes all windows
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);      // closes only current window
+		frame.setTitle("Graph Visualization");
 		frame.setJMenuBar(createMenuBar());
 		frame.pack();
 		frame.requestFocusInWindow();
 		frame.setVisible(true);
+                 frame.setLocationRelativeTo(null);
 	}
 
+        static JMenuItem save, close, draw, clearGraph;
 	// create the menu bar (changed to private)
 	private static JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
-		JMenu menu = new JMenu("File");
-		menuBar.add(menu);
-		JMenuItem menuItem1 = new JMenuItem(" Save...   ");
-		menuItem1.addActionListener(std);
-		menuItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		menu.add(menuItem1);
+                
+		JMenu file_menu = new JMenu("File");
+                JMenu graph_menu = new JMenu("Graph");   
+                JMenu filter_menu = new JMenu("Filter");   
+                
+		menuBar.add(file_menu);
+                menuBar.add(graph_menu);
+                menuBar.add(filter_menu);
+                
+		save = new JMenuItem(" Save As Image...   ");
+                close = new JMenuItem(" Exit   ");
+   
+                draw = new JMenuItem(" Draw Graph  ");            
+                clearGraph = new JMenuItem(" Clear  ");            
+
+		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                               
+		file_menu.add(save);
+                file_menu.addSeparator();
+                file_menu.add(close);
+                
+                graph_menu.add(draw);
+                graph_menu.addSeparator();
+                graph_menu.add(clearGraph);
+                
+                StdDraw.startMouseListener();
+                
 		return menuBar;
+	}
+        
+        	/**
+	 * This method cannot be called directly.
+	 */
+        
+	private static void startMouseListener(){
+            
+            draw.addActionListener((ActionEvent e) -> { 
+                Visualization.drawGraph();
+            }); 
+            
+            clearGraph.addActionListener((ActionEvent e) -> { 
+                StdDraw.clear();
+            }); 
+            
+            close.addActionListener((ActionEvent e) -> { 
+                   frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            });  
+        
+            save.addActionListener((ActionEvent e) -> { 
+		FileDialog chooser = new FileDialog(StdDraw.frame, "Use a .png or .jpg extension", FileDialog.SAVE);
+		chooser.setVisible(true);
+		String filename = chooser.getFile();
+		if (filename != null) {
+			StdDraw.save(chooser.getDirectory() + File.separator + chooser.getFile());
+		}
+            });  
+
 	}
 
 
@@ -1583,6 +1640,11 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 		}
 	}
 
+        public static void open(){
+          if (frame.isVisible()==false)
+              frame.setVisible(true);    
+        }
+        
 	/**
 	 * Copies offscreen buffer to onscreen buffer. There is no reason to call
 	 * this method unless double buffering is enabled.
@@ -1670,18 +1732,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	}
 
 
-	/**
-	 * This method cannot be called directly.
-	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		FileDialog chooser = new FileDialog(StdDraw.frame, "Use a .png or .jpg extension", FileDialog.SAVE);
-		chooser.setVisible(true);
-		String filename = chooser.getFile();
-		if (filename != null) {
-			StdDraw.save(chooser.getDirectory() + File.separator + chooser.getFile());
-		}
-	}
 
 
 	/***************************************************************************

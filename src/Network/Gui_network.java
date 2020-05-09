@@ -2,7 +2,7 @@ package Network;
 
 
 import Database.LocalDatabase;
-import Graph_visualization.Gui_visualization;
+import Graph_visualization.Visualization;
 import Graph_chart.Gui_graph_chart;
 import Database.PublicDatabase;
 import Evaluation.NetworkQueriesCalculations;
@@ -34,8 +34,8 @@ public class Gui_network extends javax.swing.JFrame {
     private HashMap<String, String> hashmap_mySharedNetworks = new HashMap<>();
     public static LocalDatabase accessConnection_local_database;
     private NetworkData networkDataFromFile;
-    private String network_file = "";
-
+    public static String network_file = "";
+    
     
     public Gui_network() {
         initComponents();
@@ -673,14 +673,7 @@ public class Gui_network extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel_usernameMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            String diraction = "C:\\Users\\Yoni\\myDB.accdb";
-            accessConnection_local_database = new LocalDatabase(diraction);
-            NetworkQueriesCalculations cal = new NetworkQueriesCalculations(accessConnection_local_database);
-            networkDataFromFile = new NetworkData(cal);
-            
-            // set all the number field of the network
-            setField();
-            show_graph_visualization();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void net_profitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_net_profitActionPerformed
@@ -799,13 +792,7 @@ public class Gui_network extends javax.swing.JFrame {
         return this.accessConnection_local_database;
     }
     
-    protected void show_graph_visualization() {
-        Gui_visualization g = new Gui_visualization(accessConnection_local_database);
-        g.setVisible(true);   
-  
-    }
-    
-    
+     
       
     protected void openEvaluateNetwork() {
         //Graph graph = new Graph(); 
@@ -841,12 +828,6 @@ public class Gui_network extends javax.swing.JFrame {
         return this.User;
     }
 
-    public void setNetworkFile(String path_file) {
-        this.network_file = path_file;
-    }
 
-    public String getNetworkFile() {
-        return network_file;
-    }
 
 }

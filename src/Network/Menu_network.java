@@ -22,6 +22,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import Evaluation.NetworkData;
 import Graph_chart.Gui_chart_data_analysis;
+import Utils.StdDraw;
 import Utils.User_Dialog;
 import org.jfree.ui.RefineryUtilities;
 
@@ -102,7 +103,7 @@ public class Menu_network {
         });  
              
         dataAnalysis.addActionListener((ActionEvent e) -> { 
-        if (gui_network.getNetworkFile().isEmpty())
+        if (Gui_network.network_file.isEmpty())
             User_Dialog.showAlert("You need to load a network file first.");
         else{
             Gui_chart_data_analysis g = new Gui_chart_data_analysis();
@@ -120,7 +121,7 @@ public class Menu_network {
         });
            
         graphVisualization.addActionListener((ActionEvent e) -> { // open graph visualization
-            gui_network.show_graph_visualization();
+            StdDraw.open();
         });
                     
 	permissions.addActionListener((ActionEvent e) -> {// add/change permissions
@@ -167,9 +168,9 @@ public class Menu_network {
         if (rVal == JFileChooser.APPROVE_OPTION) { // click open file  
             String path = fileChooser.getCurrentDirectory().toString()+"\\"+fileChooser.getSelectedFile().getName();
             if (path.endsWith(".accdb")){
-                gui_network.setNetworkFile(path);
-                gui_network.accessConnection_local_database = new LocalDatabase(gui_network.getNetworkFile());
-                NetworkQueriesCalculations cal = new NetworkQueriesCalculations(gui_network.accessConnection_local_database);
+                Gui_network.network_file = path;
+                gui_network.accessConnection_local_database = new LocalDatabase(Gui_network.network_file);
+                NetworkQueriesCalculations cal = new NetworkQueriesCalculations(Gui_network.accessConnection_local_database);
                 gui_network.setNetworkDataFromFile(new NetworkData(cal));
                 // set all the number field of the network
                 gui_network.setField();
