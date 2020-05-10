@@ -11,7 +11,7 @@ import Utils.StdDraw;
  * @author Yoni
  */
 public class Graph_Mouse_Event {
-    
+    //bug
     Graph graph;
     
     public static void show_data_of_node(Graph g, int x, int y){
