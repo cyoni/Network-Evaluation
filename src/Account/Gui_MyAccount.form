@@ -29,7 +29,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="cancelButton1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="213" max="32767" attributes="0"/>
                       <Component id="updateButton1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -43,10 +43,9 @@
                           <Component id="name_txt" max="32767" attributes="0"/>
                           <Component id="email_text" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="network_name_txt" min="-2" pref="209" max="-2" attributes="0"/>
+                              <Component id="network_name_txt" max="32767" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="isAnOwner_checkbox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -141,7 +140,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="isAnOwner_checkbox">
       <Properties>
-        <Property name="text" type="java.lang.String" value="I am an owner"/>
+        <Property name="text" type="java.lang.String" value="Owner"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -1,5 +1,5 @@
 
-package Account;
+package Account;    
 
 import Database.PublicDatabase;
 import Utils.KeyGenerator;
@@ -25,10 +25,13 @@ public class MyAccount extends JFrame{
     protected void verifyUserAndupdatePassword(){
         final String old_password = User_Dialog.getInputDialog("Enter your old password...");
         final String new_password = User_Dialog.getInputDialog("Enter a new password...");
-        if (old_password.isEmpty() || new_password.isEmpty()) {
-            User_Dialog.showAlert("An invalid password was entered.");
-            return;
-        }
+        
+        if (old_password == null || new_password == null) return;
+        else
+            if (old_password.isEmpty() || new_password.isEmpty()) {
+                User_Dialog.showAlert("An invalid password was entered.");
+                return;
+            }
         
         String encoded_old_password = KeyGenerator.encodeString(old_password);
         

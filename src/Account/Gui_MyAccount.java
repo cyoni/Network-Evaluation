@@ -1,5 +1,11 @@
 package Account;
 
+import Database.PublicDatabase;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Yoni
@@ -65,7 +71,7 @@ public class Gui_MyAccount extends MyAccount {
             }
         });
 
-        isAnOwner_checkbox.setText("I am an owner");
+        isAnOwner_checkbox.setText("Owner");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -76,7 +82,7 @@ public class Gui_MyAccount extends MyAccount {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cancelButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
                         .addComponent(updateButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,10 +94,9 @@ public class Gui_MyAccount extends MyAccount {
                             .addComponent(name_txt)
                             .addComponent(email_text)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(network_name_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(network_name_txt)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(isAnOwner_checkbox)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(isAnOwner_checkbox))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -151,6 +156,17 @@ public class Gui_MyAccount extends MyAccount {
     private void loadData() {
         email_text.setText(User.getEmail());
         name_txt.setText(User.getName());
+        isAnOwner_checkbox.setEnabled(false);
+        network_name_txt.setEnabled(false);
+        
+        ResultSet rs = PublicDatabase.query("SELECT network_name FROM owners WHERE email='"+ User.getEmail() +"'");
+        try {
+            while(rs.next()){
+                String network_name = rs.getString("network_name");
+                network_name_txt.setText(network_name);
+                isAnOwner_checkbox.setSelected(true);
+            }
+        } catch (SQLException ex) {}
 
     }
 
