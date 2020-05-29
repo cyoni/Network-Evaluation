@@ -156,10 +156,9 @@ public class Gui_network extends javax.swing.JFrame {
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         avg_traffic = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         jLabel_username = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         eval_label = new javax.swing.JLabel();
+        jlabel_user = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -576,23 +575,16 @@ public class Gui_network extends javax.swing.JFrame {
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
-        jLabel3.setText("Hi");
-
         jLabel_username.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel_usernameMouseClicked(evt);
             }
         });
 
-        jButton1.setText("for tests");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         eval_label.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         eval_label.setText("Loading");
+
+        jlabel_user.setText("Hi ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -616,12 +608,13 @@ public class Gui_network extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(eval_label, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel_username)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addContainerGap())))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel_username)
+                                .addGap(86, 86, 86))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jlabel_user)
+                                .addGap(18, 18, 18))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -629,13 +622,12 @@ public class Gui_network extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jLabel_username)
-                            .addComponent(jLabel3))
-                        .addGap(29, 29, 29))
+                        .addComponent(jLabel_username)
+                        .addGap(48, 48, 48))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(eval_label)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jlabel_user)
+                            .addComponent(eval_label))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -669,10 +661,6 @@ public class Gui_network extends javax.swing.JFrame {
 
         
     }//GEN-LAST:event_jLabel_usernameMouseClicked
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void net_profitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_net_profitActionPerformed
         // TODO add your handling code here:
@@ -719,7 +707,6 @@ public class Gui_network extends javax.swing.JFrame {
     public javax.swing.JTextField avg_time;
     public javax.swing.JTextField avg_traffic;
     private javax.swing.JLabel eval_label;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -734,7 +721,6 @@ public class Gui_network extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
@@ -751,6 +737,7 @@ public class Gui_network extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jlabel_user;
     public javax.swing.JTextField net_expenses;
     public javax.swing.JTextField net_profit;
     private javax.swing.JList<String> networksSharedWithMe;
@@ -806,7 +793,7 @@ public class Gui_network extends javax.swing.JFrame {
 
     protected void setHello() {
         eval_label.setText("Welcome to netEval");
-        jLabel_username.setText(User.getName());
+        jlabel_user.setText("Hi " + User.getName());
     }
     
     public NetworkData getNetworkDataFromFile(){

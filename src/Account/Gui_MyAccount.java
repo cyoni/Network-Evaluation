@@ -30,7 +30,6 @@ public class Gui_MyAccount extends MyAccount {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        updateButton = new javax.swing.JButton();
         cancelButton1 = new javax.swing.JButton();
         name_txt = new javax.swing.JTextField();
         email_text = new javax.swing.JTextField();
@@ -49,13 +48,6 @@ public class Gui_MyAccount extends MyAccount {
         jLabel3.setText("Email:");
 
         jLabel4.setText("Network name:");
-
-        updateButton.setText("Update Account");
-        updateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateButtonActionPerformed(evt);
-            }
-        });
 
         cancelButton1.setText("Close");
         cancelButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -85,9 +77,7 @@ public class Gui_MyAccount extends MyAccount {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cancelButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(updateButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(updateButton))
+                        .addComponent(updateButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -127,7 +117,6 @@ public class Gui_MyAccount extends MyAccount {
                     .addComponent(isAnOwner_checkbox))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(updateButton)
                     .addComponent(cancelButton1)
                     .addComponent(updateButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -144,11 +133,6 @@ public class Gui_MyAccount extends MyAccount {
         this.dispose();
     }//GEN-LAST:event_cancelButton1ActionPerformed
 
-    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        // TODO add your handling code here:
-        // coming soon
-    }//GEN-LAST:event_updateButtonActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -161,7 +145,6 @@ public class Gui_MyAccount extends MyAccount {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField name_txt;
     private javax.swing.JTextField network_name_txt;
-    private javax.swing.JButton updateButton;
     private javax.swing.JButton updateButton1;
     // End of variables declaration//GEN-END:variables
 
