@@ -1,5 +1,9 @@
 # netEval
-A lot of advertisers are not sure when it’s the right time to advertise their business in the social network. 
+
+<img src="https://i.ibb.co/JrPqYKz/poster.jpg" alt="poster" border="0">
+
+
+Many advertisers are not sure when it’s the right time to advertise their business in the social network. 
 <br>
 Consequently, we would like to ask to build a system that will help them to evaluate its worth. 
 <br>
@@ -10,3 +14,5 @@ In order to achieve this outcome, we will combine some parameters such as the nu
 rate, applause rate and so on.
 <br>
 Another advantage of the social media network evaluation lays in the stock market, to improve the share estimation value.
+
+
