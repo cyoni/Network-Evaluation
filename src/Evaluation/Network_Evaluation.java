@@ -44,14 +44,14 @@ public class Network_Evaluation {
     List<Integer> membersId;
 
     /////////////////The following data should be downloaded from the DB File //////////////////////////////////
-    private double value_like = 0.2;
-    private double value_share = 0.5;
-    private double value_post = 0.2;
+//    private double value_like = 0.2;
+//    private double value_share = 0.5;
+//    private double value_post = 0.2;
     private double value_advertiser = 1.0;
-    private double value_time_spent = 2.0;
-    private double percent_active_ad = 70;
-    private double percent_inactive_ad = 20;
-    private double value_active_ad = 0.3;
+//    private double value_time_spent = 2.0;
+//    private double percent_active_ad = 70;
+//    private double percent_inactive_ad = 20;
+//    private double value_active_ad = 0.3;
 
     private int num_members;
     private int num_advertisers;
@@ -231,15 +231,17 @@ public class Network_Evaluation {
         // Way 2 : Simulate the ad distribution process
         ListProducts l = new ListProducts();
         ArrayList<ProductForAdv> products = l.products; // The products on which we will do the simulation
-        Map<Integer, Set<Integer>> memberPerDay = new HashMap(); // day1: (2,4,8) , day2: (6,9,32)
+        // TODO for each product
 
         // foor loop over list of products 
         for (ProductForAdv p : products) {
+            Map<Integer, Set<Integer>> memberPerDay = new HashMap(); // day1: (2,4,8) , day2: (6,9,32)
+
             int expo = p.getExpoForDay(); //Number of exposures of the advertisement per day
             int num_days = p.getDayForAdv(); // Numbers of days
 
-            int inter = findInterested(p); // The number of people on the network who were interested in the product
-            int memberShares = findShared(inter); // Within those who were interested how many people will share
+            int interested = findInterested(p); // The number of people on the network who were interested in the product
+            int memberShares = findShared(interested); // Within those who were interested how many people will share
 
             int memberExpo = 0;
             // pass over the days and fill memberPerDay 

@@ -31,6 +31,8 @@ public class NewClass {
         
         StdDraw.text(p3.x(), p3.y()+5, "shalom", deg); // -44.3839
         
+
+
                 
     }
 }
