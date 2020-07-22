@@ -132,7 +132,7 @@ public class Network_Evaluation {
         write("Started process");
 
         evaluate_advetisers();
-        evaluate_number_of_people_who_might_see_an_ad();
+        evaluate_value_of_net();
         // evaluate.. ()...
     }
 
@@ -208,55 +208,67 @@ public class Network_Evaluation {
     }
 
     /**
-     * The purpose of the function is to estimate the number of people who will
-     * watch a particular advertisement. To calculate this we will use two ways
-     * 1) We rely on previous advertisements posted on the network and find the
-     * average views on a network advertisement 2) Simulate the ad distribution
-     * process on the network including all of its steps and try to predict how
-     * many people will see the ad
+     * The purpose of the function is to estimate the number people who will
+     * watch a particular advertisement Simulate the ad distribution process on
+     * the network including all of its steps and try to predict how many people
+     * will see the ad
      *
-     * @throws IOException
+     * @param p product
+     * @return The estimate of the number of people who see the ad
      */
-    private void evaluate_number_of_people_who_might_see_an_ad() throws IOException {
+    private int evaluate_number_of_people_who_might_see_an_ad_of_product(ProductForAdv p) {
+
+        Map<Integer, Set<Integer>> memberPerDay = new HashMap(); // day1: (2,4,8) , day2: (6,9,32)
+
+        int expo = p.getExpoForDay(); //Number of exposures of the advertisement per day
+        int num_days = p.getDayForAdv(); // Numbers of days
+
+        int interested = findInterested(p); // The number of people on the network who were interested in the product
+        int memberShares = findShared(interested); // Within those who were interested how many people will share
+
+        int memberExpo = 0;
+        // pass over the days and fill memberPerDay 
+        for (int i = 1; i <= num_days; i++) {
+
+            Set<Integer> randomMember = new HashSet<Integer>(randomMembers(membersId, expo));
+            memberPerDay.put(i, randomMember); // Add random member
+            memberExpo += expo;
+
+            List<Integer> members_who_share = randomMembers(new ArrayList<>(randomMember), memberShares); // TODO 
+
+            for (int member : members_who_share) {
+                List<Integer> friends = getFriendsOf(member);
+                memberExpo += friends.size();
+                memberPerDay.get(i).addAll(friends); // add to map the friend exposed to the ad
+            }
+        }
+
+        return memberExpo;
+
+    }
+
+    /**
+     *
+     */
+    private void evaluate_value_of_net() {
 
         // Way 1 :  rely on previous advertisements
+        double w1 = 0.4;
         List<Ad> list_ads = network_data_from_file.getAds(); // prev ads
         double avg_view = calculateAvgViews(list_ads);
 
         // Way 2 : Simulate the ad distribution process
+        double w2 = 0.6;
         ListProducts l = new ListProducts();
         ArrayList<ProductForAdv> products = l.products; // The products on which we will do the simulation
-        // TODO for each product
 
         // foor loop over list of products 
         for (ProductForAdv p : products) {
-            Map<Integer, Set<Integer>> memberPerDay = new HashMap(); // day1: (2,4,8) , day2: (6,9,32)
+            int members_expo_to_product = evaluate_number_of_people_who_might_see_an_ad_of_product(p);
+            members_expo_to_product = (int) (avg_view * w1 + members_expo_to_product * w2);
+            double profit_of_p = evaluate_number_of_people_who_might_buy_product(p, members_expo_to_product);
+            network_value += profit_of_p;
 
-            int expo = p.getExpoForDay(); //Number of exposures of the advertisement per day
-            int num_days = p.getDayForAdv(); // Numbers of days
-
-            int interested = findInterested(p); // The number of people on the network who were interested in the product
-            int memberShares = findShared(interested); // Within those who were interested how many people will share
-
-            int memberExpo = 0;
-            // pass over the days and fill memberPerDay 
-            for (int i = 1; i <= num_days; i++) {
-
-                Set<Integer> randomMember = new HashSet<Integer>(randomMembers(expo));
-                memberPerDay.put(i, randomMember); // Add random member
-                memberExpo += expo;
-
-                List<Integer> members_who_share = randomMembers(memberShares); // TODO 
-
-                for (int member : members_who_share) {
-                    List<Integer> friends = getFriendsOf(member);
-                    memberExpo += friends.size();
-                    memberPerDay.get(i).addAll(friends); // add to map the friend exposed to the ad
-                }
-
-                evaluate_number_of_people_who_might_buy_product(p, memberExpo);
-
-            }
         }
 
         // 
@@ -289,7 +301,7 @@ public class Network_Evaluation {
 //        }
     }
 
-    private void evaluate_number_of_people_who_might_buy_product(ProductForAdv p, int memberExpo) {
+    private double evaluate_number_of_people_who_might_buy_product(ProductForAdv p, int memberExpo) {
 
         int expo = p.getExpoForDay(); //Number of exposures of the advertisement per day
         int num_days = p.getDayForAdv(); // Numbers of days
@@ -302,7 +314,7 @@ public class Network_Evaluation {
         double expense = ad_price * num_days * expo;
 
         double profit = revenue - expense;
-        network_value += profit;
+        return profit;
 
     }
 
@@ -320,21 +332,23 @@ public class Network_Evaluation {
 
     /**
      * return n member id from the graph
+     *
      * @param n
      * @return n member id from the graph
      */
-    public List<Integer> randomMembers(int n) {
+    public List<Integer> randomMembers(List<Integer> stock, int n) {
         List<Integer> randoMembers = new ArrayList();
         for (int i = 0; i < n; i++) {
             Random random = new Random();
-            int id = membersId.get(random.nextInt(membersId.size()));
+            int id = stock.get(random.nextInt(stock.size()));
             randoMembers.add(id);
         }
         return randoMembers;
     }
-    
+
     /**
      * return the number of interesting people in specific category
+     *
      * @param cat_to_check
      * @return the number of interesting people in specific category
      */
@@ -350,9 +364,9 @@ public class Network_Evaluation {
     }
 
     /**
-     * 
+     *
      * @param id
-     * @return list of friend of id 
+     * @return list of friend of id
      */
     public List<Integer> getFriendsOf(int id) {
         List<Integer> friends = new ArrayList();
@@ -381,7 +395,7 @@ public class Network_Evaluation {
     /**
      *
      * @param ads
-     * @return  the clicks  of ads in the network.
+     * @return the clicks of ads in the network.
      */
     private double calculateAvgClicks(List<Ad> ads) {
         int sum = 0;
