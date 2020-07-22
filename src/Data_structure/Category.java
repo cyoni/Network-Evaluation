@@ -15,6 +15,10 @@ public class Category {
     private String name;
     private int memberInterac; // num of members who interact with this category
     
+    public Category(int id) {
+        this.id = id;
+    }
+    
 
     public Category(int id, String name, int memberInterac) {
         this.id = id;
@@ -44,6 +48,26 @@ public class Category {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+       // If the object is compared with itself then return true   
+        if (o == this) { 
+            return true; 
+        } 
+  
+        /* Check if o is an instance of Complex or not 
+          "null instanceof [type]" also returns false */
+        if (!(o instanceof Category)) { 
+            return false; 
+        } 
+          
+        // typecast o to Complex so that we can compare data members  
+        Category c = (Category) o;
+        
+        return  c.id == this.id;
+           
     }
 
     

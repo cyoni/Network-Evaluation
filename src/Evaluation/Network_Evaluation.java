@@ -327,16 +327,24 @@ public class Network_Evaluation {
 
     public int interstIngCat(int cat_to_check) {
         List<Category> net_cats = network_data_from_file.getList_cats(); // category in network
-        boolean found = false;
-        int intersting = 0;
-        for (Category cat : net_cats) {
-            if (!found && cat.getId() == cat_to_check) {
-                found = true;
-                intersting = cat.getMemberInterac();
-                return intersting;
-            }
-        }
-        return 0; // if the cat not in the network
+        int idx = net_cats.indexOf(new Category (cat_to_check));
+        if (idx != -1)
+            return net_cats.get(idx).getMemberInterac();
+        else
+            return 0;
+                    
+             
+        
+//        boolean found = false;
+//        int intersting = 0;
+//        for (Category cat : net_cats) {
+//            if (!found && cat.getId() == cat_to_check) {
+//                found = true;
+//                intersting = cat.getMemberInterac();
+//                return intersting;
+//            }
+//        }
+//        return 0; // if the cat not in the network
 
     }
 
