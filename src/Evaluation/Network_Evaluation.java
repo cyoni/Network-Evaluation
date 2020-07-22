@@ -7,9 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import Evaluation.NetworkData;
 import Utils.User_Dialog;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,10 +17,8 @@ import Account.UserAccount;
 import Data_structure.Category;
 import Data_structure.ProductForAdv;
 import Graph.Graph;
-import Graph.Node;
 import Nodes.Member;
 import Nodes.node_metadata;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -203,11 +198,11 @@ public class Network_Evaluation {
 
         double percent = (avg_share_per_day / num_members);
         double random = Math.random(); // Get probability between [0-1)
-        
-         double w1 = 0.4;
-         double w2 = 0.6;
 
-        int memberShares = (int) ((w1*percent + w2*random)* intersted);
+        double w1 = 0.4;
+        double w2 = 0.6;
+
+        int memberShares = (int) ((w1 * percent + w2 * random) * intersted);
         return memberShares;
 
     }
@@ -251,7 +246,7 @@ public class Network_Evaluation {
                 memberPerDay.put(i, randomMember); // Add random member
                 memberExpo += expo;
 
-                List<Integer> members_who_share = randomMembers(memberShares); //need to change to set
+                List<Integer> members_who_share = randomMembers(memberShares); // TODO 
 
                 for (int member : members_who_share) {
                     List<Integer> friends = getFriendsOf(member);
@@ -259,18 +254,11 @@ public class Network_Evaluation {
                     memberPerDay.get(i).addAll(friends); // add to map the friend exposed to the ad
                 }
 
-                Double random = Math.random(); // Get probability between [0-1)
-                int memberBuy = (int) (memberExpo * random); // number of member will buy the product
-                double revenue = p.getProfit() * memberBuy;
-
-                double ad_price = network_data_from_file.getPrice_ads();
-                double expense = ad_price * num_days * expo;
-
-                double profit = revenue - expense;
-                network_value += profit;
+                evaluate_number_of_people_who_might_buy_product(p, memberExpo);
 
             }
         }
+
         // 
 //        if (network_data_from_file != null) {
 //            int categories_size = network_data_from_file.getCategories();
@@ -301,6 +289,23 @@ public class Network_Evaluation {
 //        }
     }
 
+    private void evaluate_number_of_people_who_might_buy_product(ProductForAdv p, int memberExpo) {
+
+        int expo = p.getExpoForDay(); //Number of exposures of the advertisement per day
+        int num_days = p.getDayForAdv(); // Numbers of days
+
+        Double random = Math.random(); // Get probability between [0-1)
+        int memberBuy = (int) (memberExpo * random); // number of member will buy the product
+        double revenue = p.getProfit() * memberBuy;
+
+        double ad_price = network_data_from_file.getPrice_ads();
+        double expense = ad_price * num_days * expo;
+
+        double profit = revenue - expense;
+        network_value += profit;
+
+    }
+
     // return list of the id of the members
     public List<Integer> getMembers(List<node_metadata> nodes) {
         List<Integer> membersId = new ArrayList();
@@ -313,7 +318,11 @@ public class Network_Evaluation {
         return membersId;
     }
 
-    // return n member id from the graph
+    /**
+     * return n member id from the graph
+     * @param n
+     * @return n member id from the graph
+     */
     public List<Integer> randomMembers(int n) {
         List<Integer> randoMembers = new ArrayList();
         for (int i = 0; i < n; i++) {
@@ -323,32 +332,28 @@ public class Network_Evaluation {
         }
         return randoMembers;
     }
-    // return the num of intersting people in specpic category
-
+    
+    /**
+     * return the number of interesting people in specific category
+     * @param cat_to_check
+     * @return the number of interesting people in specific category
+     */
+    //
     public int interstIngCat(int cat_to_check) {
         List<Category> net_cats = network_data_from_file.getList_cats(); // category in network
-        int idx = net_cats.indexOf(new Category (cat_to_check));
-        if (idx != -1)
+        int idx = net_cats.indexOf(new Category(cat_to_check));
+        if (idx != -1) {
             return net_cats.get(idx).getMemberInterac();
-        else
+        } else {
             return 0;
-                    
-             
-        
-//        boolean found = false;
-//        int intersting = 0;
-//        for (Category cat : net_cats) {
-//            if (!found && cat.getId() == cat_to_check) {
-//                found = true;
-//                intersting = cat.getMemberInterac();
-//                return intersting;
-//            }
-//        }
-//        return 0; // if the cat not in the network
-
+        }
     }
 
-    // return list of friend of id 
+    /**
+     * 
+     * @param id
+     * @return list of friend of id 
+     */
     public List<Integer> getFriendsOf(int id) {
         List<Integer> friends = new ArrayList();
         List<node_metadata> nodes = g.getNeighbors(id);
@@ -356,6 +361,11 @@ public class Network_Evaluation {
         return friends;
     }
 
+    /**
+     *
+     * @param ads
+     * @return the avg views of ads in the network.
+     */
     private double calculateAvgViews(List<Ad> ads) {
         int sum = 0;
         if (!ads.isEmpty()) {
@@ -368,6 +378,11 @@ public class Network_Evaluation {
         return sum;
     }
 
+    /**
+     *
+     * @param ads
+     * @return  the clicks  of ads in the network.
+     */
     private double calculateAvgClicks(List<Ad> ads) {
         int sum = 0;
         if (!ads.isEmpty()) {
