@@ -7,6 +7,7 @@ package Evaluation;
 
 import Data_structure.ProductForAdv;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -20,8 +21,11 @@ public class ListProducts {
     public ListProducts() {
        ProductForAdv p1 = new ProductForAdv(1, 12, null, 5, 1);
        ProductForAdv p2 = new ProductForAdv(2, 3, null, 3, 3);
+       ProductForAdv p3 = new ProductForAdv(2, 3, new ArrayList<Integer>(Arrays.asList(1,2)), 3, 3);
+
        this.products.add(p1);
        this.products.add(p2);
+       this.products.add(p3);
 
 
     }
