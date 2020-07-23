@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import Nodes.Ad;
 import Nodes.Advertiser;
+import Nodes.Group;
 import Nodes.Page;
 import Relationship.Advertise;
 import Relationship.Friend;
@@ -145,7 +146,7 @@ public class ConstructGraph {
             int idx =0;
             while (rs.next()) {
                        int id = rs.getInt("group_id");
-                       Node p = new Page(id, circlePoint(numGroups,idx++,radius,a,b));
+                       Node p = new Group(id, circlePoint(numGroups,idx++,radius,a,b));
                        graph.addNode(p);
                     }
           ResultSet rs1 = statment.executeQuery("SELECT [group_id],[member_id] FROM [T_Groups] INNER JOIN T_Likes ON T_Groups.group_id = T_Likes.compoment_id;");
