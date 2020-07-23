@@ -62,7 +62,7 @@ public class Login extends javax.swing.JFrame {
                  "VALUES('"+ key +"', '"+ email +"')\n" +
                  "ON DUPLICATE KEY UPDATE private_key = VALUES(private_key)";
         
-    PublicDatabase.query_update(sql); // Excucute the operation
+    PublicDatabase.query_alter_db(sql); // Excucute the operation
     ConvertUserToSeriable.write_object("user.txt", User);
        return User;
     }

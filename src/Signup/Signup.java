@@ -26,11 +26,11 @@ public class Signup extends JFrame{
                             return;
                         }
 
-                        result = PublicDatabase.query_update("INSERT INTO users (name, email, password, isOwner)" +
+                        result = PublicDatabase.query_alter_db("INSERT INTO users (name, email, password, isOwner)" +
                                 "VALUES ('"+ name +"', '"+ email +"', '" + password + "', '"+ owner +"')");
 
                         if (isOwner==1){
-                          result =  PublicDatabase.query_update("INSERT INTO owners (email, network_name)" +
+                          result =  PublicDatabase.query_alter_db("INSERT INTO owners (email, network_name)" +
                                     "VALUES ('"+ email +"', '"+ network_name +"')");
                         }
 

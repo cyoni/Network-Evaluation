@@ -160,7 +160,7 @@ public class Gui_manageUsers extends JFrame {
                         } else if (email.equals(User.getEmail())) {User_Dialog.showAlert("You can't add youself!");}
                         else{
 
-                            PublicDatabase.query_update("INSERT INTO permissions (owner, usr_email)\n" +
+                            PublicDatabase.query_alter_db("INSERT INTO permissions (owner, usr_email)\n" +
                         "    VALUES ('"+ User.getEmail() +"', '"+ email +"');");
                             users_list.addItem(email + " (unauthorized)");
                         }
@@ -192,7 +192,7 @@ public class Gui_manageUsers extends JFrame {
         Thread thread = new Thread(){
             public void run(){
                 MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, true);
-                PublicDatabase.query_update("UPDATE permissions SET permission="+ changeStatusOfUser +" WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"';");
+                PublicDatabase.query_alter_db("UPDATE permissions SET permission="+ changeStatusOfUser +" WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"';");
                 MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, false);
             }
         };
@@ -207,7 +207,7 @@ public class Gui_manageUsers extends JFrame {
         Thread thread = new Thread(){
             public void run(){
                 MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, true);
-                PublicDatabase.query_update("DELETE from permissions WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"' "
+                PublicDatabase.query_alter_db("DELETE from permissions WHERE owner='"+ User.getEmail() +"' AND usr_email='"+ email +"' "
                 + "AND permission=1;");
                 MouseCursor.ChangeMouseCursorBusy(Gui_manageUsers.this, false);
             }

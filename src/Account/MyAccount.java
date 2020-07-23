@@ -50,7 +50,7 @@ public class MyAccount extends JFrame{
                     if (password_from_server.equals(encoded_old_password)){
                         String encoded_new_password = KeyGenerator.encodeString(new_password);
                         sql = "UPDATE users SET password='"+ encoded_new_password +"' WHERE email='" + User.getEmail() + "';";
-                        int result = PublicDatabase.query_update(sql);   
+                        int result = PublicDatabase.query_alter_db(sql);   
                         if (result != -1)
                             User_Dialog.showAlert("Your password has been changed sucessfully.");
                         else 

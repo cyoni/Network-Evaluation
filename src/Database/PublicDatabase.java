@@ -42,7 +42,7 @@ public class PublicDatabase {
      * @return 
      */
     
-    public static int query_update(String q){
+    public static int query_alter_db(String q){
         Connection connection = get_connection();
         int rs = -1;
 	PreparedStatement ps=null;

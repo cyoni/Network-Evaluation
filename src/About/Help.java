@@ -5,6 +5,8 @@
  */
 package About;
 
+import Login.Gui_login;
+
 /**
  *
  * @author Yoni
@@ -17,6 +19,7 @@ public class Help extends javax.swing.JFrame {
     public Help() {
         initComponents();
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**

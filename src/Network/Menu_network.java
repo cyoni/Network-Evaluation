@@ -169,7 +169,7 @@ public class Menu_network {
             String path = fileChooser.getCurrentDirectory().toString()+"\\"+fileChooser.getSelectedFile().getName();
             if (path.endsWith(".accdb")){
                 Gui_network.network_file = path;
-                gui_network.accessConnection_local_database = new LocalDatabase(Gui_network.network_file);
+                Gui_network.accessConnection_local_database = new LocalDatabase(Gui_network.network_file);
                 NetworkQueriesCalculations cal = new NetworkQueriesCalculations(Gui_network.accessConnection_local_database);
                 gui_network.setNetworkDataFromFile(new NetworkData(cal));
                 // set all the number field of the network

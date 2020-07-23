@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import Evaluation.NetworkData;
+import Evaluation.NetworkQueriesCalculations;
 import Graph.Algorithms.ConstructGraph;
 import Graph.Graph;
 
@@ -32,7 +33,13 @@ public class Gui_network extends javax.swing.JFrame {
     private HashMap<String, String> hashmap_mySharedNetworks = new HashMap<>();
     public static LocalDatabase accessConnection_local_database;
     private NetworkData networkDataFromFile;
-    public static String network_file = "";
+    
+    
+    
+    // testing:
+    public static String network_file = "C:\\Users\\Yoni\\Desktop\\myDB.accdb";
+    
+    
     
     
     public Gui_network() {
@@ -40,6 +47,16 @@ public class Gui_network extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
         setMenu();
+        
+        
+        // testing
+        
+        accessConnection_local_database = new LocalDatabase(network_file);
+         NetworkQueriesCalculations cal = new NetworkQueriesCalculations(accessConnection_local_database);
+         setNetworkDataFromFile(new NetworkData(cal));
+         // set all the number field of the network
+          setField();
+        
     }
 
     public Gui_network(UserAccount User) throws SQLException {
@@ -94,10 +111,8 @@ public class Gui_network extends javax.swing.JFrame {
     }
     
     protected void setField() {
-        
         ProcessDataOfFile process_file = new ProcessDataOfFile(this);
         process_file.process();
-     
     }
     
     @SuppressWarnings("unchecked")
@@ -778,7 +793,7 @@ public class Gui_network extends javax.swing.JFrame {
         //Graph graph = new Graph(); 
        ConstructGraph cg = new ConstructGraph(accessConnection_local_database,0,0);
        Graph graph = cg.getGraph();
-         Network_Evaluation net = new Network_Evaluation();
+         Network_Evaluation net = new Network_Evaluation(User);
         try {
             net.evaluate(this, networkDataFromFile, graph);
         } catch (IOException ex) {

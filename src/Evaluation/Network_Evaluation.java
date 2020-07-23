@@ -57,6 +57,11 @@ public class Network_Evaluation {
     private double network_value = 0.0;
     private Gui_network network;
     private NetworkData network_data_from_file;
+    private UserAccount user;
+
+    public Network_Evaluation(UserAccount User) {
+           this.user = User;
+    }
 
     public void evaluate(Gui_network network, NetworkData network_data_from_file, Graph g) throws IOException, SQLException {
         User = network.getUser();
@@ -68,46 +73,7 @@ public class Network_Evaluation {
         initEvaluation();
         performEvaluation();
         closeWriter();
-        recordResultInDatabase();
         showResult();
-
-    }
-
-    private void recordResultInDatabase() throws SQLException {
-
-        String question = User_Dialog.getInputDialog("Would you like to record the result in the database? [1=yes, 0=no]");
-        if (question.equals("1")) {
-            int answer_from_server = -1;
-            String evaluation_data = "";
-            Date date = new Date();
-            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            int day = localDate.getDayOfMonth();
-            int year = localDate.getYear();
-            int month = localDate.getMonthValue();
-
-            ResultSet rs = PublicDatabase.query("SELECT * FROM network_value WHERE email='" + User.getEmail() + ""
-                    + " AND month=" + month + "' AND year=" + year + "");
-
-            if (rs == null) {
-                evaluation_data = day + "," + network_value;
-                answer_from_server = PublicDatabase.query_update("INSERT INTO network_value (email, year, month, data) VALUES('" + User.getEmail() + "'"
-                        + ", ('" + year + "'), ('" + month + "'), ('" + evaluation_data + "')");
-            } else {
-                String data_from_database = "";
-                while (rs.next()) {
-                    data_from_database = rs.getString("data");
-                }
-                evaluation_data = data_from_database + ";" + day + "," + network_value;
-
-                answer_from_server = PublicDatabase.query_update("UPDATE network_value SET data='" + evaluation_data + "' WHERE email='" + User.getEmail() + "'");
-            }
-            if (answer_from_server == 1) {
-                User_Dialog.showAlert("The result has been successfully recorded!");
-            } else {
-                User_Dialog.showAlert("There was an error while processing this request.");
-            }
-        }
-
     }
 
     private int convertIntFromString(String s) {
@@ -146,7 +112,9 @@ public class Network_Evaluation {
     }
 
     private void showResult() {
-        User_Dialog.showAlert("Estimated network value is " + network_value);
+        Eval_gui eval_gui = new Eval_gui(user, network_value);
+        eval_gui.setVisible(true);
+        eval_gui.pack();
     }
 
     private void evaluate_advetisers() throws IOException {
