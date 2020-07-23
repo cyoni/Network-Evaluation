@@ -60,8 +60,7 @@ public class NetworkData {
     private List<Category> list_cats;
     double price_ads;
 
-
-//    // need to add
+    // need to add
     private int numPosts;
     private int numViews;
     private double avgViews;

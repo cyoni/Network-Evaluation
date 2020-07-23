@@ -8,6 +8,6 @@ package Relationship;
  */
 public class RelationshipTypes {
     
-    public static String[] relationships =  {"Friend", "Post", "Like", "Share", "Advertise"};
+    public static String[] relationships =  {"Friend", "Like", "Share", "Advertise"};
     
 }

@@ -1,6 +1,5 @@
 package Network;
 
-
 import Database.LocalDatabase;
 import Graph_chart.Gui_graph_chart;
 import Database.PublicDatabase;
@@ -22,13 +21,12 @@ import Evaluation.NetworkQueriesCalculations;
 import Graph.Algorithms.ConstructGraph;
 import Graph.Graph;
 
-
 /**
  *
  * @author Yoni
  */
 public class Gui_network extends javax.swing.JFrame {
-   
+
     protected UserAccount User;
     private HashMap<String, String> hashmap_mySharedNetworks = new HashMap<>();
     public static LocalDatabase accessConnection_local_database;
@@ -64,8 +62,8 @@ public class Gui_network extends javax.swing.JFrame {
         this.User = User;
         initializeScreen.start();
     }
-    
-    private void setMenu(){
+
+    private void setMenu() {
         Menu_network menu_network = new Menu_network(this);
         menu_network.setMenu();
     }
@@ -74,47 +72,50 @@ public class Gui_network extends javax.swing.JFrame {
         User.validateUser(User);
     }
 
-    Thread initializeScreen = new Thread(){
-   
-        public void run(){
+    Thread initializeScreen = new Thread() {
+
+        public void run() {
             try {
                 sleep(1000);
                 LoadSharedNetworks();
                 setMenu();
-                setHello(); 
-            } catch(Exception e){}
+                setHello();
+            } catch (Exception e) {
+            }
         }
     };
-            
-    private void startMouseListener() {    
-            // network_list listener:
-            
-            networksSharedWithMe.addMouseListener(new MouseAdapter(){
-        @Override
-        public void mouseClicked(MouseEvent e)  {
-            if (e.getClickCount() == 2) {
-                String network_name = (String)networksSharedWithMe.getModel().getElementAt(networksSharedWithMe.locationToIndex(e.getPoint()));
-                String owner_email = hashmap_mySharedNetworks.get(network_name);
-                if (owner_email != null){
-                    Gui_graph_chart gui;
-                    try {
-                        gui = new Gui_graph_chart(User);
-                        gui.setVisible(true);
-                        gui.setEmailOfAnOwner(owner_email);
-                        gui.getData();
-                        gui.pack();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);}
+
+    private void startMouseListener() {
+        // network_list listener:
+
+        networksSharedWithMe.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    String network_name = (String) networksSharedWithMe.getModel().getElementAt(networksSharedWithMe.locationToIndex(e.getPoint()));
+                    String owner_email = hashmap_mySharedNetworks.get(network_name);
+                    if (owner_email != null) {
+                        Gui_graph_chart gui;
+                        try {
+                            gui = new Gui_graph_chart(User);
+                            gui.setVisible(true);
+                            gui.setEmailOfAnOwner(owner_email);
+                            gui.getData();
+                            gui.pack();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                 }
             }
-        }});  
+        });
     }
-    
+
     protected void setField() {
         ProcessDataOfFile process_file = new ProcessDataOfFile(this);
         process_file.process();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -663,10 +664,10 @@ public class Gui_network extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-        private void num_membersActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void num_membersActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }  
-    
+    }
+
     private void num_activeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_num_activeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_num_activeActionPerformed
@@ -674,7 +675,6 @@ public class Gui_network extends javax.swing.JFrame {
     private void jLabel_usernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_usernameMouseClicked
 
 
-        
     }//GEN-LAST:event_jLabel_usernameMouseClicked
 
     private void net_profitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_net_profitActionPerformed
@@ -770,25 +770,22 @@ public class Gui_network extends javax.swing.JFrame {
     public javax.swing.JTextField total_traffic;
     // End of variables declaration//GEN-END:variables
 
-    
-    
     protected void LoadSharedNetworks() throws SQLException {
         DefaultListModel model1 = new DefaultListModel();
-         ResultSet rs = PublicDatabase.query("SELECT permissions.owner, permissions.usr_email, owners.network_name, owners.email"
-                 + " FROM permissions INNER JOIN owners ON"
-                 + " permissions.owner=owners.email WHERE permissions.permission=1 AND permissions.usr_email='"+ User.getEmail() +"'");
-        while(rs.next()){
+        ResultSet rs = PublicDatabase.query("SELECT permissions.owner, permissions.usr_email, owners.network_name, owners.email"
+                + " FROM permissions INNER JOIN owners ON"
+                + " permissions.owner=owners.email WHERE permissions.permission=1 AND permissions.usr_email='" + User.getEmail() + "'");
+        while (rs.next()) {
             String network_name = rs.getString("network_name");
             String email = rs.getString("email");
             model1.addElement(network_name);
-                        
+
             hashmap_mySharedNetworks.put(network_name, email);
         }
         startMouseListener();
         networksSharedWithMe.setModel(model1);
     }
 
-      
     protected void openEvaluateNetwork() {
         //Graph graph = new Graph(); 
        ConstructGraph cg = new ConstructGraph(accessConnection_local_database,0,0);
@@ -801,17 +798,15 @@ public class Gui_network extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-       
-  
+
     }
 
     protected void setHello() {
         eval_label.setText("Welcome to netEval");
         jlabel_user.setText("Hi " + User.getName());
     }
-    
-    public NetworkData getNetworkDataFromFile(){
+
+    public NetworkData getNetworkDataFromFile() {
         return networkDataFromFile;
     }
 
@@ -822,7 +817,5 @@ public class Gui_network extends javax.swing.JFrame {
     public UserAccount getUser() {
         return this.User;
     }
-
-
 
 }

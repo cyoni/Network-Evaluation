@@ -49,6 +49,26 @@ public class ProductForAdv {
     public int getDayForAdv() {
         return dayForAdv;
     }
+
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
+    }
+
+    public void setProfit(double profit) {
+        this.profit = profit;
+    }
+
+    public void setCategory(ArrayList<Integer> category) {
+        this.category = category;
+    }
+
+    public void setExpoForDay(int expoForDay) {
+        this.expoForDay = expoForDay;
+    }
+
+    public void setDayForAdv(int dayForAdv) {
+        this.dayForAdv = dayForAdv;
+    }
    
     
     

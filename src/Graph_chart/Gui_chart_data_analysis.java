@@ -1,4 +1,3 @@
-
 package Graph_chart;
 
 import Data_structure.Category;
@@ -18,8 +17,8 @@ import javax.swing.JFrame;
 //enum option{
 //   // Males_vs_Females, Member_Sign_Up_Dates, Audience_For_Posts, Traffic, Advertisers_Profit;
 //}
-
 public class Gui_chart_data_analysis extends JFrame {
+
     String[] options = {"Males vs Females", "Member Sign Ups Dates", "Audience For Posts", "Traffic", "Advertisers Profit", "Age distribution", "Category Interesting"};
     DefaultComboBoxModel model_list = new DefaultComboBoxModel();
     NetworkQueriesCalculations performLocalQuery;
@@ -99,7 +98,7 @@ public class Gui_chart_data_analysis extends JFrame {
         String option = model_list.getSelectedItem().toString();
         if (option.equals("Males vs Females"))
             MalesAndFemales();
-        else if(option.equals("Member Sign Ups Dates"))
+        else if (option.equals("Member Sign Ups Dates"))
             MemberSignUpDates();
         else if (option.equals("Audience For Posts"))
             audienceForPosts();
@@ -110,7 +109,7 @@ public class Gui_chart_data_analysis extends JFrame {
         else if (option.equals("Age distribution"))
             ages();
         else if (option.equals("Category Interesting"))
-            categories();                
+            categories();
     }//GEN-LAST:event_set_optionActionPerformed
 
 
@@ -123,67 +122,65 @@ public class Gui_chart_data_analysis extends JFrame {
 
     private void loadList() {
         list_options.setModel(model_list);
-        for (String current : options){
+        for (String current : options) {
             model_list.addElement(current);
         }
     }
 
     private void MalesAndFemales() {
-        List<dataStructure> gender = new ArrayList<>(); 
+        List<dataStructure> gender = new ArrayList<>();
         int[] gender_count = performLocalQuery.getGenderCount();
         gender.add(new dataStructure("male", gender_count[0]));
         gender.add(new dataStructure("female", gender_count[1]));
-        
+
         Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Males vs Females");
         analysis.setChart(gender);
     }
-    
+
     private void ages() {
-        List<dataStructure> ages = new ArrayList<>(); 
+        List<dataStructure> ages = new ArrayList<>();
         ages = performLocalQuery.getAgeCount();
-     
+
         Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("The age distribution");
         analysis.setChart(ages);
     }
-    
-     private void categories() {
-        ArrayList<Category> cats= performLocalQuery.getCats();
-        List<dataStructure> data_cats = new ArrayList<>(); 
-        for ( Category cat : cats) {
-              String name = cat.getName();
-              int interac = cat.getMemberInterac();
-              data_cats.add(new dataStructure(name,interac));
+
+    private void categories() {
+        ArrayList<Category> cats = performLocalQuery.getCats();
+        List<dataStructure> data_cats = new ArrayList<>();
+        for (Category cat : cats) {
+            String name = cat.getName();
+            int interac = cat.getMemberInterac();
+            data_cats.add(new dataStructure(name, interac));
         }
-                      
+
         Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Interest in the category");
         analysis.setChart(data_cats);
     }
 
     private void MemberSignUpDates() {
         String input = User_Dialog.getInputDialog("Enter a year...");
-        try{
+        try {
             int year = Integer.parseInt(input);
             List<dataStructure> months = performLocalQuery.getRegisterByYear(year);
 
-            Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Sign up dates for "+ year);
+            Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Sign up dates for " + year);
             analysis.setChart(months);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             User_Dialog.showAlert("Invalid year.");
         }
     }
 
     private void audienceForPosts() { // audience of post in every month
-        
-       String input = User_Dialog.getInputDialog("Enter a year...");
-        try{
+
+        String input = User_Dialog.getInputDialog("Enter a year...");
+        try {
             int year = Integer.parseInt(input);
             List<dataStructure> audience = performLocalQuery.getAudienceByMonth(year);
 
             Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Audience For Posts");
             analysis.setChart(audience);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             User_Dialog.showAlert("Invalid year.");
         }
 
@@ -191,34 +188,30 @@ public class Gui_chart_data_analysis extends JFrame {
 
     private void traffic() {
         List<dataStructure> user_traffic;
-        String input_year = User_Dialog.getInputDialog("Enter a year...");
-        String input_month = User_Dialog.getInputDialog("Enter a Month... [not required field]"); //TODO
-        try{
+        String input_year = User_Dialog.getInputDialog("Enter a Year...");
+        String input_month = User_Dialog.getInputDialog("Enter a Month..."); 
+        try {
+
             int year = Integer.parseInt(input_year);
-            
-            if (input_month.isEmpty() == false){
-                int month = Integer.parseInt(input_month);
-                user_traffic = performLocalQuery.getAudienceByMonth(month);
-                
-            }
-            else
-                user_traffic = performLocalQuery.getAudienceByMonth(year);
+            int month = Integer.parseInt(input_month);
+            user_traffic = performLocalQuery.getTraffic(year, month);
+
             Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Traffic for " + input_year + " " + input_month);
             analysis.setChart(user_traffic);
-        }
-        catch(Exception e){
-            User_Dialog.showAlert("Invalid year.");
+        } catch (Exception e) {
+            User_Dialog.showAlert("Invalid year or month.");
         }
     }
 
+    // TODO 
     private void AdvertiserProfits() {
         // Choose a month...
-        List<dataStructure> ad_profit = new ArrayList<>(); 
+        List<dataStructure> ad_profit = new ArrayList<>();
 
-        for (int i=1; i<=31; i++){ 
-            ad_profit.add(new dataStructure(i+"", i*1000)); //[day/ profit in $]
+        for (int i = 1; i <= 31; i++) {
+            ad_profit.add(new dataStructure(i + "", i * 1000)); //[day/ profit in $]
         }
-        
+
         Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Advertisers profit");
         analysis.setChart(ad_profit);
     }
