@@ -7,24 +7,16 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import Database.PublicDatabase;
-import Evaluation.Network_Evaluation;
 import Account.UserAccount;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import Utils.User_Dialog;
 
 /**
  * This class presents the value of the network by dates.
@@ -79,6 +71,7 @@ public class Gui_graph_chart extends JFrame {
     }
     
    protected void initializeGraph(graph_chart_data latestData){
+       System.out.println("^^^^^^");
       Rectangle r = getBounds();
 
       setSize(r.width+1 , r.height); // refresh window
@@ -111,14 +104,16 @@ public class Gui_graph_chart extends JFrame {
             // fetch data
             ResultSet  rs = PublicDatabase.query("SELECT email, year, month, data FROM network_value WHERE email='"+ getDataFromEmail +"' "
                + "ORDER BY year DESC, month DESC");   
+            System.out.println("@@@@@@@@@@@@");
             try{
                 while (rs.next()){
+                    System.out.println("%%%%%%%%%");
                     int year = rs.getInt("year");
                     int month = rs.getInt("month");
                     String dataWithSpace = rs.getString("data");
                     String data = dataWithSpace.replaceAll("\\s+",""); // eliminate whitespaces
                     // int year, int month, String str
-                    graph_chart_data gcd = new graph_chart_data(year, month, data); // don't worry my friend it's not what you're thinking about 
+                    graph_chart_data gcd = new graph_chart_data(year, month, data); 
                     list.add(gcd);
                 }
                 data_structure = list; // save data 
@@ -128,7 +123,8 @@ public class Gui_graph_chart extends JFrame {
               setSize(560, 367); 
               setLocationRelativeTo(null);
             }
-            catch(Exception e){}
+            catch(Exception e){
+                System.err.println("error " + e.getMessage());}
             }
        };
        thread.start();

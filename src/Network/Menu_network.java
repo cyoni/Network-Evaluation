@@ -140,7 +140,7 @@ public class Menu_network {
             chart.getData();
             chart.pack();
             RefineryUtilities.centerFrameOnScreen(chart);
-            chart.setVisible(true);    
+            chart.setVisible(true);
         } 
         catch (SQLException ex) {
             Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);

@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Graph_chart;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * This class provides a data structure for the graph chart.
@@ -26,16 +20,15 @@ public class graph_chart_data {
         processData(str);
     }
     
-    
     public int getYear(){return year;}
     public int getMonth(){return month;}
     public List<day_value> getData(){return this.data;}
     
     private void processData(String str){
         String splitText[] = str.split(";");
-        for (int i=0; i< splitText.length; i++){
+        for (int i=0; i < splitText.length; i++){
             String splitTextx2[] = splitText[i].split(",");
-            day_value d = new day_value(Integer.parseInt(splitTextx2[0]), Integer.parseInt(splitTextx2[1]));
+            day_value d = new day_value(Integer.parseInt(splitTextx2[0]), Double.parseDouble(splitTextx2[1]));
             data.add(d);
         }
     }

@@ -3,17 +3,23 @@ package Evaluation;
 
 import Account.UserAccount;
 import Database.PublicDatabase;
+import Network.Gui_network;
 import Utils.User_Dialog;
+import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jfree.ui.RefineryUtilities;
 
 /**
  *
@@ -35,6 +41,7 @@ public class Eval_gui extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
+        value = Double.parseDouble(new DecimalFormat("##.##").format(value));
         this.value = value;
         value_txt.setText("The network's value is $" + value);
     }
@@ -51,14 +58,13 @@ public class Eval_gui extends javax.swing.JFrame {
         value_txt = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        save_record = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         value_txt.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
-        value_txt.setText("The network's value is $992.3");
+        value_txt.setText("The network's value is $0.0");
 
         jButton1.setText("Copy");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -68,17 +74,25 @@ public class Eval_gui extends javax.swing.JFrame {
         });
 
         jButton2.setText("View graph");
-
-        jButton3.setText("Save record in database");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        save_record.setText("Save record in database");
+        save_record.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                save_recordActionPerformed(evt);
             }
         });
 
         jButton4.setText("View evaluation log ");
-
-        jButton5.setText("Contact owner");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,34 +101,31 @@ public class Eval_gui extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(value_txt))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5)
+                        .addGap(176, 176, 176)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)))
-                .addContainerGap(83, Short.MAX_VALUE))
+                        .addGap(32, 32, 32)
+                        .addComponent(save_record)
+                        .addGap(40, 40, 40)
+                        .addComponent(jButton4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addComponent(value_txt)))
+                .addContainerGap(138, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(197, 197, 197)
+                .addGap(102, 102, 102)
                 .addComponent(value_txt)
-                .addGap(69, 69, 69)
+                .addGap(154, 154, 154)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addContainerGap(166, Short.MAX_VALUE))
+                    .addComponent(save_record)
+                    .addComponent(jButton4))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         pack();
@@ -127,18 +138,37 @@ public class Eval_gui extends javax.swing.JFrame {
         clipboard.setContents(stringSelection, null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void save_recordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save_recordActionPerformed
         recordValue();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_save_recordActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Graph_chart.Gui_graph_chart chart;
+        try {
+            chart = new Graph_chart.Gui_graph_chart(user);
+            chart.getData();
+            chart.pack();
+            RefineryUtilities.centerFrameOnScreen(chart);
+            chart.setVisible(true);
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(Gui_network.class.getName()).log(Level.SEVERE, null, ex);
+        }   
+       
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+         openFile("network_evaluation.txt");
+              
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton save_record;
     private javax.swing.JLabel value_txt;
     // End of variables declaration//GEN-END:variables
 
@@ -152,29 +182,21 @@ public class Eval_gui extends javax.swing.JFrame {
             int year = localDate.getYear();
             int month = localDate.getMonthValue();
 
-             System.out.println("month= " + month + "," + year + "," + day);
-            ResultSet rs = PublicDatabase.query("SELECT * FROM network_value WHERE email='" + user.getEmail() + "' "
-                    + "AND month='" + month + "' AND year='" + year + "'");
+            System.out.println("month= " + month + "," + year + "," + day);
+            ResultSet rs = PublicDatabase.query("SELECT * FROM network_value WHERE email='" + user.getEmail() + "'  AND month='" + month + "' AND year='" + year + "'");
 
-             
-            if (rs.next()) {
-                System.out.println("Evaluation.Eval_gui.recordValue() ############");
+            if (!rs.next()) {
                 evaluation_data = day + "," + value;
-                answer_from_server = PublicDatabase.query_alter_db("INSERT INTO network_value (email, year, month, data) VALUES('" + user.getEmail() + "'"
-                        + ", ('" + year + "'), ('" + month + "'), ('" + evaluation_data + "')");
+                answer_from_server = PublicDatabase.query_alter_db("INSERT INTO network_value (email, year, month, data) VALUES('" + user.getEmail() + "', '" + year + "', '" + month + "', '" + evaluation_data + "')");
             } else {
                 String data_from_database = "";
-               
-                    while (rs.next()) {
-                        data_from_database = rs.getString("data");
-                    }
-
+                data_from_database = rs.getString("data");
                 evaluation_data = data_from_database + ";" + day + "," + value;
-
-                answer_from_server = PublicDatabase.query_alter_db("UPDATE network_value SET data='" + evaluation_data + "' WHERE email='" + user.getEmail() + "' AND year='"+ year +"' AND month='"+ month +"'  ");
+                answer_from_server = PublicDatabase.query_alter_db("UPDATE network_value SET data='" + evaluation_data + "' WHERE email='" + user.getEmail() + "' AND year='"+ year +"' AND month='" + month + "'");
             }
             if (answer_from_server == 1) {
                 User_Dialog.showAlert("The result has been successfully recorded!");
+                save_record.setEnabled(false);
             } else {
                 User_Dialog.showAlert("There was an error while processing this request.");
             }
@@ -183,5 +205,26 @@ public class Eval_gui extends javax.swing.JFrame {
                     Logger.getLogger(Eval_gui.class.getName()).log(Level.SEVERE, null, ex);
                 }
        
+    }
+
+    private void openFile(String path) {
+        try {
+        //text file, should be opening in default text editor
+        File file = new File(path);
+        
+        //first check if Desktop is supported by Platform or not
+        if(!Desktop.isDesktopSupported()){
+            System.out.println("Desktop is not supported");
+            return;
+        }
+        
+        Desktop desktop = Desktop.getDesktop();
+        if(file.exists()) 
+            desktop.open(file);
+        
+        }
+        catch (IOException ex) {
+            Logger.getLogger(Eval_gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

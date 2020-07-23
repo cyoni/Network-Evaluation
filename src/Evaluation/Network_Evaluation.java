@@ -71,6 +71,7 @@ public class Network_Evaluation {
         this.membersId = getMembers(new ArrayList<node_metadata>(g.getV())); // all members 
 
         initEvaluation();
+        startWriter();
         performEvaluation();
         closeWriter();
         showResult();
@@ -91,7 +92,7 @@ public class Network_Evaluation {
         num_ads = convertIntFromString(network.num_ads.getText());
         num_active_ads = convertIntFromString(network.active_ads.getText());
 
-        myWriter = new FileWriter("network_evaluation.txt");
+        
     }
 
     private void performEvaluation() throws IOException {
@@ -403,6 +404,10 @@ public class Network_Evaluation {
             return sum / ads.size();
         }
         return sum;
+    }
+
+    private void startWriter() throws IOException {
+        myWriter = new FileWriter("network_evaluation.txt");
     }
 
     // a data base for the evaluation
