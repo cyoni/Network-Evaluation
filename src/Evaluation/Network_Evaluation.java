@@ -226,23 +226,20 @@ public class Network_Evaluation {
         int interested = findInterested(p); // The number of people on the network who were interested in the product
         int memberShares = findShared(interested); // Within those who were interested how many people will share
 
-        int memberExpo = 0;
         // pass over the days and fill memberPerDay 
         for (int i = 1; i <= num_days; i++) {
 
             Set<Integer> randomMember = new HashSet<Integer>(randomMembers(membersId, expo));
             memberPerDay.put(i, randomMember); // Add random member
-            memberExpo += expo;
 
             List<Integer> members_who_share = randomMembers(new ArrayList<>(randomMember), memberShares); // TODO 
 
             for (int member : members_who_share) {
                 List<Integer> friends = getFriendsOf(member);
-                memberExpo += friends.size();
                 memberPerDay.get(i).addAll(friends); // add to map the friend exposed to the ad
             }
         }
-
+        int memberExpo = deleteIdenticalID(memberPerDay).size(); // delete People who have seen the commercial several times
         return memberExpo;
 
     }
@@ -264,9 +261,26 @@ public class Network_Evaluation {
 
         // foor loop over list of products 
         for (ProductForAdv p : products) {
+            System.out.println("product_id :" + p.getProduct_id());
+
+            int expo = p.getExpoForDay(); //Number of exposures of the advertisement per day
+            int num_days = p.getDayForAdv(); // Numbers of days
+
             int members_expo_to_product = evaluate_number_of_people_who_might_see_an_ad_of_product(p);
-            members_expo_to_product = (int) (avg_view * w1 + members_expo_to_product * w2);
-            double profit_of_p = evaluate_number_of_people_who_might_buy_product(p, members_expo_to_product);
+            members_expo_to_product = (int) (avg_view * w1 + members_expo_to_product * w2); // members_expo_to_product after Inclusion 
+            int member_buy_product = evaluate_number_of_people_who_might_buy_product(p, members_expo_to_product);
+            System.out.print("members_expo_to_product :" + members_expo_to_product);
+            System.out.print(", member_buy_product :" + member_buy_product);
+
+            double revenue = p.getProfit() * member_buy_product;
+            double ad_price = network_data_from_file.getPrice_ads(); // The price of an advertisement on the network
+            double expense = ad_price * num_days * expo;
+            System.out.print(", revenue :" + revenue);
+            System.out.print(", expense :" + expense);
+            
+            double profit_of_p = revenue - expense;
+            System.out.println(", profit_of_p :" + profit_of_p);
+
             network_value += profit_of_p;
 
         }
@@ -301,21 +315,23 @@ public class Network_Evaluation {
 //        }
     }
 
-    private double evaluate_number_of_people_who_might_buy_product(ProductForAdv p, int memberExpo) {
-
-        int expo = p.getExpoForDay(); //Number of exposures of the advertisement per day
-        int num_days = p.getDayForAdv(); // Numbers of days
-
+    /**
+     * This method return the number of the people who will buy the product out
+     * of all the people who saw the advertisement
+     *
+     * @param p product
+     * @param memberExpo people who saw the advertisement
+     * @return the number of the people who will buy the product
+     */
+    private int evaluate_number_of_people_who_might_buy_product(ProductForAdv p, int memberExpo) {
+        double w1 = 0.5;
+        double inter_percent = findInterested(p)/ membersId.size();
+       
+        double w2 = 0.5;
         Double random = Math.random(); // Get probability between [0-1)
-        int memberBuy = (int) (memberExpo * random); // number of member will buy the product
-        double revenue = p.getProfit() * memberBuy;
+        int memberBuy = (int) ((memberExpo * random)* w2 +  inter_percent* w1); // number of member will buy the product
 
-        double ad_price = network_data_from_file.getPrice_ads();
-        double expense = ad_price * num_days * expo;
-
-        double profit = revenue - expense;
-        return profit;
-
+        return memberBuy;
     }
 
     // return list of the id of the members
@@ -330,18 +346,30 @@ public class Network_Evaluation {
         return membersId;
     }
 
+    public Set deleteIdenticalID(Map<Integer, Set<Integer>> memberPerDay) {
+        Set<Integer> newSet = new HashSet<Integer>();
+
+        for (Set<Integer> set : memberPerDay.values()) {
+            newSet.addAll(set);
+        }
+
+        return newSet;
+    }
+
     /**
-     * return n member id from the graph
+     * return member id from the graph
      *
      * @param n
-     * @return n member id from the graph
+     * @return member id from the graph
      */
     public List<Integer> randomMembers(List<Integer> stock, int n) {
         List<Integer> randoMembers = new ArrayList();
         for (int i = 0; i < n; i++) {
             Random random = new Random();
-            int id = stock.get(random.nextInt(stock.size()));
-            randoMembers.add(id);
+            if (!stock.isEmpty()) {
+                int id = stock.get(random.nextInt(stock.size()));
+                randoMembers.add(id);
+            }
         }
         return randoMembers;
     }

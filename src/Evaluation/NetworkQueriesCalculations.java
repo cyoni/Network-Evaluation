@@ -594,7 +594,7 @@ public class NetworkQueriesCalculations {
         return registerList;
     }
     
-      public List<dataStructure> getRegisterByMonth(int year, int month) {
+      public List<dataStructure> getTraffic(int year, int month) {
         ResultSet rs;
 
         List<dataStructure> trafficList = new ArrayList<>();
