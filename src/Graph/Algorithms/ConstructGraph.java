@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import Nodes.Ad;
 import Nodes.Advertiser;
+import Nodes.Page;
 import Relationship.Advertise;
 import Relationship.Friend;
 import Relationship.Like;
@@ -53,6 +54,8 @@ public class ConstructGraph {
         addPosts(100,1100,500);
         addAdvertisers(50,300,300);
         addAds(50,400,400);
+        addPages(100,100,100);
+        addGroups(600,600,600);
     }
     
     // read db and add to graph the members
@@ -102,6 +105,57 @@ public class ConstructGraph {
                        int keyDest = graph.getKeyById(postId);
                        
                         graph.connect(new Like(keySrc, keyDest, 1)); // member -[:likes] -> post
+                    }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConstructGraph.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    
+     private void addPages(double radius, double a, double b) {
+        try {
+            int numPages = cal.CalNumOfPages();
+            ResultSet rs = statment.executeQuery("SELECT [page_id] FROM [T_Pages];");
+            int idx =0;
+            while (rs.next()) {
+                       int id = rs.getInt("page_id");
+                       Node p = new Page(id, circlePoint(numPages,idx++,radius,a,b));
+                       graph.addNode(p);
+                    }
+          ResultSet rs1 = statment.executeQuery("SELECT [page_id],[member_id] FROM [T_Pages] INNER JOIN T_Likes ON T_Pages.page_id = T_Likes.compoment_id;");
+           while (rs1.next()) {
+                       int memberId = rs1.getInt("member_id");
+                       int pageId = rs1.getInt("page_id");
+                       int keySrc = graph.getKeyById(memberId);
+                       int keyDest = graph.getKeyById(pageId);
+                       
+                        graph.connect(new Like(keySrc, keyDest, 1)); // member -[:likes] -> page
+                    }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConstructGraph.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+     
+      private void addGroups(double radius, double a, double b) {
+        try {
+            int numGroups = cal.CalNumOfGroups();
+            ResultSet rs = statment.executeQuery("SELECT [group_id] FROM [T_Groups];");
+            int idx =0;
+            while (rs.next()) {
+                       int id = rs.getInt("group_id");
+                       Node p = new Page(id, circlePoint(numGroups,idx++,radius,a,b));
+                       graph.addNode(p);
+                    }
+          ResultSet rs1 = statment.executeQuery("SELECT [group_id],[member_id] FROM [T_Groups] INNER JOIN T_Likes ON T_Groups.group_id = T_Likes.compoment_id;");
+           while (rs1.next()) {
+                       int memberId = rs1.getInt("member_id");
+                       int groupId = rs1.getInt("group_id");
+                       int keySrc = graph.getKeyById(memberId);
+                       int keyDest = graph.getKeyById(groupId);
+                       
+                        graph.connect(new Like(keySrc, keyDest, 1)); // member -[:likes] -> group
                     }
         } catch (SQLException ex) {
             Logger.getLogger(ConstructGraph.class.getName()).log(Level.SEVERE, null, ex);
