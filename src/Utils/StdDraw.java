@@ -599,8 +599,8 @@ public final class StdDraw implements  MouseListener, MouseMotionListener, KeyLi
 
 	// default canvas size is DEFAULT_SIZE-by-DEFAULT_SIZE
 	private static final int DEFAULT_SIZE = 512;
-	private static int width  = 750;
-	private static int height = 600;
+	private static int width  = ScreenSize.WIDTH;
+	private static int height = ScreenSize.HEIGHT;
 
 	// default pen radius
 	private static final double DEFAULT_PEN_RADIUS = 0.002;
@@ -1645,19 +1645,6 @@ public final class StdDraw implements  MouseListener, MouseMotionListener, KeyLi
 
 
 	/**
-	 * Copies the offscreen buffer to the onscreen buffer, pauses for t milliseconds
-	 * and enables double buffering.
-	 * @param t number of milliseconds
-	 * @deprecated replaced by {@link #enableDoubleBuffering()}, {@link #show()}, and {@link #pause(int t)}
-	 */
-	@Deprecated
-	public static void show(int t) {
-		show();
-		pause(t);
-		enableDoubleBuffering();
-	}
-
-	/**
 	 * Pause for t milliseconds. This method is intended to support computer animations.
 	 * @param t number of milliseconds
 	 */
@@ -1779,18 +1766,7 @@ public final class StdDraw implements  MouseListener, MouseMotionListener, KeyLi
 		}
 	}
 
-	/**
-	 * Returns true if the mouse is being pressed.
-	 *
-	 * @return {@code true} if the mouse is being pressed; {@code false} otherwise
-	 * @deprecated replaced by {@link #isMousePressed()}
-	 */
-	@Deprecated
-	public static boolean mousePressed() {
-		synchronized (mouseLock) {
-			return isMousePressed;
-		}
-	}
+
 
 	/**
 	 * Returns the <em>x</em>-coordinate of the mouse.
@@ -1820,6 +1796,7 @@ public final class StdDraw implements  MouseListener, MouseMotionListener, KeyLi
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
+            System.out.println("MOUSE CLICKED !!!!!!!!!!");
             int y_point = height - e.getY();              
             Graph_Mouse_Event.show_data_of_node(graph, e.getX(), y_point);
 	}

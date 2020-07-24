@@ -71,7 +71,6 @@ public class Gui_graph_chart extends JFrame {
     }
     
    protected void initializeGraph(graph_chart_data latestData){
-       System.out.println("^^^^^^");
       Rectangle r = getBounds();
 
       setSize(r.width+1 , r.height); // refresh window
@@ -104,10 +103,8 @@ public class Gui_graph_chart extends JFrame {
             // fetch data
             ResultSet  rs = PublicDatabase.query("SELECT email, year, month, data FROM network_value WHERE email='"+ getDataFromEmail +"' "
                + "ORDER BY year DESC, month DESC");   
-            System.out.println("@@@@@@@@@@@@");
             try{
                 while (rs.next()){
-                    System.out.println("%%%%%%%%%");
                     int year = rs.getInt("year");
                     int month = rs.getInt("month");
                     String dataWithSpace = rs.getString("data");

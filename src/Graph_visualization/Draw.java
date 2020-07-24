@@ -1,27 +1,14 @@
 package Graph_visualization;
 
 import Database.LocalDatabase;
-import Graph.Algorithms.ConstructGraph;
-import Graph.Algorithms.Graph_Algo;
 import Graph.Algorithms.line;
 import Graph.Graph;
-import Graph.Node;
 import Graph.edge_metadata;
-import Utils.ScreenSize;
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import Nodes.Ad;
-import Nodes.Advertiser;
-import Nodes.Member;
-import Nodes.Post;
 import Nodes.node_metadata;
-import Relationship.Friend;
-import Relationship.Like;
-import Relationship.RelationshipTypes;
 import Utils.Point2D;
 import Utils.StdDraw;
 
@@ -47,8 +34,8 @@ public class Draw {
     }
 
     private void drawConnection(node_metadata src, node_metadata dest, Point2D label_location) {
-        double degree = Math.toDegrees(Math.atan2(src.getLocation().y()-dest.getLocation().y(), src.getLocation().x()-dest.getLocation().x()));
-        StdDraw.text(label_location.x(), label_location.y()+9, graph.getEdge(src.getKey(), dest.getKey()).getTag(), degree);// print text connection
+       // double degree = Math.toDegrees(Math.atan2(src.getLocation().y()-dest.getLocation().y(), src.getLocation().x()-dest.getLocation().x()));
+        StdDraw.text(label_location.x(), label_location.y()+9, graph.getEdge(src.getKey(), dest.getKey()).getTag());// print text connection
     }
 
     public void add_to_filter(String str) {

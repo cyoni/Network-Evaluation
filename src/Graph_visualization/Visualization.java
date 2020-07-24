@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Graph_visualization;
 
-import Database.LocalDatabase;
 import Graph.Algorithms.ConstructGraph;
 import Graph.Algorithms.Graph_Algo;
 import Graph.Graph;
 import Network.Gui_network;
 import java.awt.Color;
 import Utils.StdDraw;
-import javax.swing.JFrame;
 import Relationship.RelationshipTypes;
 import Utils.ScreenSize;
 import Utils.User_Dialog;
