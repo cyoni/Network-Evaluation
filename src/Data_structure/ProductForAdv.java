@@ -69,6 +69,11 @@ public class ProductForAdv {
     public void setDayForAdv(int dayForAdv) {
         this.dayForAdv = dayForAdv;
     }
+
+    @Override
+    public String toString() {
+        return "ProductForAdv{" + "product_id=" + product_id + ", profit for each product=" + profit + ", expoForDay=" + expoForDay + ", dayForAdv=" + dayForAdv + '}';
+    }
    
     
     
