@@ -35,7 +35,7 @@ public class Gui_network extends javax.swing.JFrame {
     
     
     // testing:
-    public static String network_file = "C:\\Users\\Yoni\\Desktop\\myDB.accdb";
+    public static String network_file = "C:\\Users\\caron\\Desktop\\myDB.accdb";
     
     
     
