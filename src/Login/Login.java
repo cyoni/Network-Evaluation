@@ -51,7 +51,7 @@ public class Login extends javax.swing.JFrame {
             }};   
          thread.start();
     }
-        
+
          
     public static UserAccount setNewInstance(UserAccount User) {
     String name = User.getName();

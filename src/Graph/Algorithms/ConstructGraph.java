@@ -52,7 +52,7 @@ public class ConstructGraph {
         cal = new NetworkQueriesCalculations(accessConnection_ToDatabase);
         
         addMembers(300,400,400);
-        addPosts(100,1100,500);
+        addPosts(100,600,500);
         addAdvertisers(50,300,300);
         addAds(50,400,400);
         addPages(100,100,100);
@@ -229,7 +229,7 @@ public class ConstructGraph {
         double angle = 2 * Math.PI * i / n;
         System.out.println("angle: " + angle);
 
-        Point2D p = new Point2D(a + (Math.cos(angle) * radius), ScreenSize.HEIGHT - (b + (Math.sin(angle) * radius))); 
+        Point2D p = new Point2D(a + (Math.cos(angle) * radius) , ScreenSize.HEIGHT - (b + (Math.sin(angle) * radius)) ); 
         System.out.println("p: " + p.toString());   
         return p;
     }

@@ -41,6 +41,7 @@ package Utils;
 import About.Help;
 import Graph.Algorithms.Graph_Mouse_Event;
 import Graph.Graph;
+import Graph.NodeInfo;
 import Graph_visualization.Draw;
 import Graph_visualization.Visualization;
 import Relationship.RelationshipTypes;
@@ -1790,7 +1791,7 @@ public final class StdDraw implements  MouseListener, MouseMotionListener, KeyLi
 		}
 	}
 
-
+         
 	/**
 	 * This method cannot be called directly.
 	 */
