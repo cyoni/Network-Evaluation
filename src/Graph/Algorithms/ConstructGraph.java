@@ -26,6 +26,7 @@ import Nodes.Page;
 import Relationship.Advertise;
 import Relationship.Friend;
 import Relationship.Like;
+import Relationship.Share;
 import Utils.Point2D;
 import Utils.StdDraw;
 
@@ -56,7 +57,7 @@ public class ConstructGraph {
         addAdvertisers(50,300,300);
         addAds(50,400,400);
         addPages(100,100,100);
-        addGroups(600,600,600);
+        addGroups(400,500,500);
     }
     
     // read db and add to graph the members
@@ -107,6 +108,18 @@ public class ConstructGraph {
                        
                         graph.connect(new Like(keySrc, keyDest, 1)); // member -[:likes] -> post
                     }
+           
+            // add shares connections 
+           ResultSet rs2 = statment.executeQuery("SELECT [post_id],[member_id] FROM [T_Posts] INNER JOIN T_Shares ON T_Posts.post_id = T_Shares.compoment_id;");
+            while (rs2.next()) {
+                       int memberId = rs2.getInt("member_id");
+                       int postId = rs2.getInt("post_id");
+                       int keySrc = graph.getKeyById(memberId);
+                       int keyDest = graph.getKeyById(postId);
+
+                        graph.connect(new Share(keySrc, keyDest, 1)); // member -[:share] -> post
+                    }
+            
         } catch (SQLException ex) {
             Logger.getLogger(ConstructGraph.class.getName()).log(Level.SEVERE, null, ex);
         }
