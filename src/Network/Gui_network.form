@@ -131,8 +131,8 @@
                                       <Component id="num_groups" alignment="0" pref="93" max="32767" attributes="0"/>
                                       <Component id="num_advertisers" max="32767" attributes="0"/>
                                       <Component id="num_ads" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="num_shares" alignment="1" max="32767" attributes="0"/>
                                       <Component id="num_active" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="num_shares" alignment="1" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" attributes="0">
@@ -141,11 +141,11 @@
                                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="num_likes" pref="99" max="32767" attributes="0"/>
-                                      <Component id="num_pages" max="32767" attributes="0"/>
-                                      <Component id="num_members" max="32767" attributes="0"/>
+                                      <Component id="num_members" pref="93" max="32767" attributes="0"/>
+                                      <Component id="num_pages" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="num_likes" alignment="1" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>

@@ -828,7 +828,7 @@ public final class StdDraw implements  MouseListener, MouseMotionListener, KeyLi
 		chooser.setVisible(true);
 		String filename = chooser.getFile();
 		if (filename != null) {
-			StdDraw.save(chooser.getDirectory() + File.separator + chooser.getFile());
+			StdDraw.save(chooser.getDirectory() + File.separator + chooser.getFile()+ ".jpg");
 		}
             });  
 

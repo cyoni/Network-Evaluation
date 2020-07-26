@@ -52,6 +52,10 @@ public class Network_Evaluation {
         this.user = User;
     }
 
+    Network_Evaluation() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public void evaluate(Gui_network network, NetworkData network_data_from_file, Graph g) throws IOException, SQLException {
         User = network.getUser();
         this.network = network;
