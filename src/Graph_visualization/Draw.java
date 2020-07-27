@@ -57,7 +57,7 @@ public class Draw {
                 if (!relationship_to_filter.contains(current_edge.getTag())){
                     StdDraw.setPenColor(current_edge.getColor());          
                     // print the edges and connection
-                    StdDraw.setPenRadius(0.005);
+                    StdDraw.setPenRadius(0.002);
                     node_metadata Node_src = graph.getNode(current_edge.getSrc());
                     node_metadata Node_dest = graph.getNode(current_edge.getDest());
                     Point2D label_location = line.getPointOnLine(new Point2D(Node_src.getLocation().x(), Node_src.getLocation().y()), new Point2D(Node_dest.getLocation().x(), Node_dest.getLocation().y()), 50);
