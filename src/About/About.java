@@ -2,7 +2,7 @@ package About;
 
 
 /**
- *
+ * GUI for About
  * @author Yoni
  */
 public class About extends javax.swing.JFrame {
@@ -16,8 +16,6 @@ public class About extends javax.swing.JFrame {
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             setResizable(false);
             about_txt.setEditable(false);
-            about_txt.setText("This software was developed by Yehonatan and Carmel "
-                    + "\n for a final school project");
   
     }
 
@@ -36,6 +34,7 @@ public class About extends javax.swing.JFrame {
 
         about_txt.setColumns(20);
         about_txt.setRows(5);
+        about_txt.setText("This software was developed by Yehonatan and Carmel for a final school project.\n\nIn this software you can easily see all the network data of your network.\nThe software lets you know what the value of the network is easily and quickly.\nYou can present your network in the form of a graph with vertices and connections between them.\n\nTo find more information about the software click on Help.");
         jScrollPane1.setViewportView(about_txt);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -44,11 +43,11 @@ public class About extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jLabel1)
+                .addContainerGap(440, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(

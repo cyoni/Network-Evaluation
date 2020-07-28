@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import Utils.MouseCursor;
 
 /**
- *
+ * This class connects to the database
  * @author Yoni
  */
 public class PublicDatabase {

@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * GUI for MyAccount
  * @author Yoni
  */
 public class Gui_MyAccount extends MyAccount {

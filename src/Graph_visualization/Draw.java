@@ -13,7 +13,7 @@ import Utils.Point2D;
 import Utils.StdDraw;
 
 /**
- *
+ * This class is responsible for drawing the graph
  * @author Yoni
  */
 public class Draw {

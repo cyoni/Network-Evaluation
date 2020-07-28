@@ -10,7 +10,7 @@ import Utils.Point2D;
 
 
 /**
- *
+ * This class represents an advertiser-type node
  * @author caron
  */
 public class Advertiser extends Node{

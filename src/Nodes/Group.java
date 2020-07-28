@@ -10,7 +10,7 @@ import Utils.Point2D;
 import java.awt.Color;
 
 /**
- *
+ * This class represents an group-type node
  * @author caron
  */
 public class Group extends Node {

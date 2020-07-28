@@ -19,7 +19,7 @@ import javax.swing.JFrame;
 //}
 public class Gui_chart_data_analysis extends JFrame {
 
-    String[] options = {"Males vs Females", "Member Sign Ups Dates", "Audience For Posts", "Traffic", "Advertisers Profit", "Age distribution", "Category Interesting"};
+    String[] options = {"Males vs Females", "Member Sign Ups Dates", "Audience For Posts", "Traffic", "Age distribution", "Category Interesting"};
     DefaultComboBoxModel model_list = new DefaultComboBoxModel();
     NetworkQueriesCalculations performLocalQuery;
 
@@ -104,8 +104,6 @@ public class Gui_chart_data_analysis extends JFrame {
             audienceForPosts();
         else if (option.equals("Traffic"))
             traffic();
-        else if (option.equals("Advertisers Profit"))
-            AdvertiserProfits();
         else if (option.equals("Age distribution"))
             ages();
         else if (option.equals("Category Interesting"))
@@ -201,18 +199,5 @@ public class Gui_chart_data_analysis extends JFrame {
         } catch (Exception e) {
             User_Dialog.showAlert("Invalid year or month.");
         }
-    }
-
-    // TODO 
-    private void AdvertiserProfits() {
-        // Choose a month...
-        List<dataStructure> ad_profit = new ArrayList<>();
-
-        for (int i = 1; i <= 31; i++) {
-            ad_profit.add(new dataStructure(i + "", i * 1000)); //[day/ profit in $]
-        }
-
-        Chart_data_analysis_algo analysis = new Chart_data_analysis_algo("Advertisers profit");
-        analysis.setChart(ad_profit);
     }
 }

@@ -9,7 +9,7 @@ import Graph.Edge;
 import java.awt.Color;
 
 /**
- *
+ * This class represent an like relationship
  * @author Yoni
  */
 public class Like extends Edge{

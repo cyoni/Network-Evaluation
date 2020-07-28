@@ -13,7 +13,7 @@ import javax.swing.JCheckBoxMenuItem;
 
 
 /**
- *
+ * GUI menu for graph
  * @author Yoni
  */
 public class Visualization{

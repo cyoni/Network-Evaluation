@@ -6,7 +6,7 @@
 package Utils;
 
 /**
- *
+ * This class is responsible for the drawing on the board
  * @author Yoni
  */
 

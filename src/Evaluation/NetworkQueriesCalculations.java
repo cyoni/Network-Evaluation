@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
- *
+ * This class contains queries on the net
  * @author caron
  */
 public class NetworkQueriesCalculations {

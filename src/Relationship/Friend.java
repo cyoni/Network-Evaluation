@@ -9,7 +9,7 @@ import Graph.Edge;
 import java.awt.Color;
 
 /**
- *
+ * This class represent an friend relationship
  * @author Yoni
  */
 public class Friend extends Edge {

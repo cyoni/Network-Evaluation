@@ -9,7 +9,7 @@ import Graph.Edge;
 import java.awt.Color;
 
 /**
- *
+ * This class represent an share relationship
  * @author Yoni
  */
 public class Share extends Edge{

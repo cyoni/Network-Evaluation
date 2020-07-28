@@ -10,7 +10,7 @@ import java.awt.Color;
 import Utils.Point2D;
 
 /**
- *
+ * This class represents an member-type node
  * @author caron
  */
 public class Member extends Node {

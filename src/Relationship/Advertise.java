@@ -4,7 +4,7 @@ import Graph.Edge;
 import java.awt.Color;
 
 /**
- *
+ * This class represent an advertising relationship
  * @author Yoni
  */
 public class Advertise extends Edge {

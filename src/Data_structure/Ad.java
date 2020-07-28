@@ -1,7 +1,7 @@
 package Data_structure;
 
 /**
- * 
+ * This class represents the Advertising
  * @author Yoni
  */
 public class Ad {

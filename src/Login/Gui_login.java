@@ -9,7 +9,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
- *
+ * GUI for login
  * @author Yoni
  */
 public class Gui_login extends Login {

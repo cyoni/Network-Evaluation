@@ -6,7 +6,7 @@
 package Utils;
 
 /**
- *
+ * This class represents the screen size
  * @author Yoni
  */
 public class ScreenSize {

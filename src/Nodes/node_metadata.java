@@ -4,6 +4,10 @@ package Nodes;
 import java.awt.Color;
 import Utils.Point2D;
 
+/**
+ * This class represents metadata of node 
+ * @author caron
+ */
 public interface node_metadata {
 	/**
 	 * Return the key (id) associated with this node.

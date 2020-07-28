@@ -6,7 +6,7 @@
 package Utils;
 
 /**
- *
+ * This class represents point 
  * @author Yoni
  */
 public class Point2D {

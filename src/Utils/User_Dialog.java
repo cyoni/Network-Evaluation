@@ -8,7 +8,7 @@ package Utils;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * This class represents User Dialog
  * @author Yoni
  */
 public class User_Dialog {
