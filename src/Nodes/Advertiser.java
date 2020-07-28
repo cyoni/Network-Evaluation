@@ -16,7 +16,7 @@ import Utils.Point2D;
 public class Advertiser extends Node{
 
     public Advertiser(int id, Point2D location) {
-        super(id, location, Color.BLUE);
+        super(id, location, Color.cyan);
         
     }
     

@@ -1,1 +1,1 @@
-The Network value is: 3883.9624851248473
+The Network value is: 3967.8763764985006
