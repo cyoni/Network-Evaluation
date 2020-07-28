@@ -11,7 +11,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 
 /**
- *
+ * GUI menu of data analysis
  * @author Yoni
  */
 //enum option{

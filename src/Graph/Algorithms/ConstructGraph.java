@@ -32,7 +32,7 @@ import Utils.StdDraw;
 import java.awt.Color;
 
 /**
- *
+ * This class create graph from database
  * @author caron
  */
 public class ConstructGraph {

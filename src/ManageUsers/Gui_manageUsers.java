@@ -18,7 +18,7 @@ import Utils.MouseCursor;
 import Utils.User_Dialog;
 
 /**
- *
+ * GUI for manager users
  * @author Yoni
  */
 public class Gui_manageUsers extends JFrame {

@@ -22,7 +22,7 @@ import Graph.Algorithms.ConstructGraph;
 import Graph.Graph;
 
 /**
- *
+ * GUI for register
  * @author Yoni
  */
 public class Gui_network extends javax.swing.JFrame {

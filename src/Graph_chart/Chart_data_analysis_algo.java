@@ -30,6 +30,10 @@ import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RefineryUtilities;
 
+/**
+ * This class creating a diagrams
+ * @author caron
+ */
 public class Chart_data_analysis_algo extends ApplicationFrame {
 
     private List<dataStructure> x_axis;

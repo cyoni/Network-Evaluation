@@ -2,7 +2,7 @@
 package Graph_chart;
 
 /**
- *
+ * This class represent structure in diagram
  * @author Yoni
  */
 public class dataStructure {

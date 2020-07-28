@@ -6,7 +6,7 @@ import Utils.KeyGenerator;
 import Account.EmailValidation;
 
 /**
- *
+ * GUI for register
  * @author Yoni
  */
 public class Gui_signup extends Signup {

@@ -14,7 +14,7 @@ import Utils.MouseCursor;
 import Utils.User_Dialog;
 
 /**
- *
+ * This class handle in login to the system
  * @author Yoni
  */
 public class Login extends javax.swing.JFrame {

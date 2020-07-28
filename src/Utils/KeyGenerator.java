@@ -8,13 +8,19 @@ package Utils;
 import java.util.Base64;
 
 /**
- *
+ * This class handle password encryption
  * @author Yoni
  */
   
 public class KeyGenerator { 
   
     // function to generate a random string of length n 
+
+    /**
+     *
+     * @param size
+     * @return
+     */
   public  static String getKey(int size) 
     { 
   
@@ -42,7 +48,11 @@ public class KeyGenerator {
         return sb.toString(); 
     } 
   
-  
+    /**
+     *
+     * @param str
+     * @return
+     */
     public static String encodeString(String str){
     String encodedString = Base64.getEncoder().withoutPadding().encodeToString(str.getBytes());
     String encodedStringx2 = Base64.getEncoder().encodeToString(encodedString.getBytes());

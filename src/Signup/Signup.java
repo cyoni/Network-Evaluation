@@ -8,13 +8,24 @@ import javax.swing.JFrame;
 import Utils.User_Dialog;
 
 /**
- *
+ * This class handle in register to the system
  * @author Yoni
  */
 public class Signup extends JFrame{
 
+    /**
+     *
+     */
     protected int isOwner;
     
+    /**
+     *
+     * @param name
+     * @param email
+     * @param password
+     * @param owner
+     * @param network_name
+     */
     protected void signUp(String name, String email, String password, int owner, String network_name) {
         Thread thread = new Thread(){
             public void run(){
