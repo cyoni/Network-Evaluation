@@ -27,9 +27,35 @@ We developed this software on NetBeans 11.2 and therefore this guide will be bas
 
 # How to use this software?
 
-After you follow the above steps successfully you should see the login window:
+After you followed the above steps successfully you should see the login window:
 
 <img height=200 src="https://i.ibb.co/7jbWqJD/image.png" alt="image" border="0">
+
+Now press the "signup" link to create a new account.
+
+<img height=200 src="https://i.ibb.co/MDJqsR5/image.png" alt="image" border="0">
+
+Fill up the fields and press Signup.
+
+After signing up, the software will launch the main activity where you can evaluate the network and do more...
+
+<img height=200  src="https://i.ibb.co/W0CvYxc/image.png" alt="image" border="0">
+
+To evaluate the network, we attached an example network file in "example" folder above. Download it and press File -> Load a network file and choose the file.
+
+After doing that, the software will proccess the file and extract the data and will load it in the appropriate fileds. Like this:
+
+<img height=200 src="https://i.ibb.co/qrLsp7y/image.png" alt="image" border="0">
+
+
+Now, to evaluate the network press Network -> Evaluate Network. 
+This may take a minute due to many calculations that the software is doing.
+
+Upon completion the software will display the value of the network. For example:
+
+<img height=200 src="https://i.ibb.co/vctYJ27/image.png" alt="image" border="0">
+
+
 
 
 
