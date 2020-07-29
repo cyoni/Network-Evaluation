@@ -65,7 +65,7 @@ The software can display a visualization of the network. To try this, press Grap
 
 You can even filter the data by pressing Filter and then choosing the data you wish to be filtered. 
 
-<img width=100 src="https://i.ibb.co/3BW73Wb/image.png" alt="image" border="0">
+<img height=100 src="https://i.ibb.co/3BW73Wb/image.png" alt="image" border="0">
 
 If you wish to save the image of the graph you can do it by pressing File -> Save As Image.
 
@@ -73,20 +73,34 @@ If you wish to save the image of the graph you can do it by pressing File -> Sav
 
 The software offers a way in which lets you see the value of your network as a graph chart. To try it, press Graph -> Graph Chart. 
 
-<img src="https://i.ibb.co/Zzr5VbC/image.png" alt="image" border="0">
+<img height=200 src="https://i.ibb.co/Zzr5VbC/image.png" alt="image" border="0">
 
 You can also change the month or the year. To do the, press File -> Change month/year.
 
-<img src="https://i.ibb.co/68VrcRW/image.png" alt="image" border="0">
+<img height=200 src="https://i.ibb.co/68VrcRW/image.png" alt="image" border="0">
+
+# Data analysis
+
+The software lets you view interesting distributions of your network. To try it, press Graph -> Data Analysis and once the window opens, choose your desired distribution in the option menu and press OK.
+
+<img height=400 src="https://i.ibb.co/L6vkyW4/image.png" alt="image" border="0">
+
+<img height=400 src="https://i.ibb.co/QQ5cS62/image.png" alt="image" border="0">
+
+# Add members 
+
+The software offers you a way to share your network with other customers by letting them viewing your network's value. To try it, go to Network -> Grant/Revoke Permission. When the window looks like this:
+
+<img height=400 src="https://i.ibb.co/LR1cHMt/image.png" alt="image" border="0">
+
+To add a new user, press "New User" and type his email address. He has to be registered to the software. Once you're done, press OK.
+
+<img height=200 src="https://i.ibb.co/7pJFz9Y/image.png" alt="image" border="0">
+
+If the email is valid the user will be added to the list. You should give him a permission to view your data by selecting him and then pressing "Grant/Revoke Permission" 
 
 
-
-
-
-
-
-
-Poster:
+# Poster
 
 <img src="https://i.ibb.co/JrPqYKz/poster.jpg" alt="poster" border="0">
 
