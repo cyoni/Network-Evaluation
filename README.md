@@ -55,6 +55,22 @@ Upon completion the software will display the value of the network. For example:
 
 <img height=200 src="https://i.ibb.co/vctYJ27/image.png" alt="image" border="0">
 
+From here you can copy the value, view the value graph of the network, record the value in the network or to view the calculation process.
+
+# Graph Visualization
+
+The software can display a visualization of the network. To try this, press Graph -> Graph Visalization. When the windows opens, press Graph -> Draw Graph
+
+<img height=200 src="https://i.ibb.co/gVYztTv/image.png" alt="image" border="0">
+
+You can even filter the data by pressing Filter and then choosing the data you wish to be filtered. 
+
+<img width=100 src="https://i.ibb.co/3BW73Wb/image.png" alt="image" border="0">
+
+If you wish to save the image of the graph you can do it by pressing File -> Save As Image.
+
+
+# Graph Chart
 
 
 
