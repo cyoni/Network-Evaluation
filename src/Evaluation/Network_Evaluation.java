@@ -86,7 +86,8 @@ public class Network_Evaluation {
     }
 
     private void closeWriter() throws IOException {
-        writeNewLine("The Network value is: " + network_value);
+        writeNewLine("");
+        writeNewLine("Average of runs is: " + network_value);
         myWriter.close();
     }
 
@@ -100,6 +101,7 @@ public class Network_Evaluation {
         double sum = 0;
         int iteration = 10;
         for (int i = 0; i < iteration; i++) {
+            writeNewLine("Run No. "+ i+" of the program ");
             double tmp_network_value = evaluate_value_of_net();
             sum += tmp_network_value;
         }
@@ -217,7 +219,8 @@ public class Network_Evaluation {
 
         // foor loop over list of products 
         for (ProductForAdv p : products) {
-//            writeNewLine(p.toString());
+            writeNewLine("");
+            writeNewLine(p.toString());
 
             int expo = p.getExpoForDay(); //Number of exposures of the advertisement per day
             int num_days = p.getDayForAdv(); // Numbers of days
@@ -226,17 +229,17 @@ public class Network_Evaluation {
             members_expo_to_product = (int) (avg_view * w1 + members_expo_to_product * w2); // members_expo_to_product after Inclusion 
             int member_buy_product = evaluate_number_of_people_who_might_buy_product(p, members_expo_to_product);
 
-//            writeNewLine("members_expo_to_product : " + members_expo_to_product);
-//            writeNewLine("member_buy_product : " + member_buy_product);
+            writeNewLine("members_expo_to_product : " + members_expo_to_product);
+            writeNewLine("member_buy_product : " + member_buy_product);
 
             double revenue = p.getProfit() * member_buy_product;
             double ad_price = network_data_from_file.getPrice_ads(); // The price of an advertisement on the network
             double expense = ad_price * num_days * expo;
-//            writeNewLine("revenue : " + revenue);
-//            writeNewLine("expense : " + expense);
+            writeNewLine("revenue : " + revenue);
+            writeNewLine("expense : " + expense);
 
             double profit_of_p = revenue - expense;
-//            writeNewLine("profit of product : " + profit_of_p);
+            writeNewLine("profit of product : " + profit_of_p);
 
             tmp_network_value += profit_of_p;
 
