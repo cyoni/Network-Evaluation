@@ -69,8 +69,18 @@ You can even filter the data by pressing Filter and then choosing the data you w
 
 If you wish to save the image of the graph you can do it by pressing File -> Save As Image.
 
-
 # Graph Chart
+
+The software offers a way in which lets you see the value of your network as a graph chart. To try it, press Graph -> Graph Chart. 
+
+<img src="https://i.ibb.co/Zzr5VbC/image.png" alt="image" border="0">
+
+You can also change the month or the year. To do the, press File -> Change month/year.
+
+<img src="https://i.ibb.co/68VrcRW/image.png" alt="image" border="0">
+
+
+
 
 
 
