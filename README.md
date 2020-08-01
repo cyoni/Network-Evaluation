@@ -83,7 +83,7 @@ You can also change the month or the year. To do the, press File -> Change month
 
 The software lets you view interesting distributions of your network. To try it, press Graph -> Data Analysis and once the window opens, choose your desired distribution in the option menu and press OK.
 
-<img height=100 width=400 src="https://i.ibb.co/L6vkyW4/image.png" alt="image" border="0">
+<img height=100 width=300 src="https://i.ibb.co/L6vkyW4/image.png" alt="image" border="0">
 
 <img height=200 src="https://i.ibb.co/QQ5cS62/image.png" alt="image" border="0">
 
