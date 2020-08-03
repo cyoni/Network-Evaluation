@@ -103,5 +103,3 @@ If the email is valid the user will be added to the list. You should give him a 
 # Poster
 
 <img src="https://i.ibb.co/JrPqYKz/poster.jpg" alt="poster" border="0">
-
-
