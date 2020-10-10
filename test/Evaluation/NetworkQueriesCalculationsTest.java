@@ -18,10 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author caron
- */
+
 public class NetworkQueriesCalculationsTest {
 
     LocalDatabase lDB = new LocalDatabase("input/testDB.accdb");
